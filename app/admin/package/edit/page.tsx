@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
 
-// ============ TYPES ================
 interface ItineraryItem {
   day: number;
   title: string;
@@ -37,6 +36,7 @@ interface PackageType {
   price: number;
   discountPrice?: number;
   rating?: number;
+  totalRatings?:number;
   description: string;
 
   highlights: string[];
@@ -52,9 +52,7 @@ interface PackageType {
   published?: boolean;
 }
 
-// ======================================
-// MAIN COMPONENT
-// ======================================
+
 
 export default function PackageForm() {
   const [packages, setPackages] = useState<PackageType[]>([]);
@@ -113,7 +111,7 @@ export default function PackageForm() {
     setFaqSectionTitle(editPkg.faqs?.[0]?.title || "");
     setItinerary(editPkg.itinerary || [{ day: 1, title: "", description: "" }]);
 
-    // ⭐ NEW → Duration defaults
+   
     setDurationDays(editPkg.duration?.days || 0);
     setDurationNights(editPkg.duration?.nights || 0);
     setDurationBreakdown(editPkg.duration?.breakdown || [
@@ -121,6 +119,27 @@ export default function PackageForm() {
     ]);
   }
 }, [editPkg]);
+
+  function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+  });
+}
+
+
+ const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) => {
+     const file = e.target.files?.[0];
+     if (!file) return;
+ 
+     const base64 = await fileToBase64(file);
+ 
+     const copy = [...gallery];
+     copy[i] = base64;     
+     setGallery(copy);
+   }
 
 
  
@@ -143,6 +162,7 @@ export default function PackageForm() {
       price: Number(fd.get("price")),
       discountPrice: Number(fd.get("discountPrice")),
       rating: Number(fd.get("rating")),
+      totalRatings : Number(fd.get('totalRatings')),
       description: fd.get("description"),
 
       highlights,
@@ -204,9 +224,7 @@ export default function PackageForm() {
     fetchPackages();
   }
 
-  // ======================================
-  // UI START
-  // ======================================
+  
 
   return (
     <div className="flex gap-6">
@@ -375,6 +393,13 @@ export default function PackageForm() {
               type="number"
               defaultValue={editPkg?.rating}
             />
+
+            <Input
+              name="totalRatings"
+              label="totalRatings"
+              type="number"
+              defaultValue={editPkg?.rating}
+            />
           </div>
 
           <Textarea
@@ -416,14 +441,11 @@ export default function PackageForm() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {gallery.map((img, i) => (
               <Input
+                 type="file"
+                accept="image/*"
                 key={i}
                 label={`Image ${i + 1}`}
-                value={img}
-                onChange={(e) => {
-                  const c = [...gallery];
-                  c[i] = e.target.value;
-                  setGallery(c);
-                }}
+                onChange={(e) => handleImageUpload(e, i)}
               />
             ))}
           </div>

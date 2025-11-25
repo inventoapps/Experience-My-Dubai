@@ -1,14 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { Blog } from "@/models/blog";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
+
+
 
 export async function POST(req:NextRequest) {
     try {
         await connectDB();
         
         const body = await req.json();
+
+        let thumbnailURL;
+
+        if(body?.thumbnail){
+           const uploaded = await cloudinary.uploader.upload(body?.thumbnail);
+           thumbnailURL = uploaded.secure_url;
+        }
              
-        const blog = await Blog.create(body);
+        const blog = await Blog.create({...body , thumbnail : thumbnailURL});
 
         return NextResponse.json({message:"Blog is created",data:blog},{status:200});
         

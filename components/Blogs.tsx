@@ -62,7 +62,7 @@ export default function Blogs(){
                             >
                             <div className="h-48 w-full overflow-hidden">
                                 <img
-                                src="/blog1.jpg"
+                                src={val?.thumbnail}
                                 alt="How to plan Dubai trip in 2025"
                                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                 itemProp="image"
@@ -78,18 +78,22 @@ export default function Blogs(){
                                 className="text-lg font-semibold mt-2 text-foreground"
                                 itemProp="headline"
                                 >
-                                How to Plan a Perfect Dubai Trip in 2025
+                                {val?.title || "How to Plan a Perfect Dubai Trip in 2025"}
                                 </h3>
 
-                                <p
+                               <p
                                 className="text-sm text-muted-foreground mt-2 leading-relaxed"
                                 itemProp="description"
                                 >
-                                From best travel months to cost-saving hacks — here's your complete guide.
+                                {val?.content?.length > 90
+                                    ? val.content.slice(0, 90) + "..."
+                                    : val?.content || "From best travel months to cost-saving hacks — here's your complete guide."}
                                 </p>
 
+
                                 <p className="text-xs text-muted-foreground mt-3" itemProp="datePublished">
-                                Feb 2025
+                                <span className="text-green-800">• Published on</span>{" "}
+                                 {new Date(val?.createdAt).toLocaleDateString("en-IN")} 
                                 </p>
                             </div>
                             </article>

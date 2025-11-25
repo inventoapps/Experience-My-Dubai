@@ -81,7 +81,7 @@ export default function PackageForm() {
   const [durationBreakdown, setDurationBreakdown] = useState<
   { location: string; days: number }[]> ([{ location: "", days: 0 }]);
   const [duration , setDuration] = useState<null | DurationType>(null);
-  const [files, setFiles] = useState<FileList | null>(null);
+
 
 
 
@@ -401,7 +401,6 @@ export default function PackageForm() {
                 accept="image/*"
                 key={i}
                 label={`Image ${i + 1}`}
-                value={img}
                 onChange={(e) => handleImageUpload(e, i)}
               />
             ))}

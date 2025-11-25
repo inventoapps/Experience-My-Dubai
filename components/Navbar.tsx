@@ -2,9 +2,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search, Menu } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar({ theme }: { theme: "light" | "dark" }) {
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,10 +37,10 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
 
         {!scrolled && (
           <div className={`hidden md:flex items-center space-x-8 text-sm ${textColor}`}>
-            <Link href="" className="hover:opacity-70 transition">Explore Destinations</Link>
-            <Link href="" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
+            <Link href="#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
+            <Link href="#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
 
-            <button className="px-5 py-1.5 border border-current rounded-md hover:opacity-70">
+            <button onClick={()=>router.push('/register')}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70">
               Register
             </button>
 

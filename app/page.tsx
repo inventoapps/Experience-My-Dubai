@@ -17,22 +17,27 @@ import AboutDubaiTourism from "@/components/AboutDubaiTourism";
 import FinalCTA from "@/components/FinalCTA";
 import PopularPackagesInfo from "@/components/PopularPackageInfo";
 import { faqs } from "@/config/constant";
+export default  function Home() {
 
-
-export default function Home() {
   return (
     <div className="min-h-screen  bg-zinc-50 font-sans dark:bg-black">
        <Hero/>
        <HeroBottom/>
        <PopularPackagesInfo/>
-       <PopularPackages/>
-       <PackageByRegion/>
+      
+       <section id="packages">
+          <PopularPackages/>
+       </section>
+        <PackageByRegion/>
+       
        <TopExperience/>
        <FormSection/> 
        <WhyChooseUs/>
        <Testimonials/>
        <Gallery/>
-       <Blogs/>
+       <section id="blogs">
+          <Blogs/>
+       </section>
        <FAQSection faqs={faqs} />
        <AboutDubaiTourism/>
        <FinalCTA/>

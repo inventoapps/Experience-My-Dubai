@@ -3,9 +3,9 @@
 import { useEffect, useState, useRef } from "react";
 import mongoose from "mongoose";
 
-// ================= TYPES =================
 type Blog = {
   _id: mongoose.Types.ObjectId;
+  title : string;
   slug: string;
   author: string;
   category: string;
@@ -19,9 +19,7 @@ type Blog = {
   metaDescription?: string;
 };
 
-// ==========================================
-// MAIN COMPONENT
-// ==========================================
+
 
 export default function BlogForm() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -38,7 +36,7 @@ export default function BlogForm() {
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
 
-  // ================= FETCH BLOGS =================
+
 
   async function fetchBlogs() {
     try {
@@ -55,7 +53,7 @@ export default function BlogForm() {
     fetchBlogs();
   }, []);
 
-  // ================= WHEN USER SELECTS A BLOG =================
+
   useEffect(() => {
     if (editBlog) {
       setFaq(editBlog.faq || [{ question: "", answer: "" }]);
@@ -68,7 +66,6 @@ export default function BlogForm() {
     }
   }, [editBlog]);
 
-  // ================= RTE TOOLBAR =================
   function applyFormat(cmd: string, value?: string) {
     if (cmd === "createLink") {
       const url = prompt("Enter URL", "https://");
@@ -101,6 +98,7 @@ export default function BlogForm() {
       .filter(Boolean);
 
     const payload = {
+      title : fd.get('title'),
       slug: fd.get("slug"),
       author: fd.get("author"),
       category: fd.get("category"),
@@ -114,7 +112,7 @@ export default function BlogForm() {
       id : editBlog?._id
     };
 
-    // ---- If edit mode → UPDATE ----
+
     if (editBlog) {
       const res = await fetch(`/api/admin/blogs/update`, {
         method: "PUT",
@@ -237,6 +235,12 @@ export default function BlogForm() {
           <h2 className="text-sm font-semibold">Basic Details</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Input
+             label="Title"
+             name="title"
+             defaultValue={editBlog?.title}
+             required
+             />
             <Input
               label="Slug"
               name="slug"

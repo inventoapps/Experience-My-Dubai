@@ -1,6 +1,7 @@
 import { Schema, Document, model, models } from "mongoose";
 
 export interface BlogArticle extends Document {
+  title : string;
   slug: string;
   author: string;
   category: string;
@@ -22,6 +23,13 @@ export interface BlogArticle extends Document {
 
 const BlogArticleSchema = new Schema<BlogArticle>(
   {
+    title : {
+      type : String,
+      required : true,
+      trim : true
+      
+    }
+    ,
     slug: {
       type: String,
       required: true,

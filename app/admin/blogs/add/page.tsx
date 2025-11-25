@@ -1,14 +1,33 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState , ChangeEvent } from "react";
 
 export default function BlogForm() {
   const [faq, setFaq] = useState([{ question: "", answer: "" }]);
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
+  const [thumbnail, setThumbanail] = useState("");
 
   const [content, setContent] = useState("");
   const editorRef = useRef<HTMLDivElement | null>(null);
+
+  function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+  });
+}
+
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+  
+      const base64 = await fileToBase64(file);
+  
+      setThumbanail(base64);
+    }
 
   function applyFormat(cmd: string, value?: string) {
     if (cmd === "createLink") {
@@ -42,11 +61,12 @@ export default function BlogForm() {
         : [];
 
     const payload = {
+      title : fd.get('title'),
       slug: fd.get("slug"),
       author: fd.get("author"),
       category: fd.get("category"),
       tags,
-      thumbnail: fd.get("thumbnail"),
+      thumbnail,
       content,
       metaTitle: fd.get("metaTitle"),
       metaDescription: fd.get("metaDescription"),
@@ -121,11 +141,17 @@ export default function BlogForm() {
         <h2 className="text-sm font-semibold">Basic Details</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input label="Title" name="title" required />
           <Input label="Slug" name="slug" required />
           <Input label="Author" name="author" />
           <Input label="Category" name="category" />
           <Input label="Tags (comma separated)" name="tags" />
-          <Input label="Thumbnail URL" name="thumbnail" />
+          <Input label="Thumbnail URL"
+           name="thumbnail" 
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e)}
+             />
         </div>
       </section>
 

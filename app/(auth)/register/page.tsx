@@ -21,14 +21,20 @@ export default function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/api/auth/register", {
+    try {
+      const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
 
-    const data = await res.json();
-    console.log(data);
+      if(res.ok){
+         router.push('/');
+      }   
+    } catch (error) {
+      console.log(error)
+    }
+  
   };
 
   return (

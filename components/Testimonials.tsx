@@ -1,15 +1,41 @@
 import Image from "next/image";
 
+const  testimonials = [ {
+  experience : "I had the most incredible Dubai experience! Everything from the itinerary to the hotel and desert safari was perfectly organized.Truly unforgettable!",
+  image : "https://i.pravatar.cc/100?img=12",
+  name :  "Rahul Sharma",
+  country : "India"
+},
+{
+  experience : "I had the most incredible Dubai experience! Everything from the itinerary to the hotel and desert safari was perfectly organized.Truly unforgettable!",
+  image : "https://i.pravatar.cc/100?img=12",
+  name :  "Rahul Sharma",
+  country : "India"
+
+},
+{
+  experience : "I had the most incredible Dubai experience! Everything from the itinerary to the hotel and desert safari was perfectly organized.Truly unforgettable!",
+  image : "https://i.pravatar.cc/100?img=12",
+  name :  "Rahul Sharma",
+  country : "India"
+
+}
+
+];
+
 export default function Testimonials() {
   return (
     <section
-      className="px-6 py-16 max-w-6xl mx-auto"
+      className="w-full grid grid-cols-3 gap-10  px-16"
       aria-labelledby="testimonials-heading"
     >
-      
-      <h2
+      { testimonials.map((person , idx)=>{
+
+       return (
+        <section>
+        <h2
         id="testimonials-heading"
-        className="text-3xl sm:text-4xl font-bold text-center mb-10"
+        className="text-xl sm:text-2xl font-bold text-center mb-10"
       >
         What Our Travelers Say
       </h2>
@@ -36,12 +62,10 @@ export default function Testimonials() {
         </span>
 
         <p
-          className="text-lg sm:text-xl leading-relaxed text-foreground mt-4 font-medium"
+          className="text-sm sm:text-lg leading-relaxed text-gray-500 mt-4 font-medium "
           itemProp="reviewBody"
         >
-          I had the most incredible Dubai experience! Everything from the
-          itinerary to the hotel and desert safari was perfectly organized.
-          Truly unforgettable!
+          {person.experience}
         </p>
 
         
@@ -57,14 +81,19 @@ export default function Testimonials() {
 
           <div className="mt-3">
             <span className="font-semibold text-foreground" itemProp="name">
-              Rahul Sharma
+              {person.name}
             </span>
             <p className="text-sm text-muted-foreground">
-              Traveler from India
+              Traveler from {person.country}
             </p>
           </div>
         </div>
       </blockquote>
-    </section>
+      </section>
+
+      )})
+      }
+      
+      </section>
   );
 }

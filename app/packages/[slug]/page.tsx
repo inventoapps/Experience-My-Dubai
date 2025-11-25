@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Check  ,  X ,ChevronRight} from "lucide-react";
+
 
 export default  function PackageDetailsPage() {
   const { slug } =  useParams();
@@ -62,17 +64,61 @@ export default  function PackageDetailsPage() {
       <section className="mt-14">
         <h1 className="text-3xl sm:text-4xl font-bold">{pkg.title}</h1>
 
-        <div className="flex flex-wrap gap-2 text-sm text-gray-500 mt-2">
+        <div className="flex flex-wrap items-center gap-1 text-sm text-gray-600 mt-2">
           <span>{pkg.location}</span>
-          <span>/ {pkg.city}</span>
-          <span>/ {pkg.country}</span>
-        </div>
+          <ChevronRight className="w-4 h-4 text-gray-400" />
+          <span>{pkg.city}</span>
+          <ChevronRight className="w-4 h-4 text-gray-400" />
+          <span>{pkg.country}</span>
+      </div>
       </section>
 
-     <div className="flex">
+<section>
+  <button className="border-2 border-gray-400 py-1 px-3 rounded-lg mb-4">
+    Gallery
+  </button>
+
+  <div className="flex flex-col lg:flex-row gap-6">
+
+   
+          <div className="relative w-full lg:w-[65%] h-[300px] sm:h-[400px] md:h-[500px] rounded-xl overflow-hidden">
+            <img
+              src={pkg.gallery[0]}
+              alt={pkg.title}
+              // fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="flex flex-col w-full lg:w-[35%] gap-6">
+
+            <div className="relative w-full h-[180px] sm:h-[200px] md:h-60 rounded-xl overflow-hidden">
+              <img
+                src={pkg.gallery[1]}
+                alt={pkg.title}
+                // fill
+                className="object-cover"
+              />
+            </div>
+
+            <div className="relative w-full h-[180px] sm:h-[200px] md:h-60 rounded-xl overflow-hidden">
+              <img
+                src={pkg.gallery[2]}
+                alt={pkg.title}
+                // fill
+                className="object-cover"
+              />
+            </div>
+
+          </div>
+
+  </div>
+</section>
+      <h2 className="text-2xl font-bold">Duration</h2>
+      <div className="flex">
            <div>
-              <span className="inline-flex items-center rounded-full bg-yellow-700 px-3 py-1 text-xs sm:text-sm font-medium text-white backdrop-blur">
-                {8} D / {7} N
+              <span className="inline-flex items-center rounded-full bg-orange-800 px-2 py-1 text-xs sm:text-sm font-medium text-white backdrop-blur">
+                {8} D/{7}N
               </span>
             </div>
 
@@ -99,61 +145,61 @@ export default  function PackageDetailsPage() {
 
              </div>
           </div>
-))}
+        ))}
 
             </div>
        </div>
 
-<section>
-  <button className="border-2 border-gray-400 py-1 px-3 rounded-lg mb-4">
-    Gallery
-  </button>
-
-  <div className="flex flex-col lg:flex-row gap-6">
-
-   
-          <div className="relative w-full lg:w-[65%] h-[300px] sm:h-[400px] md:h-[500px] rounded-xl overflow-hidden">
-            <Image
-              src={pkg.gallery[0]}
-              alt={pkg.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          <div className="flex flex-col w-full lg:w-[35%] gap-6">
-
-            <div className="relative w-full h-[180px] sm:h-[200px] md:h-60 rounded-xl overflow-hidden">
-              <Image
-                src={pkg.gallery[1]}
-                alt={pkg.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <div className="relative w-full h-[180px] sm:h-[200px] md:h-60 rounded-xl overflow-hidden">
-              <Image
-                src={pkg.gallery[2]}
-                alt={pkg.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-          </div>
-
-  </div>
-</section>
-
 
       
-      <section>
-        <h2 className="text-2xl font-bold mb-3">Overview</h2>
-        <p className="text-gray-600 leading-relaxed">{pkg.description}</p>
+      <section className="flex justify-between">
+
+         <section>
+          
+          <section>
+            <div>
+            <h2 className="text-2xl font-bold mb-3">Overview</h2>
+            <p className="text-gray-600 leading-relaxed">{pkg.description}</p>
+            </div>
+
+          </section>
+
+          <section>
+              <h2 className="text-2xl font-bold mb-3">Highlights</h2>
+              <ul className="space-y-2 text-gray-600">
+                {pkg.highlights?.map((h: string, i: number) => (
+                  <li key={i}>✔ {h}</li>
+                ))}
+              </ul>
+          </section>
+
+        <section>
+            <h2 className="text-2xl font-bold mb-3">What's Included</h2>
+
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold mb-2">Included</h3>
+                <ul className="space-y-2 text-gray-600">
+                  {pkg.inclusions?.map((inc: string, i: number) => (
+                    <li className="flex gap-3" key={i}><span className="text-green-400"><Check/></span> {inc}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">Not Included</h3>
+                <ul className="space-y-2 text-gray-600">
+                  {pkg.exclusions?.map((exc: string, i: number) => (
+                    <li className="flex gap-3" key={i}> <span className="text-red-500"> <X/></span> {exc}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
       </section>
 
-      {/* <form className="bg-white border rounded-xl shadow p-6 w-full max-w-md space-y-4">
+       </section>
+         
+         <form className="bg-white border rounded-xl shadow p-6 w-full max-w-md space-y-4">
             <div>
               <label className="text-sm font-semibold">Full Name</label>
               <input
@@ -214,70 +260,10 @@ export default  function PackageDetailsPage() {
             >
               Book Now
             </button>
-          </form> */}
+          </form> 
 
-      
-      <section>
-        <h2 className="text-2xl font-bold mb-3">Highlights</h2>
-        <ul className="space-y-2 text-gray-600">
-          {pkg.highlights?.map((h: string, i: number) => (
-            <li key={i}>✔ {h}</li>
-          ))}
-        </ul>
-      </section>
-
-      
-      <section>
-        <h2 className="text-2xl font-bold mb-3">What's Included</h2>
-
-        <div className="grid sm:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-semibold mb-2">Included</h3>
-            <ul className="space-y-2 text-gray-600">
-              {pkg.inclusions?.map((inc: string, i: number) => (
-                <li key={i}>✔ {inc}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-2">Not Included</h3>
-            <ul className="space-y-2 text-gray-600">
-              {pkg.exclusions?.map((exc: string, i: number) => (
-                <li key={i}>✘ {exc}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-
-      <section>
-        <h2 className="text-2xl font-bold mb-6">Itinerary</h2>
-
-        <div className="space-y-4">
-          {pkg.itinerary?.map((day: any, i: number) => (
-            <div
-              key={i}
-              className="border rounded-xl p-4 cursor-pointer"
-              onClick={() => toggle(i)}
-            >
-              <div className="flex gap-4 items-center">
-                <span className="w-10 h-10 rounded-full border-2 border-green-400 flex items-center justify-center font-bold">
-                  {day.day}
-                </span>
-                <span className="font-medium">
-                  Day {day.day} — {day.title}
-                </span>
-              </div>
-
-              {openDay === i && (
-                <p className="mt-3 text-gray-600">{day.description}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+         
+       </section>
 
 
       <FAQSection faqs={pkg.faqs} />

@@ -42,8 +42,8 @@ export default function BlogPage() {
       />
 
       <section className="mt-10 space-y-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
-          {blog.title}
+        <h1 className="text-3xl sm:text-xl font-bold ">
+          {blog.title} 
         </h1>
 
         <div className="flex flex-wrap gap-3 text-sm text-gray-500">
@@ -77,7 +77,7 @@ export default function BlogPage() {
           <img
             src={blog.thumbnail}
             alt={blog.title}
-            // fill
+          
             className="object-cover"
           />
         </div>

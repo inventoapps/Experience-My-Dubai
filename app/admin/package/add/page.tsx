@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
 
 // ============ TYPES ================
@@ -80,6 +80,8 @@ export default function PackageForm() {
   const [durationNights, setDurationNights] = useState<number>(0);
   const [durationBreakdown, setDurationBreakdown] = useState<
   { location: string; days: number }[]> ([{ location: "", days: 0 }]);
+  const [duration , setDuration] = useState<null | DurationType>(null);
+  const [files, setFiles] = useState<FileList | null>(null);
 
 
 
@@ -98,11 +100,27 @@ export default function PackageForm() {
     fetchPackages();
   }, []);
 
+  function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+  });
+}
 
 
+   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
+    const base64 = await fileToBase64(file);
 
- 
+    const copy = [...gallery];
+    copy[i] = base64;     
+    setGallery(copy);
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("saving");
@@ -110,6 +128,8 @@ export default function PackageForm() {
     const fd = new FormData(e.currentTarget);
     const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
     const submitType = submitter.value;
+    
+    
 
     const payload = {
       title: fd.get("title"),
@@ -117,10 +137,15 @@ export default function PackageForm() {
       location: fd.get("location"),
       city: fd.get("city"),
       country: fd.get("country"),
-      duration: {durationDays,durationNights ,durationBreakdown},
+        duration: {
+        days: durationDays,
+        nights: durationNights,
+        breakdown: durationBreakdown
+      },
       price: Number(fd.get("price")),
       discountPrice: Number(fd.get("discountPrice")),
       rating: Number(fd.get("rating")),
+      totalRatings : Number(fd.get('totalRatings')),
       description: fd.get("description"),
 
       highlights,
@@ -236,6 +261,8 @@ export default function PackageForm() {
       onChange={(e) => setDurationDays(Number(e.target.value))}
     />
 
+
+
     <Input
       label="Total Nights"
       type="number"
@@ -323,6 +350,13 @@ export default function PackageForm() {
               type="number"
               defaultValue={editPkg?.rating}
             />
+
+            <Input
+              name="totalRatings"
+              label="totalRatings"
+              type="number"
+              defaultValue={editPkg?.rating}
+            />
           </div>
 
           <Textarea
@@ -356,21 +390,19 @@ export default function PackageForm() {
           </div>
         </section>
 
-       
+         {/* Gallery */}
         <section className="bg-white p-4 rounded-xl shadow-sm">
           <h2 className="text-sm font-semibold mb-3">Gallery (3 Images)</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {gallery.map((img, i) => (
               <Input
+                type="file"
+                accept="image/*"
                 key={i}
                 label={`Image ${i + 1}`}
                 value={img}
-                onChange={(e) => {
-                  const c = [...gallery];
-                  c[i] = e.target.value;
-                  setGallery(c);
-                }}
+                onChange={(e) => handleImageUpload(e, i)}
               />
             ))}
           </div>
@@ -441,7 +473,7 @@ export default function PackageForm() {
           </div>
         </section>
 
-        {/* ========== FAQ ========== */}
+      
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">FAQs</h2>
 
@@ -487,7 +519,6 @@ export default function PackageForm() {
           </div>
         </section>
 
-        {/* ========== SEO ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">SEO</h2>
 

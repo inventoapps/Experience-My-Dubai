@@ -3,6 +3,7 @@ import Slider from "@/components/Slider";
 import CarouselDemo from "./CarouselDemo";
 import { useEffect, useState } from "react";
 import AllPackagesPage from "@/app/admin/package/view/page";
+import EnquiryForm from "./EnquiryFormPopUp";
 
 interface PackageType {
   _id: string;
@@ -17,7 +18,9 @@ interface PackageType {
 
 export default function PopularPackages(){
     const [packages, setPackages] = useState<PackageType[]>([]);
-      const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+      
     
       async function fetchPackages() {
         try {
@@ -58,13 +61,19 @@ export default function PopularPackages(){
                 Less than 5 Days
             </button>
            </div>
+
            
         </div>
 
         
-      <CarouselDemo packages={ packages }/>
+      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} />
        
-
+      <EnquiryForm
+              isOpen={isDialogOpen}
+              price={799}
+              onCancel={() => setIsDialogOpen(false)}
+              onConfirm={() => setIsDialogOpen(false)}
+        />
 
     </section>
     )

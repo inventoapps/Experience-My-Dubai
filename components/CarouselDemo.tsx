@@ -27,7 +27,7 @@ export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
           <CarouselItem
             key={index}
             className="
-              basis-1 
+              basis-1/1
               sm:basis-1/2 
               lg:basis-1/3
             "

@@ -51,7 +51,7 @@ export default  function PackageDetailsPage() {
   if (loading) return <p className="p-8 text-center">Loading...</p>;
   if (!pkg) return <p className="p-8 text-center">Package not found</p>;
 
-  // Toggle itinerary
+
   const toggle = (i: number) => {
     setOpenDay(openDay === i ? null : i);
   };

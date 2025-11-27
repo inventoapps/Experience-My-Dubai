@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 export default function HeroBottom() {
   return (
     <div
@@ -16,7 +17,13 @@ export default function HeroBottom() {
         font-medium
       "
     >
-      <h2>Rating</h2>
+      <h2 className="">
+      {/* <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-white mx-1">
+        <Check className="h-3 w-3" />
+      </span> */}
+      Rating
+      </h2>
+
       <h2>100% Customised Trips</h2>
       <h2>98% Visa Success Rate</h2>
       <h2>24x7 Concierge</h2>

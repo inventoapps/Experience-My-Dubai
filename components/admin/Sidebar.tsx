@@ -20,7 +20,7 @@ export default function Sidebar() {
           Add Tour Package
         </a>
         <a href="/admin/package/view" className="block px-3 py-2 rounded hover:bg-gray-100">
-          All Tour Packages
+          View Tour Packages
         </a>
         <a href="/admin/package/edit" className="block px-3 py-2 rounded hover:bg-gray-100">
           Edit Tour Packages
@@ -32,7 +32,7 @@ export default function Sidebar() {
         </p>
 
         <a href="/admin/blogs/add" className="block px-3 py-2 rounded hover:bg-gray-100">Add Blog Article</a>
-        <a href="/admin/blogs/view" className="block px-3 py-2 rounded hover:bg-gray-100">All Blog Articles</a>
+        <a href="/admin/blogs/view" className="block px-3 py-2 rounded hover:bg-gray-100">View Blog Articles</a>
         <a href="/admin/blogs/edit" className="block px-3 py-2 rounded hover:bg-gray-100">Edit Blog Articles</a>
 
 
@@ -40,7 +40,7 @@ export default function Sidebar() {
           Enquiries
         </p>
 
-        <a className="block px-3 py-2 rounded hover:bg-gray-100">View Enquiries</a>
+        <a href="/admin/enquiry/view" className="block px-3 py-2 rounded hover:bg-gray-100">View Enquiries</a>
       </nav>
 
       <div className="px-4 py-3 border-t text-xs text-gray-500">

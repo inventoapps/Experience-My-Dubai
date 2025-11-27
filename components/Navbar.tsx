@@ -3,10 +3,34 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+
 
 export default function Navbar({ theme }: { theme: "light" | "dark" }) {
+  const auth = useAuth();
+  const user = auth?.user;
+  const setUser = auth?.setUser!;
+
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
+
+  const handleLogOut = async()=>{
+     try {
+
+      const res = await fetch('api/auth/logout',{
+          method : "POST"
+      })
+
+      if(res.ok){
+         setUser(null);
+         router.push('/')
+      }
+       
+        
+     } catch (error) {
+       console.log(error);
+     }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,10 +64,18 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
             <Link href="#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
             <Link href="#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
 
-            <button onClick={()=>router.push('/register')}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70">
-              Register
-            </button>
+            {
+              user ? <button onClick={handleLogOut}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70 cursor-pointer">
+                         LogOut
+                      </button>
+                      :
 
+                      <button onClick={()=>router.push('/register')}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70">
+                       Register
+                      </button>               
+            }
+
+            
             <button className="hover:opacity-70 transition">
               <Menu size={22} />
             </button>
@@ -55,7 +87,7 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
         </div>
 
         {scrolled && (
-          <div className="relative w-[250px] sm:w-[350px]">
+          <div className="relative w-[250px] sm:w-[350px] hidden sm:block ">
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
               size={18}

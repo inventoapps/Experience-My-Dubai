@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { X } from "lucide-react";
+import Link from "next/link";
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    name: "",
-    phone: "",
     email: "",
     password: "",
   });
@@ -23,7 +21,7 @@ export default function RegisterForm() {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -52,35 +50,13 @@ export default function RegisterForm() {
         className="flex flex-col gap-4 w-full max-w-md p-6 rounded-xl border bg-white shadow-sm"
       >
         <h2 className="text-2xl font-bold text-gray-800 text-center">
-          Register to{" "}
+          Log In to{" "}
           <span className="bg-linear-to-r from-green-300 via-green-500 to-green-800 bg-clip-text text-transparent">
             ExperienceMyDubai
           </span>
         </h2>
 
-        <h3 className="text-gray-400 text-center text-sm">
-          Create Your Account
-        </h3>
-
-        <input
-          name="name"
-          type="text"
-          placeholder="Full Name"
-          value={form.name}
-          onChange={handleChange}
-          className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-300 outline-none"
-          required
-        />
-
-        <input
-          name="phone"
-          type="tel"
-          placeholder="Phone Number"
-          value={form.phone}
-          onChange={handleChange}
-          className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-300 outline-none"
-          required
-        />
+        <h3 className="text-gray-400 text-center text-sm">Welcome Back 👋</h3>
 
         <input
           name="email"
@@ -106,17 +82,16 @@ export default function RegisterForm() {
           type="submit"
           className="bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all cursor-pointer"
         >
-          Register
+          Log In
         </button>
 
-        {/* Already Have Account */}
         <p className="text-center text-gray-500 text-sm">
-          Already have an account?{" "}
+          Don’t have an account?{" "}
           <Link
-            href="/login"
+            href="/register"
             className="text-green-600 font-semibold hover:underline"
           >
-            Log In
+            Register
           </Link>
         </p>
       </form>

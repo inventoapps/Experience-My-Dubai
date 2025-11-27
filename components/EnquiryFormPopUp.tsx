@@ -1,3 +1,7 @@
+"use client"
+import { Rewind } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 
 interface EnquiryProps {
   isOpen: boolean;
@@ -13,6 +17,45 @@ export default function EnquiryForm({
   onConfirm,
   onCancel,
 }: EnquiryProps) {
+  const [form , setForm] = useState({
+    name : "",
+    email : "",
+    phone : "",
+    guests :"",
+    arrivalDate : "",
+    comments : ""
+  });
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+     setForm ({...form , [e.target.name]:e.target.value} )
+  }
+  const router = useRouter();
+
+  const handleSubmit = async(e:React.FormEvent)=>{
+     e.preventDefault();
+
+     const enquiryData = {
+      ...form,
+      pageUrl: "sdfaf"
+     };
+
+     try {
+      const res = await fetch('/api/enquiry/',{
+        method:"POST",
+        headers:{'Content-Types':'application/json'},
+        body: JSON.stringify(enquiryData),
+      });
+
+      if (res.ok) {
+        router.push("/");
+      }
+      const data = await res.json();
+      console.log(data.message);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <div
@@ -34,7 +77,7 @@ export default function EnquiryForm({
           backdrop-blur-sm
 
           
-          ${isOpen ? "translate-y-24 opacity-100 z-999" : "-translate-y-full opacity-0"}
+          ${isOpen ? "translate-y-12 opacity-100 z-999" : "-translate-y-full opacity-0"}
         `}
       >
         <form
@@ -44,10 +87,12 @@ export default function EnquiryForm({
             dark:bg-neutral-900 
             border 
             border-border 
-            p-6 
+            p-8 
             rounded-xl 
             shadow-lg
           "
+
+          onSubmit={handleSubmit}
         >
        
           <div className="flex flex-col">
@@ -60,10 +105,14 @@ export default function EnquiryForm({
                 w-full p-3 rounded-lg bg-background 
                 focus:ring-2 focus:ring-accent
               "
+              name="name"
+              onChange={handleChange}
+              value={form.name}
+              
             />
           </div>
 
-          {/* EMAIL */}
+      
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1">Email</label>
             <input
@@ -75,7 +124,12 @@ export default function EnquiryForm({
                 w-full p-3 rounded-lg bg-background 
                 focus:ring-2 focus:ring-accent
               "
+              name="email"
+              onChange={handleChange}
+              value={form.email}
+
             />
+
           </div>
 
     
@@ -90,21 +144,31 @@ export default function EnquiryForm({
                 w-full p-3 rounded-lg bg-background 
                 focus:ring-2 focus:ring-accent
               "
+              name='phone'
+              onChange={handleChange}
+              value={form.phone}
+  
             />
           </div>
 
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1">Travel Dates</label>
+          <div className="flex gap-2">
+            <label className="text-sm font-medium mb-1">Date of Arrival</label>
             <input
-              placeholder="10 Dec - 15 Dec"
+              placeholder="10 Dec"
               className="
                 border border-border 
                 w-full p-3 rounded-lg bg-background 
                 focus:ring-2 focus:ring-accent
               "
+              name="arrivalDate"
+              required
+              onChange={handleChange}
+              value={form.arrivalDate}
             />
+          </div>
 
-            <label className="text-sm font-medium mt-3 mb-1">Traveler Count</label>
+          
+            <label className="text-sm font-medium mt-3 mb-1">Number of Guest</label>
             <input
               placeholder="No. of Travelers"
               className="
@@ -112,8 +176,27 @@ export default function EnquiryForm({
                 w-full p-3 rounded-lg bg-background 
                 focus:ring-2 focus:ring-accent
               "
+              name="guests"
+              required
+              onChange={handleChange}
+              value={form.guests}
             />
-          </div>
+        
+
+          <label className="text-sm font-medium mt-3 mb-1 hidden sm:block">Comment</label>
+            <textarea
+              placeholder="Comment"
+              className="
+                border border-border 
+                w-full p-3 rounded-lg bg-background 
+                focus:ring-2 focus:ring-accent resize-x hidden sm:block
+              "
+              name="comments"
+              onChange={handleChange}
+              value={form.comments}
+            />
+
+          
 
          
           <button
@@ -121,12 +204,13 @@ export default function EnquiryForm({
             className="
               bg-red-500 text-white px-6 py-3 
               rounded-lg w-full font-semibold 
-              hover:bg-red-600 transition
+              hover:bg-red-600 transition cursor-pointer
             "
             onClick={onConfirm}
           >
             Submit
           </button>
+        
         </form>
       </section>
     </>

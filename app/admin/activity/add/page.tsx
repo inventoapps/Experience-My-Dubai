@@ -3,27 +3,13 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
 
-// ============ TYPES ================
-interface ItineraryItem {
-  day: number;
-  title: string;
-  description: string;
-}
+
 
 interface FAQItem {
-  title?: string;
   question: string;
   answer: string;
 }
 
-interface DurationType {
-  days: number;
-  nights: number;
-  breakdown: {
-    location: string;
-    days: number;
-  }[];
-}
 
 interface PackageType {
   _id: mongoose.Types.ObjectId;
@@ -32,7 +18,7 @@ interface PackageType {
   location: string;
   city: string;
   country: string;
-  duration: DurationType;
+
   price: number;
   discountPrice?: number;
   rating?: number;
@@ -44,7 +30,6 @@ interface PackageType {
   gallery: string[];
 
   faqs: FAQItem[];
-  itinerary: ItineraryItem[];
 
   metaTitle?: string;
   metaDescription?: string;
@@ -68,10 +53,7 @@ export default function PackageForm() {
   const [tourFaqs, setTourFaqs] = useState<FAQItem[]>([
     { question: "", answer: "" },
   ]);
-  const [itinerary, setItinerary] = useState<ItineraryItem[]>([
-    { day: 1, title: "", description: "" },
-  ]);
-
+  
   const [status, setStatus] =
     useState<"idle" | "saving" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -80,14 +62,13 @@ export default function PackageForm() {
   const [durationNights, setDurationNights] = useState<number>(0);
   const [durationBreakdown, setDurationBreakdown] = useState<
   { location: string; days: number }[]> ([{ location: "", days: 0 }]);
-  const [duration , setDuration] = useState<null | DurationType>(null);
 
 
 
 
   async function fetchPackages() {
     try {
-      const res = await fetch("/api/admin/package/get");
+      const res = await fetch("/api/admin/activity/get");
       const data = await res.json();
       setPackages(data.data || []);
     } catch (err) {
@@ -153,10 +134,8 @@ export default function PackageForm() {
       exclusions,
       gallery,
 
-      itinerary,
 
       faqs: tourFaqs.map((f) => ({
-        title: faqSectionTitle,
         question: f.question,
         answer: f.answer,
       })),
@@ -168,7 +147,7 @@ export default function PackageForm() {
 
 
    
-    const res = await fetch("/api/admin/package/create", {
+    const res = await fetch("/api/admin/activity/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -240,13 +219,11 @@ export default function PackageForm() {
             <Input
               name="location"
               label="Location"
-              defaultValue={editPkg?.location}
             />
             <Input name="city" label="City" defaultValue={editPkg?.city} />
             <Input
               name="country"
               label="Country"
-              defaultValue={editPkg?.country}
             />
            
 <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
@@ -336,33 +313,28 @@ export default function PackageForm() {
               name="price"
               label="Price"
               type="number"
-              defaultValue={editPkg?.price}
             />
             <Input
               name="discountPrice"
               label="Discount Price"
               type="number"
-              defaultValue={editPkg?.discountPrice}
             />
             <Input
               name="rating"
               label="Rating"
               type="number"
-              defaultValue={editPkg?.rating}
             />
 
             <Input
               name="totalRatings"
               label="totalRatings"
               type="number"
-              defaultValue={editPkg?.rating}
             />
           </div>
 
           <Textarea
             name="description"
             label="Short Overview"
-            defaultValue={editPkg?.description}
           />
         </section>
 
@@ -403,71 +375,6 @@ export default function PackageForm() {
                 label={`Image ${i + 1}`}
                 onChange={(e) => handleImageUpload(e, i)}
               />
-            ))}
-          </div>
-        </section>
-
-     
-        <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
-          <div className="flex justify-between">
-            <h2 className="text-sm font-semibold">Itinerary</h2>
-
-            <button
-              type="button"
-              className="text-xs border px-2 py-1 rounded"
-              onClick={() =>
-                setItinerary([
-                  ...itinerary,
-                  {
-                    day: itinerary.length + 1,
-                    title: "",
-                    description: "",
-                  },
-                ])
-              }
-            >
-              + Add Day
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            {itinerary.map((item, i) => (
-              <div key={i} className="border p-3 rounded space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-xs">Day {item.day}</span>
-
-                  {i > 0 && (
-                    <button
-                      type="button"
-                      className="text-xs border px-2 py-1 rounded"
-                      onClick={() =>
-                        setItinerary(itinerary.filter((_, idx) => idx !== i))
-                      }
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <Input
-                  label="Title"
-                  value={item.title}
-                  onChange={(e) => {
-                    const copy = [...itinerary];
-                    copy[i].title = e.target.value;
-                    setItinerary(copy);
-                  }}
-                />
-                <Textarea
-                  label="Description"
-                  value={item.description}
-                  onChange={(e) => {
-                    const copy = [...itinerary];
-                    copy[i].description = e.target.value;
-                    setItinerary(copy);
-                  }}
-                />
-              </div>
             ))}
           </div>
         </section>
@@ -524,12 +431,10 @@ export default function PackageForm() {
           <Input
             name="metaTitle"
             label="Meta Title"
-            defaultValue={editPkg?.metaTitle}
           />
           <Textarea
             name="metaDescription"
             label="Meta Description"
-            defaultValue={editPkg?.metaDescription}
           />
         </section>
       </form>

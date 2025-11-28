@@ -150,7 +150,7 @@ export default function Page(){
 
          <section className="py-12 sm:py-16  max-w-7xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground uppercase">All Down Town Dubai Tour Packages</h2>
-            <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen}  />
+            <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen}  route="packages" />
          </section>
 
          <TopExperience/>

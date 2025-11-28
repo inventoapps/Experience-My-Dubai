@@ -3,25 +3,18 @@ import mongoose, { Schema, Document, models, model } from "mongoose";
 export interface IActivity extends Document {
   title: string;
   slug: string;
-  shortDescription: string;
+ 
   description: string;
 
-  location: {
-    city: string;
-    country: string;
-    area?: string;
-  };
+  location: string;
+  city: string;
+  country: string;
 
-  duration: {
-    label: string;      
-    hours?: number;     
-    days?: number;     
-  };
-
+  duration : number;
   price: number;
   discountPrice?: number;
 
-  categories: string[];      
+  categories: string;      
   tags: string[];             
 
   highlights: string[];      
@@ -40,7 +33,6 @@ export interface IActivity extends Document {
   metaTitle?: string;
   metaDescription?: string;
 
-  relatedPackages?: mongoose.Types.ObjectId[]; 
 
   createdAt: Date;
   updatedAt: Date;
@@ -51,26 +43,47 @@ const ActivitySchema = new Schema<IActivity>(
     title: { type: String, required: true, trim: true },
     slug: { type: String, required: true, unique: true, index: true },
 
-    shortDescription: { type: String, required: true, trim: true },
     description: { type: String, required: true },
 
     location: {
-      city: { type: String, required: true, trim: true },
-      country: { type: String, required: true, trim: true },
-      area: { type: String, trim: true },
+      type: String,
+      required: true,
     },
 
-    duration: {
-      label: { type: String, required: true },
-      hours: { type: Number },
-      days: { type: Number },
+    city: {
+      type: String,
+      required: true,
+    },
+    rating : {
+      type : Number,
+      required : true,
+    }
+    ,
+    totalRatings : {
+      type : Number,
+      required : true
     },
 
-    price: {
-      base: { type: Number, required: true },
-      sale: { type: Number },
-      currency: { type: String, default: "AED" },
+    country: {
+      type: String,
+      required: true,
     },
+
+    duration : {
+      type : Number,
+      required : true
+    },
+
+    price : {
+      type : Number,
+      required : true
+    },
+
+    discountPrice : {
+       type : Number,
+       required : true
+    },
+    
     faq: [
       {
         question: { type: String },
@@ -78,7 +91,7 @@ const ActivitySchema = new Schema<IActivity>(
       },
     ],
 
-    categories: [{ type: String }],
+    categories: { type: String },
     tags: [{ type: String }],
 
     highlights: [{ type: String }],
@@ -90,9 +103,7 @@ const ActivitySchema = new Schema<IActivity>(
     metaTitle: { type: String },
     metaDescription: { type: String },
 
-    relatedPackages: [
-      { type: Schema.Types.ObjectId, ref: "TourPackage" },
-    ],
+   
   },
   {
     timestamps: true, 

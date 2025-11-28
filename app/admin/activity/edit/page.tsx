@@ -3,13 +3,20 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
 
+interface ItineraryItem {
+  day: number;
+  title: string;
+  description: string;
+}
+
+
 
 
 interface FAQItem {
+  title?: string;
   question: string;
   answer: string;
 }
-
 
 interface PackageType {
   _id: mongoose.Types.ObjectId;
@@ -18,14 +25,14 @@ interface PackageType {
   location: string;
   city: string;
   country: string;
-
+  duration: number;
   price: number;
-  discountPrice: number;
-  rating: number;
-  totalRatings : number;
+  discountPrice?: number;
+  rating?: number;
+  totalRatings?:number;
   description: string;
-  tags : string[];
-  category : string;
+  category: string;
+  tags: string[];
 
   highlights: string[];
   inclusions: string[];
@@ -33,6 +40,7 @@ interface PackageType {
   gallery: string[];
 
   faqs: FAQItem[];
+  itinerary: ItineraryItem[];
 
   metaTitle?: string;
   metaDescription?: string;
@@ -60,11 +68,38 @@ export default function PackageForm() {
   const [status, setStatus] =
     useState<"idle" | "saving" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
-
-  
-
+ ;
 
 
+
+
+  async function fetchPackages() {
+    try {
+      const res = await fetch("/api/admin/activity/get");
+      const data = await res.json();
+      setPackages(data.data || []);
+    } catch (err) {
+      console.error("ERR_FETCH_PACKAGES", err);
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
+
+
+ useEffect(() => {
+  if (editPkg) {
+    setHighlights(editPkg.highlights || [""]);
+    setInclusions(editPkg.inclusions || [""]);
+    setExclusions(editPkg.exclusions || [""]);
+    setGallery(editPkg.gallery || ["", "", ""]);
+    setTourFaqs(editPkg.faqs || [{ question: "", answer: "" }]);
+    setFaqSectionTitle(editPkg.faqs?.[0]?.title || "");
+
+  }
+}, [editPkg]);
 
   function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -76,16 +111,19 @@ export default function PackageForm() {
 }
 
 
-   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+ const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) => {
+     const file = e.target.files?.[0];
+     if (!file) return;
+ 
+     const base64 = await fileToBase64(file);
+ 
+     const copy = [...gallery];
+     copy[i] = base64;     
+     setGallery(copy);
+   }
 
-    const base64 = await fileToBase64(file);
 
-    const copy = [...gallery];
-    copy[i] = base64;     
-    setGallery(copy);
-  }
+ 
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,8 +132,6 @@ export default function PackageForm() {
     const fd = new FormData(e.currentTarget);
     const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
     const submitType = submitter.value;
-    
-    
 
     const payload = {
       title: fd.get("title"),
@@ -103,21 +139,21 @@ export default function PackageForm() {
       location: fd.get("location"),
       city: fd.get("city"),
       country: fd.get("country"),
-      duration: fd.get('duration'),
+      duration: fd.get("duration"),
       price: Number(fd.get("price")),
       discountPrice: Number(fd.get("discountPrice")),
       rating: Number(fd.get("rating")),
       totalRatings : Number(fd.get('totalRatings')),
       description: fd.get("description"),
 
-
       highlights,
       inclusions,
       exclusions,
       gallery,
-
+      id : editPkg?._id,
 
       faqs: tourFaqs.map((f) => ({
+        title: faqSectionTitle,
         question: f.question,
         answer: f.answer,
       })),
@@ -127,8 +163,26 @@ export default function PackageForm() {
       submitType,
     };
 
+    if (editPkg) {
+      const res = await fetch(`/api/admin/activity/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-   
+      if (!res.ok) {
+        setStatus("error");
+        setMessage("Failed to update package.");
+        return;
+      }
+
+      setStatus("success");
+      setMessage("Package updated successfully!");
+      fetchPackages();
+      return;
+    }
+
+    
     const res = await fetch("/api/admin/activity/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -137,7 +191,7 @@ export default function PackageForm() {
 
     if (!res.ok) {
       setStatus("error");
-      setMessage("Failed to Publish package.");
+      setMessage("Failed to save package.");
       return;
     }
 
@@ -145,12 +199,39 @@ export default function PackageForm() {
     setMessage(
       submitType === "publish" ? "Tour Published" : "Saved Draft"
     );
+    fetchPackages();
   }
 
+  
 
   return (
     <div className="flex gap-6">
-      
+   
+      <aside className="w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto">
+        <h3 className="font-semibold mb-3">All Packages</h3>
+
+        {loading ? (
+          <p>Loading...</p>
+        ) : packages.length === 0 ? (
+          <p className="text-sm text-gray-500">No packages found</p>
+        ) : (
+          packages.map((pkg) => (
+            <div
+              key={String(pkg._id)}
+              className={`p-3 border rounded mb-2 cursor-pointer ${
+                editPkg?._id === pkg._id ? "bg-gray-100" : ""
+              }`}
+              onClick={() => setEditPkg(pkg)}
+            >
+              <p className="font-medium text-sm">{pkg.title}</p>
+              <p className="text-[11px] text-gray-500">{pkg.slug}</p>
+
+            </div>
+          ))
+        )}
+      </aside>
+
+     
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">
@@ -195,75 +276,85 @@ export default function PackageForm() {
           <h2 className="text-sm font-semibold">Basic Information</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input name="title" label="Title"  />
-            <Input name="slug" label="Slug"  />
-
-            <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+            <Input name="title" label="Title" defaultValue={editPkg?.title} />
+            <Input name="slug" label="Slug" defaultValue={editPkg?.slug} />
           
-
-             <Input
-              name="country"
-              label="Country"
-            />
-            <Input name="city"
-             label="City"  />
-            <Input
+            <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+              <Input
               name="location"
               label="Location"
+              defaultValue={editPkg?.location}
+            />
+            <Input name="city" label="City" defaultValue={editPkg?.city} />
+            <Input
+              name="country"
+              label="Country"
+              defaultValue={editPkg?.country}
             />
 
             </section>
-            
-  
-           
-           
-<section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+
+            <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
 
  
-    <Input
-      name="duration"
-      label="Duration (In hours)"
-      type="number"
+            <Input
+              name="duration"
+              label="Duration (In hours)"
+              type="number"
+              defaultValue={editPkg?.duration}
 
-    />
+            />
 
 
-     <Input label="Category" name="category" />
-    <Input label="Tags (comma separated)" name="tags" />
+           <Input
+              label="Category"
+              name="category"
+              defaultValue={editPkg?.category}
+            />
+            <Input
+              label="Tags (comma separated)"
+              name="tags"
+              defaultValue={editPkg?.tags.join(", ")}/>
 
   
 
-</section>
+            </section>
 
             <Input
               name="price"
               label="Price"
               type="number"
+              defaultValue={editPkg?.price}
             />
             <Input
               name="discountPrice"
               label="Discount Price"
               type="number"
+              defaultValue={editPkg?.discountPrice}
             />
             <Input
               name="rating"
               label="Rating"
               type="number"
+              defaultValue={editPkg?.rating}
             />
 
             <Input
               name="totalRatings"
               label="totalRatings"
               type="number"
+              defaultValue={editPkg?.totalRatings}
             />
           </div>
 
           <Textarea
             name="description"
             label="Short Overview"
+            defaultValue={editPkg?.description}
           />
         </section>
 
+        {/* ========== HIGHLIGHTS & INCLUSIONS ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">
             Highlights & What’s Included
@@ -288,14 +379,14 @@ export default function PackageForm() {
           </div>
         </section>
 
-         {/* Gallery */}
+        {/* ========== GALLERY ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm">
           <h2 className="text-sm font-semibold mb-3">Gallery (3 Images)</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {gallery.map((img, i) => (
               <Input
-                type="file"
+                 type="file"
                 accept="image/*"
                 key={i}
                 label={`Image ${i + 1}`}
@@ -305,7 +396,7 @@ export default function PackageForm() {
           </div>
         </section>
 
-      
+        {/* ========== FAQ ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">FAQs</h2>
 
@@ -351,16 +442,19 @@ export default function PackageForm() {
           </div>
         </section>
 
+        {/* ========== SEO ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">SEO</h2>
 
           <Input
             name="metaTitle"
             label="Meta Title"
+            defaultValue={editPkg?.metaTitle}
           />
           <Textarea
             name="metaDescription"
             label="Meta Description"
+            defaultValue={editPkg?.metaDescription}
           />
         </section>
       </form>
@@ -368,6 +462,9 @@ export default function PackageForm() {
   );
 }
 
+// ======================================
+// SMALL COMPONENTS
+// ======================================
 
 function Input({
   label,

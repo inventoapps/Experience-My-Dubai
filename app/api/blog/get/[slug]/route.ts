@@ -2,14 +2,12 @@ import { connectDB } from "@/lib/mongodb";
 import { Blog } from "@/models/blog";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest , context: { params: Promise<{ slug: string }>}){
+export async function GET(req:NextRequest , {params} : {params : {slug : string}}){
     try {
         await connectDB();
 
-        console.log("Hi bhai")
-        
-        const {slug} = await context.params;
-
+        const slug = params.slug;
+         
         if(!slug){
             return NextResponse.json(
                  {message:"Slug is required"}

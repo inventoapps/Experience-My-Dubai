@@ -32,6 +32,8 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
      }
   }
 
+  
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 300);
@@ -74,11 +76,6 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
                        Register
                       </button>               
             }
-
-            
-            <button className="hover:opacity-70 transition">
-              <Menu size={22} />
-            </button>
           </div>
         )}
 
@@ -87,7 +84,7 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
         </div>
 
         {scrolled && (
-          <div className="relative w-[250px] sm:w-[350px] hidden sm:block ">
+          <div className="relative w-[250px] sm:w-[350px] hidden md:block ">
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
               size={18}

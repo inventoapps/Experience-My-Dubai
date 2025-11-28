@@ -16,6 +16,9 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const { id, gallery, ...updateData } = body;
 
+    console.log(body.rating);
+    console.log(body.totalRatings)
+
     if (!id) {
       return NextResponse.json(
         { error: "Package ID is required" },

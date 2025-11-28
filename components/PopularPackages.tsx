@@ -66,7 +66,7 @@ export default function PopularPackages(){
         </div>
 
         
-      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} />
+      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"}/>
        
       <EnquiryForm
               isOpen={isDialogOpen}

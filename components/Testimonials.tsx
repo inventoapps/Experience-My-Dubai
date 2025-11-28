@@ -40,11 +40,8 @@ export default function Testimonials() {
       { testimonials.map((person , idx)=>{
 
        return (
-        <section>
-
-          
-      
-          <blockquote
+          <section
+             key={idx}
             className="
               relative 
               bg-linear-to-br from-accent/10 to-accent/5 
@@ -91,8 +88,8 @@ export default function Testimonials() {
                 </p>
               </div>
             </div>
-          </blockquote>
           </section>
+         
 
           )})
           }

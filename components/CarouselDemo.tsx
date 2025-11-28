@@ -14,14 +14,32 @@ import Link from "next/link";
 interface IProps {
   packages: any[];
   setIsDialogOpen : (value: boolean)=>void;
+  route : string;
+
 }
 
 
+export default function CarouselDemo({ packages , setIsDialogOpen , route }: IProps) {
+  const [visibleCards, setVisibleCards] = React.useState(1);
 
-export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
+
+  React.useEffect(() => {
+    const updateVisible = () => {
+      if (window.innerWidth < 640) setVisibleCards(1); // mobile
+      else if (window.innerWidth < 1024) setVisibleCards(2); // tablet
+      else setVisibleCards(3); // desktop
+    };
+
+  updateVisible();
+  window.addEventListener("resize", updateVisible);
+  return () => window.removeEventListener("resize", updateVisible);
+}, []);
+
+const shouldShowButtons = packages.length > visibleCards;
+
    
   return (
-    <Carousel className="max-w-7xl mx-auto px-4 py-6 ">
+    <Carousel className="max-w-7xl mx-auto px-4 py-6 relative ">
       <CarouselContent>
         {packages.map((val, index) => (
           <CarouselItem
@@ -51,11 +69,17 @@ export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
                     
                     <div className="flex justify-between text-sm text-gray-600">
                       <p>
-                        {val.duration?.days} Days / {val.duration?.nights} Nights
+                      {typeof val.duration === "number" ? (
+                          <span>{val.duration} hours</span>
+                        ) : (
+                          <span>
+                            {val.duration?.days} Days / {val.duration?.nights} Nights
+                          </span>
+                        )}
                       </p>
 
                       <span className="flex items-center gap-1 text-yellow-500 font-medium">
-                        <Star size={16} fill="#fbbf24" /> <span className="text-gray-600"> {val.rating || "4.5"} ({val?.totalRatings || "100+"})</span>
+                        <Star size={16} fill="#fbbf24" /> <span className="text-gray-600"> {val?.rating || "4.5"} ({val?.totalRatings || "100+"})</span>
                       </span>
                     </div>
 
@@ -65,7 +89,7 @@ export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
                     </h2>
 
 
-                    <div className=" flex flex-wrap gap-3">
+                 {typeof val.duration !== "number" &&  <div className=" flex flex-wrap gap-3">
         
                       {val.duration?.breakdown.map((item: any, index: number) => (
                         <div
@@ -86,6 +110,7 @@ export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
                         </div>
                     ))}
                     </div>
+                 }
 
                    
                     <div className="flex items-baseline gap-2 mt-1">
@@ -117,7 +142,7 @@ export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
                 
                     <div className="mt-6 flex justify-around">
                       <Link
-                        href={`/packages/${val.slug}`}
+                        href={`/${route}/${val.slug}`}
                         className="
                           inline-block 
                           px-4 py-1.5 
@@ -155,8 +180,32 @@ export default function CarouselDemo({ packages , setIsDialogOpen }: IProps) {
         ))}
       </CarouselContent>
 
-      <CarouselPrevious className="hidden sm:flex" />
-      <CarouselNext className="hidden sm:flex" />
+     {shouldShowButtons && 
+
+        <CarouselPrevious
+          className="
+            hidden sm:flex
+            absolute left-0 top-1/2 -translate-y-1/2 
+            -translate-x-3 
+            bg-white shadow-md border rounded-full w-8 h-8
+          "
+        />
+     } 
+
+     {
+      shouldShowButtons && 
+      <CarouselNext
+      className="
+        hidden sm:flex
+        absolute right-0 top-1/2 -translate-y-1/2 
+        translate-x-3
+        bg-white shadow-md border rounded-full w-8 h-8
+      "
+    />
+     }
+
+    
+
     </Carousel>
   );
 }

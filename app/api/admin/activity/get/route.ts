@@ -5,11 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest){
     try {
             await connectDB();
-            const allActivities = await Activity.find({});
-            return NextResponse.json({message:"Get all actinity" , data:allActivities})    
+            const data = await Activity.find({});
+            console.log("Get Data")
+            return NextResponse.json({message:"Get all activity" , data:data},{status:200})    
     }
     catch (error : any) {
         console.log(error)
-        return NextResponse.json({message:"Internal Server Error"});
+        return NextResponse.json({message:"Internal Server Error"},{status:500});
      }
 }

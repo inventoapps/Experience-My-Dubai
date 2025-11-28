@@ -35,10 +35,21 @@ export default function Sidebar() {
         <a href="/admin/blogs/view" className="block px-3 py-2 rounded hover:bg-gray-100">View Blog Articles</a>
         <a href="/admin/blogs/edit" className="block px-3 py-2 rounded hover:bg-gray-100">Edit Blog Articles</a>
 
+        <p className="px-2 text-[10px] uppercase tracking-wide text-gray-500 mt-4 mb-1">
+          Activity
+        </p>
+
+        <a href="/admin/activity/add" className="block px-3 py-2 rounded hover:bg-gray-100">Add Activity Package</a>
+        <a href="/admin/activity/view" className="block px-3 py-2 rounded hover:bg-gray-100">View Activity Package</a>
+        <a href="/admin/activity/edit" className="block px-3 py-2 rounded hover:bg-gray-100">Edit Activity Package</a>
+
+
 
         <p className="px-2 text-[10px] uppercase tracking-wide text-gray-500 mt-4 mb-1">
           Enquiries
         </p>
+
+
 
         <a href="/admin/enquiry/view" className="block px-3 py-2 rounded hover:bg-gray-100">View Enquiries</a>
       </nav>

@@ -34,6 +34,7 @@ export interface TourPackage extends Document {
   gallery: string[];
 
   rating: number;
+  totalRatings :  number;
 
   faqs?: {
     title: string;
@@ -119,25 +120,37 @@ const TourPackageSchema = new Schema<TourPackage>(
     inclusions: [
       {
         type: String,
+        required : true
+        
       },
     ],
 
     exclusions: [
       {
         type: String,
+        required : true
       },
     ],
 
     gallery: [
       {
         type: String,
+        required : true
+        
       },
     ],
 
     rating: {
       type: Number,
       default: 0,
+      required : true
     },
+    totalRatings : {
+      type : Number,
+      default : 0,
+      required : true
+    }
+    ,
 
     faqs: [
       {

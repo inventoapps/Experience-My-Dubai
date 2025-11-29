@@ -19,8 +19,8 @@ const enquirySchema = new mongoose.Schema(
     phone: { type: String, required: true },
     email: { type: String, required: true },
 
-    guests: { type: Number, required: true },
-    arrivalDate: { type: String, required: true },
+    guests: { type: Number },
+    arrivalDate: { type: String},
 
     comments: { type: String },
 

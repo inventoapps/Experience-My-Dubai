@@ -19,6 +19,8 @@ export default function AllActivityPage(){
     const [loading , setLoading] = useState(true);
     const router = useRouter();
     const [isDialogOpen , setisDialogOpen] = useState(false);
+    const [deleteId, setDeleteId] = useState<string | null>(null);
+
 
     
     useEffect(()=>{
@@ -40,7 +42,7 @@ export default function AllActivityPage(){
        }
 
        fetchActiviy();
-    },[]);
+    },[activities]);
 
     const deletePackage = async(id:string)=>{
        try {
@@ -100,14 +102,18 @@ export default function AllActivityPage(){
                           </div>
                            <DeletePopup  isOpen={isDialogOpen} 
                                          onCancel={() => setisDialogOpen(false)}
-                                         onConfirm={() => deletePackage(activity._id)}
+                                         onConfirm={() => deleteId && deletePackage(deleteId)}
                                   />
         
                           <div className="flex gap-2 mt-3">
                             <button onClick={()=>router.push('/admin/activity/edit')} className="px-3 py-1 text-xs border rounded hover:bg-gray-50">
                               Edit
                             </button>
-                            <button onClick={()=>setisDialogOpen(true)}   className="px-3 py-1 text-xs border rounded text-red-600 hover:bg-red-50">
+                            <button onClick={()=>{
+                              setisDialogOpen(true)
+                              setDeleteId(activity._id)
+                            }
+                              }   className="px-3 py-1 text-xs border rounded text-red-600 hover:bg-red-50">
                               Delete
                             </button>
                           </div>

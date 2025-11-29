@@ -1,5 +1,6 @@
 "use client";
 import DeletePopup from "@/components/DeletePopup";
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,7 @@ export default function EnquiriesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [isDialogOpen , setIsDialogOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     async function getEnquiries() {
@@ -23,7 +25,7 @@ export default function EnquiriesPage() {
     }
 
     getEnquiries();
-  }, []);
+  }, [enquiries]);
 
   const handleDelete = async(id:string)=>{
 
@@ -101,19 +103,21 @@ export default function EnquiriesPage() {
                 >
                   <td className="p-3">{item.name}</td>
                   <td className="p-3">{item.email}</td>
-                  <td className="p-3">{item.guests}</td>
-                  <td className="p-3">{item.arrivalDate}</td>
-                  <td className="p-3 text-blue-600 underline">
-                    {item.pageUrl}
+                  <td className="p-3">{item.guests || "Not Provided"}</td>
+                  <td className="p-3">{item.arrivalDate || "Not Provided"}</td>
+                  <td className="p-3 text-blue-600 underline" >
+                    <Link href={item.pageUrl}>visit page</Link>
+                    
                     
                   </td>
                   <td className="p-3">{item.comments || "—"}</td>
                   <td className="p-3 text-center">
                     <DeletePopup     isOpen={isDialogOpen} 
                                      onCancel={() => setIsDialogOpen(false)}
-                                     onConfirm={() => item._id && handleDelete(item._id.toString())}
+                                     onConfirm={() => deleteId && handleDelete(deleteId)}
                                     />
-                    <button onClick={()=>setIsDialogOpen(true)} className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
+                    <button onClick={()=>{setIsDialogOpen(true)
+                       setDeleteId(item._id.toString())}} className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
                       Delete
                     </button>
                   </td>
@@ -136,7 +140,11 @@ export default function EnquiriesPage() {
             >
               <div className="flex justify-between">
                 <h2 className="text-lg font-semibold">{item.name}</h2>
-                <button onClick={()=>setIsDialogOpen(true)} className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer">
+                <button onClick={()=>{
+                    setIsDialogOpen(true)
+                    setDeleteId(item._id.toString())
+                }
+                } className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer">
                   Delete
                 </button>
               </div>

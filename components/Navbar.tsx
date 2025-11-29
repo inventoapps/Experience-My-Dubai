@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Search, Menu } from "lucide-react";
+import { Search, Menu ,X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+
 
 
 export default function Navbar({ theme }: { theme: "light" | "dark" }) {
@@ -12,6 +13,8 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
   const setUser = auth?.setUser!;
 
   const [scrolled, setScrolled] = useState(false);
+  const [isOpen , setIsOpen] = useState(false);
+
   const router = useRouter();
 
   const handleLogOut = async()=>{
@@ -80,7 +83,10 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
         )}
 
         <div className={`md:hidden ${textColor}`}>
-          <Menu size={26} />
+          {
+            isOpen ? <X onClick={()=>setIsOpen(false)} size={26} /> :  <Menu onClick={()=>setIsOpen(true)} size={26} />
+          }
+          
         </div>
 
         {scrolled && (
@@ -97,6 +103,27 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
           </div>
         )}
       </div>
+
+      {
+          isOpen && <div className="fixed top-12 left-[40%] w-full  bg-white  flex flex-col items-start  gap-6 pt-12 pl-6   transition-all overflow-hidden z-99 text-black py-12 ">
+                     {
+                    user ? <button onClick={handleLogOut}  className="underline hover:opacity-70 cursor-pointer">
+                              LogOut
+                            </button>
+                            :
+
+                            <button onClick={()=>router.push('/register')}  className="underline rounded-md hover:opacity-70">
+                            Register
+                            </button>               
+                     }
+
+                      <Link href="#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
+                      <Link href="#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
+    
+                      
+
+                   </div>
+        }
     </nav>
   );
 }

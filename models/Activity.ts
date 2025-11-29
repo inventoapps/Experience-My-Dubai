@@ -20,9 +20,17 @@ export interface IActivity extends Document {
   highlights: string[];      
   inclusions: string[];
   exclusions: string[];
+  
 
-  gallery: string[];    
+  gallery: string[];  
+
   rating : number;
+
+  itinerary: {
+    title : string;
+    description : string;
+  }[],
+
   totalRatings : number;
    faq?: {
     question: string;
@@ -57,7 +65,13 @@ const ActivitySchema = new Schema<IActivity>(
     rating : {
       type : Number,
       required : true,
-    }
+    },
+    itinerary: [
+      {
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+      },
+    ]
     ,
     totalRatings : {
       type : Number,

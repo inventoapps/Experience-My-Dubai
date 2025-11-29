@@ -23,6 +23,8 @@ export default function AllPackagesPage() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setisDialogOpen] = useState(false)
   const [message, setMessage] = useState("");
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
 
   const router = useRouter();
 
@@ -40,7 +42,10 @@ export default function AllPackagesPage() {
 
   useEffect(() => {
     fetchPackages();
-  }, []);
+  }, [packages]);
+
+
+  
 
   const deletePackage = async (id: string)=>{
     try {
@@ -48,13 +53,13 @@ export default function AllPackagesPage() {
         const res = await fetch('/api/admin/package/delete', {
         method : "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        
+        body: JSON.stringify(payload), 
       })
 
        if(res.ok){
          setMessage("Package Deleted");
          setisDialogOpen(false);
+         setDeleteId(null);
        }
       
     } catch (error) {
@@ -75,9 +80,9 @@ export default function AllPackagesPage() {
           <p className="text-gray-500">No packages found.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {packages.map((pkg) => (
+            {packages.map((pkg , id) => (
               <div
-                key={pkg._id}
+                key={id}
                 className="border bg-white rounded-xl shadow-sm overflow-hidden"
               >
                 <div className="h-40 w-full bg-gray-100">
@@ -104,14 +109,18 @@ export default function AllPackagesPage() {
                   </div>
                    <DeletePopup  isOpen={isDialogOpen} 
                                  onCancel={() => setisDialogOpen(false)}
-                                 onConfirm={() => deletePackage(pkg._id)}
+                                 onConfirm={() => deleteId && deletePackage(deleteId)}
                           />
 
                   <div className="flex gap-2 mt-3">
                     <button onClick={()=>router.push('/admin/blogs/edit')} className="px-3 py-1 text-xs border rounded hover:bg-gray-50">
                       Edit
                     </button>
-                    <button onClick={()=>setisDialogOpen(true)}   className="px-3 py-1 text-xs border rounded text-red-600 hover:bg-red-50">
+                    <button onClick={()=>{
+                      setisDialogOpen(true)
+                      setDeleteId(pkg._id)
+                    }}
+                    className="px-3 py-1 text-xs border rounded text-red-600 hover:bg-red-50">
                       Delete
                     </button>
                   </div>

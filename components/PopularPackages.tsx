@@ -20,6 +20,7 @@ export default function PopularPackages(){
     const [packages, setPackages] = useState<PackageType[]>([]);
     const [loading, setLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [pageUrl , setPageUrl] = useState<string | undefined>('/');
       
     
       async function fetchPackages() {
@@ -66,13 +67,14 @@ export default function PopularPackages(){
         </div>
 
         
-      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"}/>
+      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"} setPageUrl={setPageUrl} />
        
       <EnquiryForm
               isOpen={isDialogOpen}
               price={799}
               onCancel={() => setIsDialogOpen(false)}
               onConfirm={() => setIsDialogOpen(false)}
+              pageUrl={pageUrl}
         />
 
     </section>

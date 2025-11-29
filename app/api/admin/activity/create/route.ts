@@ -21,6 +21,7 @@ export  async function POST(req:NextRequest) {
                 const upload = await cloudinary.uploader.upload(img);
                 galleryUrls.push(upload.secure_url);
               }
+            }
 
          const newActivity = await Activity.create({...body, gallery:galleryUrls});
            return NextResponse.json(
@@ -30,7 +31,6 @@ export  async function POST(req:NextRequest) {
                },
                { status: 200 }
              );
-        }
         
     } catch (error) {
         console.log(error);

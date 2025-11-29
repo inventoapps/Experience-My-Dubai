@@ -15,11 +15,11 @@ interface IProps {
   packages: any[];
   setIsDialogOpen : (value: boolean)=>void;
   route : string;
-
+  setPageUrl : (value:string)=>void;
 }
 
 
-export default function CarouselDemo({ packages , setIsDialogOpen , route }: IProps) {
+export default function CarouselDemo({ packages , setIsDialogOpen , route , setPageUrl }: IProps) {
   const [visibleCards, setVisibleCards] = React.useState(1);
 
 
@@ -157,7 +157,9 @@ const shouldShowButtons = packages.length > visibleCards;
                       </Link>
 
                       <button
-                       onClick={()=>setIsDialogOpen(true)}
+                       onClick={()=>{setIsDialogOpen(true)
+                                    setPageUrl(`/${route}/${val.slug}`)
+                       }}
                        className="inline-block 
                           px-4 py-1.5 
                           text-sm 

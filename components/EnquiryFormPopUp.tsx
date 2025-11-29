@@ -6,14 +6,14 @@ import { ChangeEvent, useState } from "react";
 interface EnquiryProps {
   isOpen: boolean;
   price: number;
-  message?: string;
+  pageUrl?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
 export default function EnquiryForm({
   isOpen,
-  message = "Are you sure you want to delete this? This action cannot be undone.",
+  pageUrl,
   onConfirm,
   onCancel,
 }: EnquiryProps) {
@@ -36,7 +36,7 @@ export default function EnquiryForm({
 
      const enquiryData = {
       ...form,
-      pageUrl: "sdfaf"
+      pageUrl
      };
 
      try {

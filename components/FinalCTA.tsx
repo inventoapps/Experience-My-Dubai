@@ -1,4 +1,10 @@
+"use client";
+import { useState } from "react";
+import EnquiryForm from "./EnquiryFormPopUp";
+
 export default function FinalCTA() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   return (
     <section
       className="
@@ -6,20 +12,35 @@ export default function FinalCTA() {
         py-20 
         text-center 
         overflow-hidden 
+        bg-black
       "
       aria-labelledby="final-cta-heading"
     >
-     
-      <div className="absolute inset-0">
-        <img
-          src="https://wallpapercave.com/wp/wp3605186.jpg"
-          alt="Dubai skyline travel night view"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/60"></div>
+      
+      <div className="absolute left-10 top-20 space-y-6 z-10">
+        <h2 className="text-white text-lg font-semibold tracking-wide text-start">
+          Information
+        </h2>
+
+        <div className="flex flex-col gap-5 text-start">
+          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
+            About us
+          </a>
+          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
+            Contact us
+          </a>
+          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
+            Privacy policy
+          </a>
+          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
+            Refund and Returns Policy
+          </a>
+          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
+            Cancellation Policy
+          </a>
+        </div>
       </div>
 
-     
       <div className="relative z-10 px-6 max-w-3xl mx-auto">
         <h2
           id="final-cta-heading"
@@ -54,6 +75,7 @@ export default function FinalCTA() {
             duration-300
             cursor-pointer
           "
+          onClick={() => setIsDialogOpen(true)}
         >
           Book Your Dubai Trip Now
         </button>
@@ -63,35 +85,46 @@ export default function FinalCTA() {
         </p>
       </div>
 
-   
-      <div className="absolute bottom-4 right-4 z-10 text-right space-y-1">
-        <p className="text-sm text-gray-200 font-medium">ExperienceMyDubai © 2025</p>
-        <p className="text-xs text-gray-300">Your trusted travel partner</p>
+      <div className="absolute right-10 top-20 z-10 space-y-6">
+        <h2 className="text-white text-lg font-semibold tracking-wide">
+          Follow Us
+        </h2>
 
-        <div className="flex justify-end gap-3 mt-2">
-          <a
-            href="#"
-            aria-label="Instagram"
-            className="text-gray-300 hover:text-white text-sm transition"
-          >
-            Instagram
+        <div className="flex gap-4 items-end">
+          <a href="#" className="hover:opacity-80 transition">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/733/733579.png"
+              className="w-8 h-8 brightness-90"
+              alt="Twitter"
+            />
           </a>
-          <a
-            href="#"
-            aria-label="Facebook"
-            className="text-gray-300 hover:text-white text-sm transition"
-          >
-            Facebook
-          </a>
-          <a
-            href="#"
-            aria-label="Support"
-            className="text-gray-300 hover:text-white text-sm transition"
-          >
-            Support
+          <a href="#" className="hover:opacity-80 transition">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
+              className="w-8 h-8"
+              alt="Instagram"
+            />
           </a>
         </div>
+
+        <h2 className="text-white text-lg font-semibold tracking-wide pt-4">
+          Payment channels
+        </h2>
+
+        
       </div>
+
+      <div className="absolute bottom-4 right-10 z-10 text-right">
+        <p className="text-sm text-gray-200 font-medium">ExperienceMyDubai © 2025</p>
+        <p className="text-xs text-gray-300">Your trusted travel partner</p>
+      </div>
+
+      <EnquiryForm
+        isOpen={isDialogOpen}
+        price={799}
+        onCancel={() => setIsDialogOpen(false)}
+        onConfirm={() => setIsDialogOpen(false)}
+      />
     </section>
   );
 }

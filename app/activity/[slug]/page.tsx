@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Star } from "lucide-react";
 
@@ -9,6 +9,16 @@ export default function PackageDetailsPage() {
   const { slug } = useParams();
   const [pkg, setPkg] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const [form , setForm] = useState({
+      name : "",
+      email : "",
+      phone : "",
+      guests :"",
+      arrivalDate : "",
+      comments : ""
+    });
+
 
   useEffect(() => {
     async function fetchPkg() {
@@ -24,6 +34,36 @@ export default function PackageDetailsPage() {
     }
     fetchPkg();
   }, [slug]);
+
+  const handleSubmit = async(e:React.FormEvent)=>{
+       e.preventDefault();
+
+     const enquiryData = {
+      ...form,
+      pageUrl: "sdfaf"
+     };
+
+     try {
+      const res = await fetch('/api/enquiry/',{
+        method:"POST",
+        headers:{'Content-Types':'application/json'},
+        body: JSON.stringify(enquiryData),
+      });
+
+      if (res.ok) {
+        router.push("/");
+      }
+      const data = await res.json();
+      console.log(data.message);
+
+    } catch (error) {
+      console.log(error);
+    }
+    }
+
+    const handleChange = async(e:React.ChangeEvent<HTMLInputElement |HTMLTextAreaElement>)=>{
+       setForm({...form , [e.target.name]:e.target.value});
+    }
 
 
   if (loading) return <p className="p-10 text-center text-lg">Loading...</p>;
@@ -47,7 +87,7 @@ export default function PackageDetailsPage() {
 
         <div className="flex items-center gap-3 mt-2">
           <span className="bg-green-600 text-white px-3 py-1 text-sm rounded-md font-semibold">
-            {pkg?.ratings} / 5
+            {pkg?.rating} / 5
           </span>
 
           <span className="text-gray-600 text-sm">
@@ -70,10 +110,10 @@ export default function PackageDetailsPage() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="h-40 sm:h-52 rounded-xl overflow-hidden">
+            <div className="h-40 sm:h-54 rounded-xl overflow-hidden">
               <img src={pkg.gallery[1]} className="w-full h-full object-cover" />
             </div>
-            <div className="h-40 sm:h-52 rounded-xl overflow-hidden">
+            <div className="h-40 sm:h-54 rounded-xl overflow-hidden">
               <img src={pkg.gallery[2]} className="w-full h-full object-cover" />
             </div>
           </div>
@@ -164,26 +204,64 @@ export default function PackageDetailsPage() {
           </div>
 
      
-          <form className="space-y-4">
-            <div>
-              <label className="text-sm font-semibold">Full Name</label>
-              <input className="w-full border rounded p-3" required />
-            </div>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="text-sm font-semibold">Full Name</label>
+                <input
+                  className="w-full border rounded p-3 mt-1"
+                  placeholder="Your name"
+                  required
+                  name="name"
+                  onChange={handleChange}
+                  value={form.name}
+                />
+              </div>
 
-            <div>
-              <label className="text-sm font-semibold">Phone Number</label>
-              <input className="w-full border rounded p-3" type="tel" required />
-            </div>
+              <div>
+                <label className="text-sm font-semibold">Phone Number</label>
+                <input
+                  type="tel"
+                  className="w-full border rounded p-3 mt-1"
+                  placeholder="+91 Mobile Number"
+                  required
+                  name="phone"
+                  onChange={handleChange}
+                  value={form.phone}
+                />
+              </div>
 
-            <div>
-              <label className="text-sm font-semibold">Email</label>
-              <input className="w-full border rounded p-3" type="email" required />
-            </div>
+              <div>
+                <label className="text-sm font-semibold">Email</label>
+                <input
+                  type="email"
+                  className="w-full border rounded p-3 mt-1"
+                  placeholder="your@email.com"
+                  required
+                  name="email"
+                  onChange={handleChange}
+                  value={form.email}
+                />
+              </div>
 
-            <button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-semibold transition">
-              Book Now
-            </button>
-          </form>
+              <div>
+                <label className="text-sm font-semibold">Message</label>
+                <textarea
+                  className="w-full border rounded p-3 mt-1"
+                  placeholder="Message"
+                  required
+                  name="comments"
+                  onChange={handleChange}
+                  value={form.comments}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="bg-orange-600 hover:bg-orange-700 text-white w-full py-3 rounded-lg font-semibold transition"
+              >
+                Book Now
+              </button>
+            </form>
         </aside>
 
       </section>

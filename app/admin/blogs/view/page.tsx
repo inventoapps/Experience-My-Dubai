@@ -25,7 +25,7 @@ type Blog = {
   metaDescription?: string;
   createdAt: Date;
   updatedAt: Date;
-  _id? : mongoose.Types.ObjectId;
+  _id? : string;
 
   }
 
@@ -33,6 +33,8 @@ export default function AllBlogsPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setisDialogOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   const router = useRouter();
 
   async function fetchBlogs() {
@@ -48,7 +50,7 @@ export default function AllBlogsPage() {
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [blogs]);
 
    const deletePackage = async (id: string)=>{
     try {
@@ -110,14 +112,19 @@ export default function AllBlogsPage() {
                  
                   <DeletePopup     isOpen={isDialogOpen} 
                                    onCancel={() => setisDialogOpen(false)}
-                                   onConfirm={() => blog._id && deletePackage(blog._id.toString())}
+                                   onConfirm={() => deleteId && deletePackage(deleteId)}
                     />
 
                   <div className="flex gap-2 mt-3">
                     <button onClick={()=>router.push('/admin/blogs/edit')} className="px-3 py-1 text-xs border rounded hover:bg-gray-50">
                       Edit
                     </button>
-                    <button onClick={()=>setisDialogOpen(true)} className="px-3 py-1 text-xs border text-red-600 rounded hover:bg-red-50">
+                    <button onClick={()=>
+                    {
+                    setisDialogOpen(true)
+                    setDeleteId(blog._id?.toString() || "")
+                     
+                  }} className="px-3 py-1 text-xs border text-red-600 rounded hover:bg-red-50">
                       Delete
                     </button>
                   </div>

@@ -23,6 +23,10 @@ export async function PUT(req: NextRequest) {
       );
     }
 
+    if(!body.totalRatings){
+       return NextResponse.json({message:"Total rating required" },{status:401})
+    }
+
   
     let finalGallery = [];
 

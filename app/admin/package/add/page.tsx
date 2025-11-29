@@ -3,7 +3,6 @@
 import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
 
-// ============ TYPES ================
 interface ItineraryItem {
   day: number;
   title: string;

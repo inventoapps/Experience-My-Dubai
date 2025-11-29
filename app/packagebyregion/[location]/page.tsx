@@ -22,6 +22,8 @@ export default function Page(){
     const {location} = useParams();
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [loading , setLoading] = useState(true);
+    const [pageUrl , setPageUrl] = useState<string | undefined>("/"); 
+
 
     
 
@@ -118,6 +120,7 @@ export default function Page(){
     return (
         <div className="w-full">
          <Navbar theme="dark" />
+         {/* Hero Section for pacageby region */}
          <section className="relative h-[65vh] sm:h-[70vh] md:h-[60vh] w-full overflow-hidden">
          
                <div className="absolute inset-0">
@@ -146,12 +149,15 @@ export default function Page(){
                  
                </div>
          </section>
+      
          <HeroBottom/>
 
+         {/* All packages by region */}
          <section className="py-12 sm:py-16  max-w-7xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground uppercase">All Down Town Dubai Tour Packages</h2>
-            <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen}  route="packages" />
+            <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen}  route="packagebyregion" setPageUrl={setPageUrl}  />
          </section>
+
 
          <TopExperience/>
          <FormSection/>
@@ -159,11 +165,15 @@ export default function Page(){
          <FAQSection faqs={FAQs}/>
          <FinalCTA/>
 
+
+         {/* Enquiry Form when you will click the enquiry button in cards */}
+
          <EnquiryForm
                        isOpen={isDialogOpen}
                        price={799}
                        onCancel={() => setIsDialogOpen(false)}
                        onConfirm={() => setIsDialogOpen(false)}
+                       pageUrl={pageUrl}
                  />
 
         </div>

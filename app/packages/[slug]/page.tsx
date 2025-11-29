@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { HtmlHTMLAttributes, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import FAQSection from "@/components/FAQSection";
 import { Star } from "lucide-react";
@@ -54,6 +54,47 @@ export default function PackageDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [openDay, setOpenDay] = useState<number | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const router = useRouter();
+
+  const [form , setForm] = useState({
+      name : "",
+      email : "",
+      phone : "",
+      guests :"",
+      arrivalDate : "",
+      comments : ""
+    });
+
+    const handleSubmit = async(e:React.FormEvent)=>{
+       e.preventDefault();
+
+     const enquiryData = {
+      ...form,
+      pageUrl: window.location.href
+     };
+
+     try {
+      const res = await fetch('/api/enquiry/',{
+        method:"POST",
+        headers:{'Content-Types':'application/json'},
+        body: JSON.stringify(enquiryData),
+      });
+
+      if (res.ok) {
+        router.push("/");
+      }
+      const data = await res.json();
+      console.log(data.message);
+
+    } catch (error) {
+      console.log(error);
+    }
+    }
+
+    const handleChange = async(e:React.ChangeEvent<HTMLInputElement |HTMLTextAreaElement>)=>{
+       setForm({...form , [e.target.name]:e.target.value});
+    }
+  
 
   // Fetch package
   useEffect(() => {
@@ -71,16 +112,7 @@ export default function PackageDetailsPage() {
     fetchPkg();
   }, [slug]);
 
-  useEffect(() => {
-    if (!pkg?.gallery?.length) return;
-
-    const total = Math.min(pkg.gallery.length, 3);
-    const timer = setInterval(() => {
-      setActiveImageIndex((prev) => (prev + 1) % total);
-    }, 4000);
-
-    return () => clearInterval(timer);
-  }, [pkg?.gallery]);
+ 
 
   if (loading) return <p className="p-8 text-center">Loading...</p>;
   if (!pkg) return <p className="p-8 text-center">Package not found</p>;
@@ -97,7 +129,7 @@ export default function PackageDetailsPage() {
     <>
       <Navbar theme="light" />
 
-      <main className="max-w-7xl mx-auto px-6 pb-20 pt-20 space-y-16">
+      <main className="max-w-7xl mx-auto px-6 pb-20 pt-20 space-y-5">
         <section className="space-y-2">
           <h1 className="text-3xl sm:text-4xl font-bold">{pkg.title}</h1>
 
@@ -109,9 +141,9 @@ export default function PackageDetailsPage() {
 
           <div className="flex items-center gap-3 text-sm text-gray-600 mt-2">
             <span className="bg-green-600 text-white px-3 py-1 rounded-md font-semibold">
-              {pkg.rating ?? 4.5} / 5
+              {pkg.rating || 0} / 5
             </span>
-            <span>({pkg.totalRatings ?? "100+"} Reviews)</span>
+            <span>({pkg.totalRatings || "100"}+ Reviews)</span>
             <span className="flex items-center gap-1 text-gray-500">
               <Star size={16} fill="#fbbf24" color="#fbbf24" />
               Popular choice
@@ -119,42 +151,24 @@ export default function PackageDetailsPage() {
           </div>
         </section>
 
-        <section>
-          <button className="border border-gray-300 py-1 px-3 rounded-lg mb-4 text-sm">
-            Gallery
-          </button>
+        <section className="max-w-7xl mx-auto  mt-8">
+          <h2 className="text-xl font-semibold mb-3">Gallery</h2>
 
-          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
-=            <div className="relative w-full lg:w-[65%] h-[280px] sm:h-[380px] md:h-[460px] rounded-xl overflow-hidden">
-              <img
-                src={pkg.gallery[activeImageIndex] || pkg.gallery[0]}
-                alt={pkg.title}
-                className="w-full h-full object-cover transition-all duration-500"
-              />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="lg:col-span-2 h-80 sm:h-[450px] rounded-xl overflow-hidden">
+              <img src={pkg.gallery[0]} className="w-full h-full object-cover" />
             </div>
 
-            <div className="flex flex-col w-full lg:w-[35%] gap-4 sm:gap-6">
-              {pkg.gallery.slice(0, 3).map((img: string, idx: number) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setActiveImageIndex(idx)}
-                  className={`relative w-full h-[140px] sm:h-[180px] md:h-56 rounded-xl overflow-hidden border transition ${
-                    activeImageIndex === idx
-                      ? "border-orange-500"
-                      : "border-transparent hover:border-gray-300"
-                  }`}
-                >
-                  <img
-                    src={img}
-                    alt={`${pkg.title} ${idx + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
+            <div className="flex flex-col gap-4">
+              <div className="h-40 sm:h-54 rounded-xl overflow-hidden">
+                <img src={pkg.gallery[1]} className="w-full h-full object-cover" />
+              </div>
+              <div className="h-40 sm:h-54 rounded-xl overflow-hidden">
+                <img src={pkg.gallery[2]} className="w-full h-full object-cover" />
+              </div>
             </div>
           </div>
-        </section>
+      </section>
 
         <section className="space-y-4">
           <h2 className="text-2xl font-bold">Duration</h2>
@@ -296,13 +310,16 @@ export default function PackageDetailsPage() {
               </div>
             </div>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="text-sm font-semibold">Full Name</label>
                 <input
                   className="w-full border rounded p-3 mt-1"
                   placeholder="Your name"
                   required
+                  name="name"
+                  onChange={handleChange}
+                  value={form.name}
                 />
               </div>
 
@@ -313,6 +330,9 @@ export default function PackageDetailsPage() {
                   className="w-full border rounded p-3 mt-1"
                   placeholder="+91 Mobile Number"
                   required
+                  name="phone"
+                  onChange={handleChange}
+                  value={form.phone}
                 />
               </div>
 
@@ -323,6 +343,21 @@ export default function PackageDetailsPage() {
                   className="w-full border rounded p-3 mt-1"
                   placeholder="your@email.com"
                   required
+                  name="email"
+                  onChange={handleChange}
+                  value={form.email}
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold">Message</label>
+                <textarea
+                  className="w-full border rounded p-3 mt-1"
+                  placeholder="Message"
+                  required
+                  name="comments"
+                  onChange={handleChange}
+                  value={form.comments}
                 />
               </div>
 

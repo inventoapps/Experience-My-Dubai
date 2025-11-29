@@ -10,6 +10,11 @@ interface FAQItem {
   answer: string;
 }
 
+interface ItineraryItem {
+   title : string;
+   description : string;
+}
+
 
 interface PackageType {
   _id: mongoose.Types.ObjectId;
@@ -31,6 +36,7 @@ interface PackageType {
   inclusions: string[];
   exclusions: string[];
   gallery: string[];
+  itinearary : ItineraryItem;
 
   faqs: FAQItem[];
 
@@ -56,6 +62,10 @@ export default function PackageForm() {
   const [tourFaqs, setTourFaqs] = useState<FAQItem[]>([
     { question: "", answer: "" },
   ]);
+
+  const [itinerary, setItinerary] = useState<ItineraryItem[]>([
+      {title: "", description: "" },
+    ]);
   
   const [status, setStatus] =
     useState<"idle" | "saving" | "success" | "error">("idle");
@@ -301,6 +311,68 @@ export default function PackageForm() {
                 label={`Image ${i + 1}`}
                 onChange={(e) => handleImageUpload(e, i)}
               />
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+          <div className="flex justify-between">
+            <h2 className="text-sm font-semibold">Itinerary</h2>
+
+            <button
+              type="button"
+              className="text-xs border px-2 py-1 rounded"
+              onClick={() =>
+                setItinerary([
+                  ...itinerary,
+                  {
+                    title: "",
+                    description: "",
+                  },
+                ])
+              }
+            >
+              + Add Day
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {itinerary.map((item, i) => (
+              <div key={i} className="border p-3 rounded space-y-3">
+                <div className="flex justify-between">
+
+                  {i > 0 && (
+                    <button
+                      type="button"
+                      className="text-xs border px-2 py-1 rounded"
+                      onClick={() =>
+                        setItinerary(itinerary.filter((_, idx) => idx !== i))
+                      }
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+
+                <Input
+                  label="Title"
+                  value={item.title}
+                  onChange={(e) => {
+                    const copy = [...itinerary];
+                    copy[i].title = e.target.value;
+                    setItinerary(copy);
+                  }}
+                />
+                <Textarea
+                  label="Description"
+                  value={item.description}
+                  onChange={(e) => {
+                    const copy = [...itinerary];
+                    copy[i].description = e.target.value;
+                    setItinerary(copy);
+                  }}
+                />
+              </div>
             ))}
           </div>
         </section>

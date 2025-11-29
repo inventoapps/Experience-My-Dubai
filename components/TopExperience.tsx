@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import CarouselDemo from "./CarouselDemo";
+import EnquiryForm from "./EnquiryFormPopUp";
 
 interface ActivityType {
   _id: string;
@@ -65,6 +66,12 @@ export default function TopExperience(){
             >
 
                 <CarouselDemo packages={activities} setIsDialogOpen={setIsDialogOpen} route={"activity"} />
+                <EnquiryForm
+                            isOpen={isDialogOpen}
+                            price={799}
+                            onCancel={() => setIsDialogOpen(false)}
+                            onConfirm={() => setIsDialogOpen(false)}
+                    />
                 
                 
                 
@@ -74,46 +81,3 @@ export default function TopExperience(){
     )
 }
 
-
-                // <article 
-                // className="border border-border p-5 rounded-xl bg-card shadow-sm hover:shadow-md transition"
-                // aria-label="Desert Safari experience in Dubai"
-                // >
-                // <h3 className="font-semibold text-lg text-foreground">Desert Safari</h3>
-                // <p className="text-sm text-muted-foreground mt-1">
-                //     Adventure through dunes, camel rides & Arabian nights.
-                // </p>
-                // </article>
-
-               
-                // <article 
-                // className="border border-border p-5 rounded-xl bg-card shadow-sm hover:shadow-md transition"
-                // aria-label="Burj Khalifa tour experience in Dubai"
-                // >
-                // <h3 className="font-semibold text-lg text-foreground">Burj Khalifa Tour</h3>
-                // <p className="text-sm text-muted-foreground mt-1">
-                //     Visit the world’s tallest building with stunning views.
-                // </p>
-                // </article>
-
-            
-                // <article 
-                // className="border border-border p-5 rounded-xl bg-card shadow-sm hover:shadow-md transition"
-                // aria-label="Skydiving experience over Dubai"
-                // >
-                // <h3 className="font-semibold text-lg text-foreground">Skydiving Dubai</h3>
-                // <p className="text-sm text-muted-foreground mt-1">
-                //     Experience an adrenaline rush above Palm Jumeirah.
-                // </p>
-                // </article>
-
-              
-                // <article 
-                // className="border border-border p-5 rounded-xl bg-card shadow-sm hover:shadow-md transition"
-                // aria-label="Dubai city sightseeing tour"
-                // >
-                // <h3 className="font-semibold text-lg text-foreground">Dubai City Tour</h3>
-                // <p className="text-sm text-muted-foreground mt-1">
-                //     Explore historic souks, landmarks & cultural hotspots.
-                // </p>
-                // </article>

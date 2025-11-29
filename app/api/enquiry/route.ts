@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { name, email, phone, guests, arrivalDate, comments, pageUrl } = body;
 
-    if (!name || !email || !guests || !arrivalDate || !pageUrl) {
+    if (!name || !email || !pageUrl) {
       return NextResponse.json(
         { message: "All fields are required!" },
         { status: 400 }
@@ -28,6 +28,8 @@ export async function POST(req: NextRequest) {
       comments: comments || "",
       pageUrl,
     });
+
+    
 
     await resend.emails.send({
       from: "onboarding@resend.dev", 

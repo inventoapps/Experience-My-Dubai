@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
         const upload = await cloudinary.uploader.upload(img);
         galleryUrls.push(upload.secure_url);
       }
+    }
  
 
     const pkg = await TourPackage.create({...body , gallery:galleryUrls});
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
 
-  }
+  
  } catch (err) {
     console.error("PACKAGE_CREATE_ERROR", err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

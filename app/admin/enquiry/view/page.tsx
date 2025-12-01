@@ -11,8 +11,8 @@ export default function EnquiriesPage() {
   const [isDialogOpen , setIsDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function getEnquiries() {
+
+  async function getEnquiries() {
       try {
         const res = await fetch("/api/admin/enquiry/get");
         const data = await res.json();
@@ -24,8 +24,9 @@ export default function EnquiriesPage() {
       }
     }
 
+  useEffect(() => {
     getEnquiries();
-  }, [enquiries]);
+  }, []);
 
   const handleDelete = async(id:string)=>{
 
@@ -38,6 +39,7 @@ export default function EnquiriesPage() {
         })
         if(res.ok){
             setIsDialogOpen(false);
+            getEnquiries();
         }
       } catch (error) {
          console.log(error);

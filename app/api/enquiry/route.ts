@@ -51,7 +51,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         message: "Enquiry Created Successfully",
-        enquiry,
       },
       { status: 201 }
     );

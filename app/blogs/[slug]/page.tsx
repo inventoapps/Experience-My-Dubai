@@ -41,7 +41,7 @@ export default function BlogPage() {
 
   return (
     <>
-      {/* ----- SEO TAGS ----- */}
+      {/*  SEO TAGS    */}
       <title>{metaTitle}</title>
       <meta name="description" content={metaDescription} />
       <meta property="og:title" content={metaTitle} />
@@ -58,7 +58,7 @@ export default function BlogPage() {
 
       <main className="max-w-5xl mx-auto px-5 sm:px-8 py-10 space-y-14 mt-8">
 
-        {/* -------- BLOG HEADER -------- */}
+        {/*  BLOG HEADER  */}
         <header className="space-y-4">
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-gray-900">
             {blog.title}

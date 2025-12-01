@@ -31,7 +31,7 @@ export default function PackageByRegion(){
 
     return (
            <section 
-                className="py-12 sm:py-16 max-w-7xl mx-auto cursor-pointer px-16 sm:px-0"
+                className="py-12 sm:py-16 max-w-7xl mx-auto cursor-pointer"
                 aria-labelledby="packages-region-heading"
                 >
                 <h2 

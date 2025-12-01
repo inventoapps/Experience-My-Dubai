@@ -1,4 +1,54 @@
+"use client"
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 export default function FormSection() {
+  const router = useRouter();
+   const [form , setForm] = useState({
+      name : "",
+      email : "",
+      phone : "",
+      guests :"",
+      arrivalDate : "",
+      comments : ""
+    });
+
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement |HTMLTextAreaElement>)=>{
+       setForm({...form , [e.target.name] : e.target.value})
+    }
+
+    const handleSubmit = async(e:React.FormEvent)=>{
+     e.preventDefault();
+
+     const enquiryData = {
+      ...form,
+      pageUrl : '/'
+     };
+
+     try {
+      const res = await fetch('/api/enquiry/',{
+        method:"POST",
+        headers:{'Content-Types':'application/json'},
+        body: JSON.stringify(enquiryData),
+      });
+
+      if (res.ok) {
+        setForm({
+          name : "",
+          email : "",
+          phone : "",
+          guests :"",
+          arrivalDate : "",
+          comments : ""
+       })
+      }
+      const data = await res.json();
+      console.log(data.message);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <section
       className="py-12 max-w-6xl mx-auto px-6"
@@ -17,6 +67,7 @@ export default function FormSection() {
 
         {/* ============== FORM LEFT SIDE ============== */}
         <form
+          onSubmit={handleSubmit}
           className="
             space-y-5 
             bg-white 
@@ -47,6 +98,8 @@ export default function FormSection() {
                 focus:outline-none 
                 focus:ring-2 focus:ring-accent
               "
+              value={form.name}
+              onChange={handleChange}
             />
           </div>
 
@@ -70,6 +123,10 @@ export default function FormSection() {
                 focus:outline-none 
                 focus:ring-2 focus:ring-accent
               "
+              value={form.email}
+              onChange={handleChange}
+
+
             />
           </div>
 
@@ -93,6 +150,9 @@ export default function FormSection() {
                 focus:outline-none 
                 focus:ring-2 focus:ring-accent
               "
+              value={form.phone}
+              onChange={handleChange}
+
             />
           </div>
 
@@ -103,7 +163,7 @@ export default function FormSection() {
             </label>
             <input
               id="dates"
-              name="dates"
+              name="arrivalDate"
               type="text"
               placeholder="e.g., 10 Dec - 15 Dec"
               className="
@@ -114,6 +174,9 @@ export default function FormSection() {
                 focus:outline-none 
                 focus:ring-2 focus:ring-accent
               "
+              value={form.arrivalDate}
+              onChange={handleChange}
+
             />
           </div>
 
@@ -166,7 +229,7 @@ export default function FormSection() {
               Hassle-free planning, premium stays, and unforgettable experiences.
             </p>
 
-            <button className="mt-4 bg-white/20 backdrop-blur-md px-4 py-2 rounded-md text-white font-medium border border-white/40 hover:bg-white/30 transition">
+            <button onClick={()=>router.push("#whyChooseUs")} className="mt-4 bg-white/20 backdrop-blur-md px-4 py-2 rounded-md text-white font-medium border border-white/40 hover:bg-white/30 transition cursor-pointer">
               Why Choose Us?
             </button>
           </div>

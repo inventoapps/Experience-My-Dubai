@@ -1,5 +1,5 @@
 "use client"
-import { Rewind } from "lucide-react";
+import { Rewind, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
@@ -72,14 +72,23 @@ export default function EnquiryForm({
         className={`
           fixed left-1/2 top-0 
           transform -translate-x-1/2 
-          w-full max-w-md px-4
+          w-full max-w-xl px-4 bottom-1/2
           transition-all duration-500 ease-out
           backdrop-blur-sm
+          
 
           
-          ${isOpen ? "translate-y-12 opacity-100 z-999" : "-translate-y-full opacity-0"}
+          ${isOpen ? "translate-y-16 opacity-100 z-999" : "-translate-y-full opacity-0"}
         `}
       >
+          <button
+            onClick={onCancel}
+            className="absolute right-5 top-1 text-gray-700 hover:text-black"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+
         <form
           className="
             space-y-5 
@@ -152,35 +161,46 @@ export default function EnquiryForm({
           </div>
 
           <div className="flex gap-2">
-            <label className="text-sm font-medium mb-1">Date of Arrival</label>
-            <input
-              placeholder="10 Dec"
-              className="
-                border border-border 
-                w-full p-3 rounded-lg bg-background 
-                focus:ring-2 focus:ring-accent
-              "
-              name="arrivalDate"
-              required
-              onChange={handleChange}
-              value={form.arrivalDate}
-            />
+            <div>
+              <label className="text-sm font-medium mb-1">Date of Arrival</label>
+              <input
+                placeholder="10 Dec"
+                className="
+                  border border-border 
+                  w-full p-3 rounded-lg bg-background 
+                  focus:ring-2 focus:ring-accent
+                "
+                name="arrivalDate"
+                required
+                onChange={handleChange}
+                value={form.arrivalDate}
+              />
+
+            </div>
+            
+
+             <div>
+
+              <label className="text-sm font-medium mt-3 mb-1">Number of Guest</label>
+              <input
+                placeholder="No. of Travelers"
+                className="
+                  border border-border 
+                  w-full p-3 rounded-lg bg-background 
+                  focus:ring-2 focus:ring-accent
+                "
+                name="guests"
+                required
+                onChange={handleChange}
+                value={form.guests}
+              />
+
+             </div>
+            
           </div>
 
           
-            <label className="text-sm font-medium mt-3 mb-1">Number of Guest</label>
-            <input
-              placeholder="No. of Travelers"
-              className="
-                border border-border 
-                w-full p-3 rounded-lg bg-background 
-                focus:ring-2 focus:ring-accent
-              "
-              name="guests"
-              required
-              onChange={handleChange}
-              value={form.guests}
-            />
+            
         
 
           <label className="text-sm font-medium mt-3 mb-1 hidden sm:block">Comment</label>
@@ -202,13 +222,13 @@ export default function EnquiryForm({
           <button
             type="submit"
             className="
-              bg-red-500 text-white px-6 py-3 
+             bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 
               rounded-lg w-full font-semibold 
-              hover:bg-red-600 transition cursor-pointer
+              transition cursor-pointer
             "
             onClick={onConfirm}
           >
-            Submit
+            Connect with an Expert
           </button>
         
         </form>

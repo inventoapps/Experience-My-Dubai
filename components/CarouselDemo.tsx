@@ -51,132 +51,121 @@ const shouldShowButtons = packages.length > visibleCards;
             "
           >
             <div className="p-2">
-              <Card className="overflow-hidden rounded-xl shadow-sm border">
-                <CardContent className="p-0 flex flex-col gap-3">
+              <div className="overflow-hidden rounded-2xl shadow-lg border border-gray-200 bg-white">
+                  <CardContent className="p-0 flex flex-col">
 
-             
-                  <div className="w-full -mt-7 h-52 overflow-hidden">
-                    <img
-                      src={val.gallery[0]}
-                      alt={val.title}
-                      className="w-full h-full object-cover transition-all duration-300 hover:scale-105"
-                    />
-                  </div>
-
-                
-                  <div className="p-4 flex flex-col gap-2">
-
-                    
-                    <div className="flex justify-between text-sm text-gray-600">
-                      <p>
-                      {typeof val.duration === "number" ? (
-                          <span>{val.duration} hours</span>
-                        ) : (
-                          <span>
-                            {val.duration?.days} Days / {val.duration?.nights} Nights
-                          </span>
-                        )}
-                      </p>
-
-                      <span className="flex items-center gap-1 text-yellow-500 font-medium">
-                        <Star size={16} fill="#fbbf24" /> <span className="text-gray-600"> {val?.rating || "4.5"} ({val?.totalRatings || "100+"})</span>
-                      </span>
+                    {/* IMAGE */}
+                    <div className="w-full h-56 overflow-hidden">
+                      <img
+                        src={val.gallery[0]}
+                        alt={val.title}
+                        className="w-full h-full object-cover transition-all duration-300 hover:scale-105"
+                      />
                     </div>
 
-             
-                    <h2 className="font-semibold text-lg line-clamp-2">
-                      {val.title}
-                    </h2>
+                    {/* BODY */}
+                    <div className="p-4 space-y-3">
 
+                      {/* Duration + Rating */}
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span className="font-medium">
+                          {typeof val.duration === "number"
+                            ? `${val.duration} hours`
+                            : `${val.duration?.days} days & ${val.duration?.nights} nights`}
+                        </span>
 
-                 {typeof val.duration !== "number" &&  <div className=" flex flex-wrap gap-3">
-        
-                      {val.duration?.breakdown.map((item: any, index: number) => (
-                        <div
-                          key={item.location}
-                          className={`flex items-center gap-4 pl-4 ${
-                            index !== 0 ? "border-l-2 border-gray-400" : ""
-                          }`}
-                        >
-                          <div className="flex items-center rounded-lg px-2 py-1 text-xs sm:text-sm font-medium text-slate-900 shadow-sm gap-4">
-                            
-                            <div className="text-sm text-orange-500 font-bold">{item.days} D</div>
+                        <span className="flex items-center gap-1 text-green-600 font-semibold">
+                          <Star size={15} fill="#22C55E" />
+                          {val.rating || "4.5"}
+                          <span className="text-gray-500 text-xs">({val.totalRatings || "100+"})</span>
+                        </span>
+                      </div>
 
-                            <div className="flex flex-col ">
-                              <div className="text-[10px]">{item.location}</div>
+                      {/* Title */}
+                      <h2 className="font-semibold text-base sm:text-lg text-gray-900 leading-tight line-clamp-2">
+                        {val.title}
+                      </h2>
+
+                      {/* Breakdown Row */}
+                      {typeof val.duration !== "number" && (
+                        <div className="flex flex-wrap gap-3 mt-2">
+                          {val.duration?.breakdown.map((item: any, index: number) => (
+                            <div
+                              key={item.location}
+                              className={`flex items-center gap-3 pl-3 ${
+                                index !== 0 ? "border-l border-gray-300" : ""
+                              }`}
+                            >
+                              <div className="flex items-center gap-2 text-xs font-medium text-gray-700">
+                                <span className="text-orange-500 font-bold">{item.days}D</span>
+                                <span>{item.location}</span>
+                              </div>
                             </div>
-
-                          </div>
+                          ))}
                         </div>
-                    ))}
-                    </div>
-                 }
-
-                   
-                    <div className="flex items-baseline gap-2 mt-1">
-                      <span className="text-xl font-bold text-green-600">
-                        ₹{val.discountPrice || val.price}
-                      </span>
-
-                      <span className="text-gray-500 text-sm">/ Adult</span>
-
-                      {val.discountPrice && (
-                        <>
-                          <span className="line-through text-gray-400 text-sm">
-                            ₹{val.price}
-                          </span>
-
-                          <span className="text-sm text-green-500 font-semibold">
-                            (
-                            {Math.round(
-                              ((val.price - val.discountPrice) / val.price) * 100
-                            )}
-                            % OFF)
-                          </span>
-                        </>
                       )}
-                   </div>
 
-                    
+                      {/* Price Section */}
+                      <div className="mt-3 space-y-1">
+                        {val.discountPrice && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <span className="line-through text-gray-400">₹{val.price}</span>
+                            <span className="bg-green-100 text-green-700 px-2 py-0.5 text-xs rounded">
+                              SAVE ₹{val.price - val.discountPrice}
+                            </span>
+                          </div>
+                        )}
 
-                
-                    <div className="mt-6 flex justify-around">
-                      <Link
-                        href={`/${route}/${val.slug}`}
-                        className="
-                          inline-block 
-                          px-4 py-1.5 
-                          text-sm 
-                          rounded-md
-                          border border-gray-300 
-                          hover:bg-gray-100 
-                          transition
-                        "
-                      >
-                        View More
-                      </Link>
+                        <div className="text-xl font-bold text-green-600">
+                          ₹{val.discountPrice || val.price}
+                          <span className="text-sm text-gray-500 font-normal"> / Adult</span>
+                        </div>
+                      </div>
 
-                      <button
-                       onClick={()=>{setIsDialogOpen(true)
-                                    setPageUrl(`/${route}/${val.slug}`)
-                       }}
-                       className="inline-block 
-                          px-4 py-1.5 
-                          text-sm 
-                          rounded-md 
-                          bg-
-                          border border-gray-300 
-                          hover:bg-gray-100 
-                          transition"
-                       >
-                          Send Enquire
-                        
+                      {/* Buttons */}
+                      <div className="flex items-center mt-4 justify-between gap-2">
+
+                        <Link
+                          href={`/${route}/${val.slug}`}
+                          className="
+                            w-1/2
+                            text-center
+                            py-2
+                            text-sm
+                            border border-gray-300
+                            rounded-lg
+                            hover:bg-gray-100
+                            transition
+                          "
+                        >
+                          View Details
+                        </Link>
+
+                        <button
+                          onClick={() => {
+                            setIsDialogOpen(true);
+                            setPageUrl(`/${route}/${val.slug}`);
+                          }}
+                          className="
+                            w-1/2 
+                            bg-orange-500 
+                            text-white 
+                            font-medium 
+                            text-sm 
+                            py-2 
+                            rounded-lg 
+                            hover:bg-orange-600 
+                            transition
+                          "
+                        >
+                          Send Enquiry
                         </button>
-                    </div>
 
-                  </div>
-                </CardContent>
-              </Card>
+                      </div>
+                    </div>
+                  </CardContent>
+              </div>
+
             </div>
           </CarouselItem>
         ))}

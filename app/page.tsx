@@ -17,30 +17,40 @@ import AboutDubaiTourism from "@/components/AboutDubaiTourism";
 import FinalCTA from "@/components/FinalCTA";
 import PopularPackagesInfo from "@/components/PopularPackageInfo";
 import { faqs } from "@/config/constant";
+import Test from "@/components/Test"
 export default  function Home() {
 
   return (
     <div className="min-h-screen  bg-zinc-50 font-sans dark:bg-black">
-       <Hero/>
+        
+        <Hero/>
        <HeroBottom/>
        <PopularPackagesInfo/>
       
        <section id="packages">
           <PopularPackages/>
        </section>
+
         <PackageByRegion/>
        
        <TopExperience/>
        <FormSection/> 
+       <section id="whyChooseUs">
+
        <WhyChooseUs/>
        <Testimonials/>
+
+       </section>
+       
        <Gallery/>
        <section id="blogs">
           <Blogs/>
        </section>
        <FAQSection faqs={faqs} />
        <AboutDubaiTourism/>
-       <FinalCTA/>
+
+       <FinalCTA/> 
+      
       
 
     </div>

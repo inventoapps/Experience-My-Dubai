@@ -164,7 +164,7 @@ export default function PackageForm() {
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">
-            {editPkg ? "Edit Tour Package" : "Add Tour Package"}
+            {editPkg ? "Edit Activity Package" : "Add Activity Package"}
           </h1>
 
           <div className="flex gap-2">

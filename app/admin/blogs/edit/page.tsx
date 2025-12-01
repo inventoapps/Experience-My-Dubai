@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef , ChangeEvent } from "react";
 import mongoose from "mongoose";
 
 type Blog = {
@@ -35,6 +35,7 @@ export default function BlogForm() {
 
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
+  const [thumbnail , setThumbanail] = useState("");  
 
 
 
@@ -80,6 +81,24 @@ export default function BlogForm() {
     setContent(editorRef.current?.innerHTML || "");
   }
 
+  function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+  });
+}
+
+   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+      
+          const base64 = await fileToBase64(file);
+      
+          setThumbanail(base64);
+        }
+
   // ================= SUBMIT FORM (CREATE / UPDATE) =================
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -103,7 +122,7 @@ export default function BlogForm() {
       author: fd.get("author"),
       category: fd.get("category"),
       tags,
-      thumbnail: fd.get("thumbnail"),
+      thumbnail,
       content,
       faq,
       metaTitle: fd.get("metaTitle"),
@@ -111,6 +130,8 @@ export default function BlogForm() {
       published: submitType === "publish",
       id : editBlog?._id
     };
+
+    
 
 
     if (editBlog) {
@@ -262,11 +283,14 @@ export default function BlogForm() {
               name="tags"
               defaultValue={editBlog?.tags.join(", ")}
             />
-            <Input
-              label="Thumbnail URL"
-              name="thumbnail"
-              defaultValue={editBlog?.thumbnail}
-            />
+            <Input label="Thumbnail URL"
+           name="thumbnail" 
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e)
+
+            }
+             />
           </div>
         </section>
 

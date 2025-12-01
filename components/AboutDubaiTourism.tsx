@@ -6,7 +6,7 @@ export default function AboutDubaiTourism() {
       className="px-6 py-16 max-w-7xl mx-auto"
       aria-labelledby="about-dubai-heading"
       itemScope
-      itemType="https://schema.org/WebPage"
+    
     >
       
       <h2
@@ -76,6 +76,8 @@ export default function AboutDubaiTourism() {
             rounded-2xl 
             overflow-hidden 
             shadow-xl
+            
+            
           "
           aria-label="Dubai tourism image collage"
         >
@@ -86,15 +88,15 @@ export default function AboutDubaiTourism() {
               w-full 
               h-full 
               object-cover 
-              transition-transform 
-              duration-700 
+              transition-transform
+              duration-500
               hover:scale-110
             "
             itemProp="primaryImageOfPage"
           />
 
           
-          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-transparent "></div>
 
          
           <div className="absolute bottom-6 left-6 text-white">

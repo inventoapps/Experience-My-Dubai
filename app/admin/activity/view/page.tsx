@@ -21,10 +21,7 @@ export default function AllActivityPage(){
     const [isDialogOpen , setisDialogOpen] = useState(false);
     const [deleteId, setDeleteId] = useState<string | null>(null);
 
-
-    
-    useEffect(()=>{
-       const fetchActiviy = async()=>{
+     const fetchActiviy = async()=>{
           try {
             const res = await fetch('/api/admin/activity/get');
             const data = await res.json();
@@ -40,9 +37,10 @@ export default function AllActivityPage(){
              setLoading(false);
           }
        }
-
+    
+    useEffect(()=>{
        fetchActiviy();
-    },[activities]);
+    },[]);
 
     const deletePackage = async(id:string)=>{
        try {
@@ -56,6 +54,7 @@ export default function AllActivityPage(){
 
        if(res.ok){
          setisDialogOpen(false);
+         fetchActiviy();
        }
       
     } catch (error) {

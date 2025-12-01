@@ -20,6 +20,7 @@ export default function TopExperience(){
     const [activities, setActivities] = useState<ActivityType[]>([]);
     const [loading , setLoading] = useState(true);
     const [isDialogOpen , setIsDialogOpen] = useState(false);
+    const [pageUrl , setPageUrl] = useState<string | undefined>('/');
     const router = useRouter();
 
     
@@ -65,12 +66,13 @@ export default function TopExperience(){
                 className=""
             >
 
-                <CarouselDemo packages={activities} setIsDialogOpen={setIsDialogOpen} route={"activity"} />
+                <CarouselDemo packages={activities} setIsDialogOpen={setIsDialogOpen} route={"activity"} setPageUrl={setPageUrl} />
                 <EnquiryForm
                             isOpen={isDialogOpen}
                             price={799}
                             onCancel={() => setIsDialogOpen(false)}
                             onConfirm={() => setIsDialogOpen(false)}
+                            pageUrl={pageUrl}
                     />
                 
                 

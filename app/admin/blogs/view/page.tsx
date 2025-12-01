@@ -50,7 +50,7 @@ export default function AllBlogsPage() {
 
   useEffect(() => {
     fetchBlogs();
-  }, [blogs]);
+  }, []);
 
    const deletePackage = async (id: string)=>{
     try {
@@ -64,6 +64,8 @@ export default function AllBlogsPage() {
 
        if(res.ok){
          setisDialogOpen(false);
+         fetchBlogs();
+
        }
       
     } catch (error) {

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import Navbar from "./Navbar";
+import SearchBar from "./SearchBar";
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
@@ -30,47 +31,55 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative h-[65vh] sm:h-[70vh] md:h-[75vh] w-full overflow-hidden">
+    <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] w-full overflow-hidden">
 
-     
+      {/* Navbar */}
       <Navbar theme="dark" />
 
-     
+      {/* Background Slideshow */}
       <div className="absolute inset-0">
         {images.map((img, i) => (
           <div
             key={i}
             className={`
-              absolute inset-0 bg-cover bg-center 
-              transition-opacity duration-1500 ease-in-out
+              absolute inset-0 bg-cover bg-center bg-no-repeat
+              transition-opacity duration-1000 ease-in-out
               ${i === index ? "opacity-100" : "opacity-0"}
             `}
             style={{ backgroundImage: `url(${img.src})` }}
           />
         ))}
 
-       
-        <div className="absolute inset-0 bg-black/50"></div>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
-    
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4 gap-3">
-        <h1 className="text-3xl sm:text-4xl font-bold drop-shadow-xl">
+      {/* Hero Content */}
+      <div className="relative z-10 flex flex-col justify-center items-center text-center h-full px-4">
+
+        <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-xl leading-tight max-w-[90%]">
           Create a Super Hit Holiday
         </h1>
 
-        <div className="mt-4 w-[90%] max-w-[400px] relative bg-white rounded-xl border-2 border-green-300">
+        {/* Search Bar */}
+        {/* <div className="mt-5 w-full max-w-[450px] relative bg-white rounded-xl border-[1.5px] border-green-300 shadow-lg">
+
           <Search
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
             size={20}
           />
+
           <input
             type="text"
-            placeholder="Search…"
-            className="w-full pl-10 pr-4 py-3 text-black rounded-xl"
+            placeholder="Search packages"
+            className="w-full pl-10 pr-4 py-3 text-black rounded-xl text-sm sm:text-base focus:outline-none"
           />
-        </div>
+        </div> */}
+
+        <SearchBar/>
+
       </div>
+
     </section>
   );
 }

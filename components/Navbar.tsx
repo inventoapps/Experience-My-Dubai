@@ -66,8 +66,8 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
 
         {!scrolled && (
           <div className={`hidden md:flex items-center space-x-8 text-sm ${textColor}`}>
-            <Link href="#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
-            <Link href="#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
+            <Link href="/#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
+            <Link href="/#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
 
             {
               user ? <button onClick={handleLogOut}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70 cursor-pointer">
@@ -117,8 +117,8 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
                             </button>               
                      }
 
-                      <Link href="#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
-                      <Link href="#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
+                      <Link href="/#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
+                      <Link href="/#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
     
                       
 

@@ -39,7 +39,7 @@ export default function WhyChooseUs() {
             hover:shadow-lg 
             transition 
             duration-300
-            hover:-translate-y-1 
+            hover:-translate-y-2 
           "
           aria-label="Best Price Guarantee"
         >
@@ -65,7 +65,7 @@ export default function WhyChooseUs() {
             hover:shadow-lg 
             transition 
             duration-300
-            hover:-translate-y-1 
+            hover:-translate-y-2
           "
           aria-label="Verified Tour Operators"
         >
@@ -90,7 +90,7 @@ export default function WhyChooseUs() {
             hover:shadow-lg 
             transition 
             duration-300
-            hover:-translate-y-1 
+            hover:-translate-y-2 
           "
           aria-label="24/7 Support"
         >
@@ -115,7 +115,7 @@ export default function WhyChooseUs() {
             hover:shadow-lg 
             transition 
             duration-300
-            hover:-translate-y-1 
+            hover:-translate-y-2 
           "
           aria-label="Custom Travel Plans"
         >

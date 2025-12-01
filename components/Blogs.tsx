@@ -1,105 +1,71 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-export default function Blogs(){
-    const [blogs, setBlogs] = useState<any>(null);
-    const router = useRouter();
-    
-    useEffect(()=>{
-        const fetchAllBlogs = async ()=>{
-            const res = await fetch('/api/blog/get');
-            const data = await res.json();
+export default function Blogs() {
+  const [blogs, setBlogs] = useState<any>(null);
+  const router = useRouter();
 
-            if(res.ok){
-                setBlogs(data.data);
-            }
-            
-        }
-        fetchAllBlogs()
-    },[])
-    
-    return (
-           <section
-                className="px-6 py-14 max-w-7xl mx-auto"
-                aria-labelledby="blogs-heading"
-                >
-                
-                <h2
-                    id="blogs-heading"
-                    className="text-3xl sm:text-4xl font-bold text-foreground mb-8"
-                >
-                    Latest Dubai Travel Blogs
-                </h2>
+  // ⬇️ ADD THIS FUNCTION
+  function stripHTML(html: string) {
+    return html.replace(/<[^>]*>?/gm, "");
+  }
 
-               
-                <div
-                    className="
-                    grid 
-                    grid-cols-1 
-                    sm:grid-cols-2 
-                    lg:grid-cols-3 
-                    gap-8
-                    "
-                >
-                {blogs?.map((val:any , idx:number)=>{
-                        return (
-                            <article key={idx}
-                            className="
-                                bg-card 
-                                border border-border 
-                                rounded-xl 
-                                shadow-sm 
-                                hover:shadow-lg 
-                                transition 
-                                overflow-hidden
-                                cursor-pointer
-                            "
-                            onClick={()=>router.push(`/blogs/${val.slug}`)}
-                            itemScope
-                            itemType="https://schema.org/BlogPosting"
-                            >
-                            <div className="h-48 w-full overflow-hidden">
-                                <img
-                                src={val?.thumbnail}
-                                alt="How to plan Dubai trip in 2025"
-                                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                                itemProp="image"
-                                />
-                            </div>
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      const res = await fetch("/api/blog/get");
+      const data = await res.json();
 
-                            <div className="p-5">
-                                <p className="text-xs text-accent font-medium" itemProp="articleSection">
-                                Travel Tips
-                                </p>
+      if (res.ok) {
+        setBlogs(data.data);
+      }
+    };
+    fetchAllBlogs();
+  }, []);
 
-                                <h3
-                                className="text-lg font-semibold mt-2 text-foreground"
-                                itemProp="headline"
-                                >
-                                {val?.title || "How to Plan a Perfect Dubai Trip in 2025"}
-                                </h3>
+  return (
+    <section className="px-6 py-16 max-w-7xl mx-auto">
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-10">
+        Latest Dubai Travel Blogs
+      </h2>
 
-                               <p
-                                className="text-sm text-muted-foreground mt-2 leading-relaxed"
-                                itemProp="description"
-                                >
-                                {val?.content?.length > 90
-                                    ? val.content.slice(0, 90) + "..."
-                                    : val?.content || "From best travel months to cost-saving hacks — here's your complete guide."}
-                                </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {blogs?.map((val: any, idx: number) => (
+          <article
+            key={idx}
+            className="group bg-white rounded-2xl shadow-lg border overflow-hidden cursor-pointer hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+            onClick={() => router.push(`/blogs/${val.slug}`)}
+          >
+            {/* Image */}
+            <div className="relative h-52 w-full overflow-hidden">
+              <img
+                src={val?.thumbnail}
+                alt={val?.title}
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+            </div>
 
+            {/* Content */}
+            <div className="p-6 space-y-3">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-orange-500 transition">
+                {val?.title}
+              </h3>
 
-                                <p className="text-xs text-muted-foreground mt-3" itemProp="datePublished">
-                                <span className="text-green-800">• Published on</span>{" "}
-                                 {new Date(val?.createdAt).toLocaleDateString("en-IN")} 
-                                </p>
-                            </div>
-                            </article>
-                     )
-                    })}
-                </div>
-           </section>
-     )
+              {/* FIXED EXCERPT */}
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {stripHTML(val.content).slice(0, 120)}...
+              </p>
+
+              <p className="text-xs text-gray-500 mt-2">
+                <span className="text-orange-600 font-semibold">• Published on</span>{" "}
+                {new Date(val?.createdAt).toLocaleDateString("en-IN")}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 }

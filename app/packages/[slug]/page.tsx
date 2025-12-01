@@ -4,7 +4,8 @@ import { HtmlHTMLAttributes, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import FAQSection from "@/components/FAQSection";
-import { Star } from "lucide-react";
+import { Star , Check  } from "lucide-react";
+import EnquiryForm from "@/components/EnquiryFormPopUp";
 
 interface DurationBreakdownItem {
   location: string;
@@ -55,6 +56,7 @@ export default function PackageDetailsPage() {
   const [openDay, setOpenDay] = useState<number | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const router = useRouter();
+  const [isDialogOpen , setIsDialogOpen] = useState(false);
 
   const [form , setForm] = useState({
       name : "",
@@ -130,6 +132,8 @@ export default function PackageDetailsPage() {
       <Navbar theme="light" />
 
       <main className="max-w-7xl mx-auto px-6 pb-20 pt-20 space-y-5">
+
+        {/* Header Section of package */}
         <section className="space-y-2">
           <h1 className="text-3xl sm:text-4xl font-bold">{pkg.title}</h1>
 
@@ -151,6 +155,8 @@ export default function PackageDetailsPage() {
           </div>
         </section>
 
+        {/* 3 phot shown in Gallery */}
+
         <section className="max-w-7xl mx-auto  mt-8">
           <h2 className="text-xl font-semibold mb-3">Gallery</h2>
 
@@ -169,6 +175,8 @@ export default function PackageDetailsPage() {
             </div>
           </div>
       </section>
+
+      {/* Duration Design */}
 
         <section className="space-y-4">
           <h2 className="text-2xl font-bold">Duration</h2>
@@ -205,6 +213,8 @@ export default function PackageDetailsPage() {
           </div>
         </section>
 
+        {/* Overview Section */}
+
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2 space-y-14">
             <section>
@@ -212,19 +222,24 @@ export default function PackageDetailsPage() {
               <p className="text-gray-600 leading-relaxed">
                 {pkg.description}
               </p>
-            </section>
+         </section>
+
+         {/* Highlights Section*/}
 
             <section>
               <h2 className="text-2xl font-bold mb-3">Highlights</h2>
               <ul className="space-y-2 text-gray-700">
                 {pkg.highlights?.map((h: string, i: number) => (
                   <li key={i} className="flex gap-2">
-                    <span className="text-orange-600">✔</span>
+                    <span className="text-orange-600">•</span>
                     <span>{h}</span>
                   </li>
                 ))}
               </ul>
             </section>
+
+
+            {/* Included & Excluded Section */}
 
             <section>
               <h2 className="text-2xl font-bold mb-3">What's Included</h2>
@@ -234,7 +249,13 @@ export default function PackageDetailsPage() {
                   <h3 className="font-semibold mb-2">Included</h3>
                   <ul className="space-y-2 text-gray-700 text-sm">
                     {pkg.inclusions?.map((inc: string, i: number) => (
-                      <li key={i}>✔ {inc}</li>
+                     <li key={i} className="flex items-center gap-2 text-gray-800 text-sm mb-3">
+                      <Check className="h-4 w-4 text-green-600 shrink-0" />
+                      <span>{inc}</span>
+                    </li>
+
+
+
                     ))}
                   </ul>
                 </div>
@@ -251,6 +272,9 @@ export default function PackageDetailsPage() {
                 </div>
               </div>
             </section>
+
+
+            {/* Itinerary Section */}
 
             <section>
               <h2 className="text-2xl font-bold mb-6">Itinerary</h2>
@@ -281,20 +305,25 @@ export default function PackageDetailsPage() {
               </div>
             </section>
 
+            {/* FAQSection Reuseable component */}
+
             {pkg.faqs && pkg.faqs.length > 0 && (
               <section>
-                <h2 className="text-2xl font-bold mb-4">FAQs</h2>
+                
                 <FAQSection faqs={pkg.faqs} />
               </section>
             )}
           </div>
 
-          <aside className="bg-white border rounded-xl shadow p-6 w-full max-w-md lg:ml-auto h-fit lg:sticky lg:top-24 space-y-6">
-            <div>
-              <p className="text-sm text-gray-500">Price Per Person</p>
+
+          {/* Side Enquiry Section */}
+
+
+          <aside className=" w-full max-w-md lg:ml-auto h-fit lg:sticky lg:top-24 space-y-6">
+            {/* <div>
               <div className="flex items-end gap-3 mt-2">
-                <span className="text-2xl sm:text-3xl font-bold text-green-600">
-                  ₹{pkg.discountPrice || pkg.price}
+                <span className="text-2xl sm:text-3xl font-bold text-black">
+                 INR ₹{pkg.discountPrice || pkg.price}  <span className="text-sm text-gray-500">Price Per Person</span>
                 </span>
 
                 {discount && (
@@ -308,9 +337,49 @@ export default function PackageDetailsPage() {
                   </>
                 )}
               </div>
+            </div> */}
+
+            <div className="border rounded-xl p-4 bg-white shadow-sm">
+              {/* Price + Rating Row */}
+              <div className="flex justify-between items-center mb-2">
+                <div>
+                  <p className="text-xl font-bold text-gray-900">
+                    INR {pkg?.discountPrice || pkg.price}
+                    <span className="text-sm font-normal text-gray-500 ml-1">Per Adult</span>
+                  </p>
+
+               
+                  <p className="text-gray-400 line-through text-sm">
+                    INR {pkg.price.toLocaleString()}
+                  </p>
+                  
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Star size={16} fill="#22C55E" className="text-green-600" />
+                  <span className="text-green-600 font-semibold">{pkg.rating}</span>
+                  <span className="text-gray-500 text-sm">({pkg.totalRatings})</span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <hr className="my-3" />
+
+              {/* Button */}
+              <button
+                onClick={()=>setIsDialogOpen(true)}
+              
+                className="
+                  w-full bg-orange-500 text-white 
+                  py-2.5 rounded-lg text-sm font-medium
+                  hover:bg-orange-600 transition
+                "
+              >
+                Send Enquiry
+              </button>
             </div>
 
-            <form className="space-y-4" onSubmit={handleSubmit}>
+            <form className="space-y-4 bg-white border rounded-xl shadow p-6" onSubmit={handleSubmit}>
               <div>
                 <label className="text-sm font-semibold">Full Name</label>
                 <input
@@ -365,11 +434,20 @@ export default function PackageDetailsPage() {
                 type="submit"
                 className="bg-orange-600 hover:bg-orange-700 text-white w-full py-3 rounded-lg font-semibold transition"
               >
-                Book Now
+                Send Enquiry
               </button>
             </form>
           </aside>
         </section>
+        <EnquiryForm
+          isOpen={isDialogOpen}
+          price={799}
+          onCancel={() => setIsDialogOpen(false)}
+          onConfirm={() => setIsDialogOpen(false)}
+          pageUrl={window.location.href}
+        
+        />
+        
       </main>
     </>
   );

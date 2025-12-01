@@ -42,7 +42,7 @@ export default function AllPackagesPage() {
 
   useEffect(() => {
     fetchPackages();
-  }, [packages]);
+  }, []);
 
 
   
@@ -60,6 +60,7 @@ export default function AllPackagesPage() {
          setMessage("Package Deleted");
          setisDialogOpen(false);
          setDeleteId(null);
+         fetchPackages();
        }
       
     } catch (error) {

@@ -52,6 +52,10 @@ export default function Testimonials() {
               max-w-3xl 
               mx-auto 
               text-center
+              hover:shadow-lg 
+              transition 
+              duration-300
+              hover:-translate-y-2 
             "
             itemScope
             itemType="https://schema.org/Review"

@@ -21,7 +21,7 @@ const itineraries = [
 
 export default function RecentlyBooked() {
   return (
-    <section className="py-12 sm:py-16 px-4 sm:px-6 bg-accent/5">
+    <section className="py-12 sm:py-16 px-6 sm:px-0 bg-accent/5">
       <div className="max-w-7xl mx-auto">
 
    

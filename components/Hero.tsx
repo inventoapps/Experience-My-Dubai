@@ -31,7 +31,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] w-full overflow-hidden">
+    <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] w-full ">
 
       {/* Navbar */}
       <Navbar theme="dark" />
@@ -55,26 +55,12 @@ export default function Hero() {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex flex-col justify-center items-center text-center h-full px-4">
+      <div className="relative  flex flex-col justify-center items-center text-center h-full px-4 z-10">
 
         <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-xl leading-tight max-w-[90%]">
           Create a Super Hit Holiday
         </h1>
 
-        {/* Search Bar */}
-        {/* <div className="mt-5 w-full max-w-[450px] relative bg-white rounded-xl border-[1.5px] border-green-300 shadow-lg">
-
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-            size={20}
-          />
-
-          <input
-            type="text"
-            placeholder="Search packages"
-            className="w-full pl-10 pr-4 py-3 text-black rounded-xl text-sm sm:text-base focus:outline-none"
-          />
-        </div> */}
 
         <SearchBar/>
 

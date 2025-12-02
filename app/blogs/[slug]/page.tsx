@@ -160,7 +160,7 @@ export default function BlogPage() {
           </p>
 
           <a
-            href="/blogs"
+            href="/allBlogs"
             className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition"
           >
             View All Blogs

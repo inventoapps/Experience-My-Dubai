@@ -3,7 +3,7 @@ import { Building2, MountainSnow, Plane, Sun } from "lucide-react";
 export default function AboutDubaiTourism() {
   return (
     <section
-      className="px-6 py-16 max-w-7xl mx-auto"
+      className=" py-16 px-4 sm:px-0 max-w-7xl mx-auto"
       aria-labelledby="about-dubai-heading"
       itemScope
     
@@ -11,7 +11,7 @@ export default function AboutDubaiTourism() {
       
       <h2
         id="about-dubai-heading"
-        className="text-3xl sm:text-4xl font-bold text-foreground mb-10 text-center"
+        className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
       >
         About Dubai Tourism
       </h2>
@@ -27,7 +27,7 @@ export default function AboutDubaiTourism() {
       >
        
         <article
-          className="space-y-5"
+          className="space-y-5 px-6"
           itemProp="description"
         >
           <p className="text-muted-foreground text-lg leading-relaxed">

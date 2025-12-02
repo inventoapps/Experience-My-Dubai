@@ -286,8 +286,8 @@ export default function PackageDetailsPage() {
                     className="border rounded-xl p-4 cursor-pointer hover:shadow-sm transition"
                     onClick={() => toggleDay(i)}
                   >
-                    <div className="flex gap-4 items-center">
-                      <span className="w-10 h-10 rounded-full border-2 border-green-400 flex items-center justify-center font-bold text-sm">
+                    <div className="flex gap-4 ">
+                      <span className="w-10 h-10 sm:rounded-full sm:border-2 border-green-400 flex items-center justify-center font-bold text-sm">
                         {day.day}
                       </span>
                       <span className="font-medium">
@@ -320,24 +320,7 @@ export default function PackageDetailsPage() {
 
 
           <aside className=" w-full max-w-md lg:ml-auto h-fit lg:sticky lg:top-24 space-y-6">
-            {/* <div>
-              <div className="flex items-end gap-3 mt-2">
-                <span className="text-2xl sm:text-3xl font-bold text-black">
-                 INR ₹{pkg.discountPrice || pkg.price}  <span className="text-sm text-gray-500">Price Per Person</span>
-                </span>
-
-                {discount && (
-                  <>
-                    <span className="line-through text-gray-400 text-sm">
-                      ₹{pkg.price}
-                    </span>
-                    <span className="text-sm text-green-600 font-semibold">
-                      ({discount}% OFF)
-                    </span>
-                  </>
-                )}
-              </div>
-            </div> */}
+           
 
             <div className="border rounded-xl p-4 bg-white shadow-sm">
               {/* Price + Rating Row */}

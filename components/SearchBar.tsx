@@ -72,7 +72,7 @@ export default function SearchBar() {
   
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-[450px]">
+    <div ref={wrapperRef} className="relative w-full max-w-[300px] sm:max-w-[450px] ">
       <div className="bg-white rounded-xl border-2 border-green-300 relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
 
@@ -88,7 +88,7 @@ export default function SearchBar() {
 
       {/* Suggestions dropdown */}
       {open && results.length > 0 && (
-        <div className="absolute top-full  bg-white shadow-xl mt-1 rounded-xl w-full py-2 z-50">
+        <div className="absolute top-full  bg-white shadow-xl mt-1 rounded-xl w-full py-2 overflow-auto ">
           {results.map((item, i) => (
             <div
               key={item._id}

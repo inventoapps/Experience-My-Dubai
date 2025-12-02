@@ -50,13 +50,13 @@ export default function TopExperience(){
     
     return (
         <section 
-            className="py-12 sm:py-16 max-w-7xl mx-auto"
+            className="py-12 sm:py-14 max-w-7xl mx-auto"
             aria-labelledby="top-experiences-heading"
             >
       
             <h2
                 id="top-experiences-heading"
-                className="text-3xl font-bold text-foreground mb-6 uppercase"
+                className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
             >
                 Top Dubai Experiences
             </h2>

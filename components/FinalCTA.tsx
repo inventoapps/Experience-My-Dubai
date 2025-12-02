@@ -1,140 +1,83 @@
-"use client";
-import { useState } from "react";
-import EnquiryForm from "./EnquiryFormPopUp";
-import {Instagram , Linkedin , Youtube , Twitter} from "lucide-react";
-
-
-
 export default function FinalCTA() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   return (
-    <section
-      className="
-        relative 
-        py-20 
-        text-center 
-        overflow-hidden 
-        bg-black
-      "
-      aria-labelledby="final-cta-heading"
-    >
-      
-      <div className="relative sm:absolute top-54 left-3 sm:left-10 sm:top-20 space-y-6 z-10 ">
-        <h2 className="text-white text-sm sm:text-lg font-semibold tracking-wide text-start">
-          Information
-        </h2>
-
-        <div className="flex flex-col gap-5 text-start">
-          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
-            About us
-          </a>
-          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
-            Contact us
-          </a>
-          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
-            Privacy policy
-          </a>
-          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
-            Refund and Returns Policy
-          </a>
-          <a className="text-gray-300 hover:text-white text-sm transition" href="#">
-            Cancellation Policy
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-10 px-6 max-w-3xl mx-auto -mt-70 sm:mt-0 mb-20 sm:mb-0" >
-        <h2
-          id="final-cta-heading"
-          className="
-            text-2xl sm:text-5xl 
-            font-extrabold 
-            text-white 
-            drop-shadow-xl 
-            leading-tight
-          "
-        >
-          Ready to Experience the Magic of Dubai?
-        </h2>
-
-        <p className="text-gray-200 mt-4 text-sm sm:text-xl leading-relaxed">
-          Custom itineraries, luxury stays, desert adventures, and seamless travel planning —
-          all crafted just for you.
-        </p>
-
-        <button
-          className="
-            mt-8 
-            bg-accent  
-            px-5
-            sm:px-10 
-            py-2
-            sm:py-4 
-            rounded-full 
-            text-sm
-            sm:text-lg 
-            font-semibold 
-            shadow-xl 
-            hover:bg-accent/90 
-            transition 
-            duration-300
-            cursor-pointer
-          "
-          onClick={() => setIsDialogOpen(true)}
-        >
-          Book Your Dubai Trip Now
-        </button>
-
-        <p className="text-gray-300 mt-3 text-sm italic">
-          Limited slots for this month — secure yours today!
-        </p>
-      </div>
-
-      <div className=" relative sm:absolute -right-25 sm:right-10  -top-13 sm:top-20 z-10 space-y-6">
-        <h2 className="text-white text-sm sm:text-lg font-semibold tracking-wide">
-          Follow Us
-        </h2>
-
-        <div className="flex gap-4 justify-center text-gray-500">
-          <a href="#" className="hover:opacity-80 transition">
-            <Instagram/>
-
-          </a>
-          <a href="#" className="hover:opacity-80 transition">
-            <Twitter/>
-          </a>
-
-
-          <a href="#" className="hover:opacity-80 transition">
-            <Youtube/>
-          </a>
-
-          <a href="#" className="hover:opacity-80 transition">
-            <Linkedin/>
-          </a>
-
-
-        </div>
-
-        <h2 className="text-white text-sm sm:text-lg font-semibold tracking-wide pt-4">
-          Payment channels
-        </h2>
-
+    <footer className="bg-[#0F0F0F] text-gray-300 pt-12 pb-6">
+      <div className="max-w-7xl mx-auto px-6">
         
-      </div>
+        {/* Top Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-      <div className="absolute bottom-4 right-6  z-10 text-right ">
-        <p className="text-sm text-gray-200 font-medium">ExperienceMyDubai © 2025</p>
-        <p className="text-xs text-gray-300">Your trusted travel partner</p>
-      </div>
+          {/* Column 1 */}
+          <div>
+            <h3 className="text-xl font-semibold text-white mb-4">
+              Experience My Dubai
+            </h3>
+            <p className="text-sm leading-relaxed">
+              Discover Dubai like never before. Book curated holiday packages,
+              enjoy luxury stays, and explore unforgettable attractions with 
+              the best travel experts.
+            </p>
 
-      <EnquiryForm
-        isOpen={isDialogOpen}
-        price={799}
-        onCancel={() => setIsDialogOpen(false)}
-        onConfirm={() => setIsDialogOpen(false)}
-      />
-    </section>
+            {/* Social Icons */}
+            <div className="flex gap-4 mt-4">
+              <a href="#" className="hover:text-orange-500 transition">Facebook</a>
+              <a href="#" className="hover:text-orange-500 transition">Instagram</a>
+              <a href="#" className="hover:text-orange-500 transition">YouTube</a>
+            </div>
+          </div>
+
+          {/* Column 2 */}
+          <div>
+            <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="/#packages" className="hover:text-orange-500">Dubai Tour Packages</a></li>
+              <li><a href="/#experiences" className="hover:text-orange-500">Dubai Experiences</a></li>
+              <li><a href="/#blogs" className="hover:text-orange-500">Travel Blogs</a></li>
+              <li><a href="/#faq" className="hover:text-orange-500">FAQs</a></li>
+              <li><a href="/contact" className="hover:text-orange-500">Contact Us</a></li>
+            </ul>
+          </div>
+
+          {/* Column 3 */}
+          <div>
+            <h4 className="text-lg font-semibold text-white mb-4">Popular Packages</h4>
+            <ul className="space-y-2 text-sm">
+              <li><a href="#" className="hover:text-orange-500">Dubai 5-Day Tour</a></li>
+              <li><a href="#" className="hover:text-orange-500">Dubai & Abu Dhabi Combo</a></li>
+              <li><a href="#" className="hover:text-orange-500">Luxury Desert Safari</a></li>
+              <li><a href="#" className="hover:text-orange-500">Atlantis Aquaventure</a></li>
+              <li><a href="#" className="hover:text-orange-500">Burj Khalifa Tour</a></li>
+            </ul>
+          </div>
+
+          {/* Column 4 */}
+          <div>
+            <h4 className="text-lg font-semibold text-white mb-4">Contact Us</h4>
+            <ul className="space-y-2 text-sm">
+              <li>📍 Dubai, UAE</li>
+              <li>📞 +971 55 123 4567</li>
+              <li>✉ support@experiencedubai.com</li>
+            </ul>
+
+            {/* CTA */}
+            <button className="
+              mt-4 px-6 py-2 
+              bg-orange-600 
+              text-white 
+              font-semibold 
+              rounded-lg 
+              hover:bg-orange-700 
+              transition
+            ">
+              Book Your Trip
+            </button>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-400">
+          © {new Date().getFullYear()} Experience My Dubai. All Rights Reserved.
+        </div>
+      </div>
+    </footer>
   );
 }

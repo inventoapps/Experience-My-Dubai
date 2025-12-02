@@ -25,16 +25,16 @@ const  testimonials = [ {
 
 export default function Testimonials() {
   return (
-    <section>
+    <section className="py-12 sm:py-16 max-w-7xl mx-auto">
       <h2
         id="testimonials-heading"
-        className="text-3xl sm:text-4xl font-bold text-foreground text-center mb-10"
+        className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 text-center"
       >
-        What Our Travelers Say
+       <span className="text-[#C6934B]">• </span> What Our Travelers Say
       </h2>
 
       <div
-      className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10  px-16"
+      className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10  px-6"
       aria-labelledby="testimonials-heading"
     >
       { testimonials.map((person , idx)=>{
@@ -44,10 +44,11 @@ export default function Testimonials() {
              key={idx}
             className="
               relative 
-              bg-linear-to-br from-accent/10 to-accent/5 
+              bg-card
               border border-accent/20 
               p-8 
               rounded-3xl 
+              
               shadow-lg 
               max-w-3xl 
               mx-auto 

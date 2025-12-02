@@ -57,6 +57,7 @@ interface PackageType {
 export default function PackageForm() {
   const [packages, setPackages] = useState<PackageType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isPublished , setIsPublished] = useState(false);
 
   const [editPkg, setEditPkg] = useState<PackageType | null>(null);
 
@@ -145,12 +146,17 @@ export default function PackageForm() {
  
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+
+    
     e.preventDefault();
     setStatus("saving");
 
     const fd = new FormData(e.currentTarget);
     const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
     const submitType = submitter.value;
+    if(submitType === 'publish'){
+        setIsPublished(true);
+    }
 
     const payload = {
       title: fd.get("title"),
@@ -158,7 +164,11 @@ export default function PackageForm() {
       location: fd.get("location"),
       city: fd.get("city"),
       country: fd.get("country"),
-      duration: fd.get("duration"),
+      duration: {
+        days: durationDays,
+        nights: durationNights,
+        breakdown: durationBreakdown
+      },
       price: Number(fd.get("price")),
       discountPrice: Number(fd.get("discountPrice")),
       rating: Number(fd.get("rating")),
@@ -201,6 +211,7 @@ export default function PackageForm() {
       setStatus("success");
       setMessage("Package updated successfully!");
       fetchPackages();
+      setIsPublished(false)
       return;
     }
 
@@ -217,11 +228,16 @@ export default function PackageForm() {
       return;
     }
 
+
     setStatus("success");
     setMessage(
       submitType === "publish" ? "Tour Published" : "Saved Draft"
     );
     fetchPackages();
+
+
+    setIsPublished(false)
+    
   }
 
   
@@ -275,7 +291,7 @@ export default function PackageForm() {
               value="publish"
               className="border px-3 py-2 rounded bg-black text-white"
             >
-              Publish
+             {isPublished ? <span className="animate-ping">Publishing...</span> : " Publish" }
             </button>
           </div>
         </div>
@@ -333,45 +349,65 @@ export default function PackageForm() {
               />
             </div>
 
+            <div className="space-y-3">
+    <div className="flex justify-between">
+      <h3 className="text-xs font-medium">Duration Breakdown</h3>
+      <button
+        type="button"
+        className="text-[11px] border px-2 py-1 rounded"
+        onClick={() =>
+          setDurationBreakdown([
+            ...durationBreakdown,
+            { location: "", days: 0 },
+          ])
+        }
+      >
+        + Add Location
+      </button>
+    </div>
 
-           {durationBreakdown.map((item, i) => (
-                <div key={i} className="border p-3 rounded flex flex-col gap-2">
-                  <div className="flex gap-3">
-                    <Input
-                      label="Location"
-                      value={item.location}
-                      onChange={(e) => {
-                        const copy = [...durationBreakdown];
-                        copy[i].location = e.target.value;
-                        setDurationBreakdown(copy);
-                      }}
-                    />
+    {durationBreakdown.map((item, i) => (
+      <div key={i} className="border p-3 rounded flex flex-col gap-2">
+        <div className="flex gap-3">
+          <Input
+            label="Location"
+            value={item.location}
+            onChange={(e) => {
+              const copy = [...durationBreakdown];
+              copy[i].location = e.target.value;
+              setDurationBreakdown(copy);
+            }}
+          />
 
-                    <Input
-                      label="Days"
-                      type="number"
-                      value={item.days}
-                      onChange={(e) => {
-                        const copy = [...durationBreakdown];
-                        copy[i].days = Number(e.target.value);
-                        setDurationBreakdown(copy);
-                      }}
-                    />
-                  </div>
+          <Input
+            label="Days"
+            type="number"
+            value={item.days}
+            onChange={(e) => {
+              const copy = [...durationBreakdown];
+              copy[i].days = Number(e.target.value);
+              setDurationBreakdown(copy);
+            }}
+          />
+        </div>
 
-                  {i > 0 && (
-                    <button
-                      type="button"
-                      className="text-[11px] border px-2 py-1 rounded w-fit"
-                      onClick={() =>
-                        setDurationBreakdown(durationBreakdown.filter((_, idx) => idx !== i))
-                      }
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-               ))}
+        {i > 0 && (
+          <button
+            type="button"
+            className="text-[11px] border px-2 py-1 rounded w-fit"
+            onClick={() =>
+              setDurationBreakdown(
+                durationBreakdown.filter((_, idx) => idx !== i)
+              )
+            }
+          >
+            Remove
+          </button>
+        )}
+      </div>
+    ))}
+  </div>
+
 
 </section>
 

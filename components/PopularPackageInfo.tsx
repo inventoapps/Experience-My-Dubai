@@ -7,7 +7,7 @@ export default function PopularPackagesInfo() {
 
   return (
     <section
-      className="px-6 sm:px-0 py-14 max-w-7xl mx-auto"
+      className="px-6 sm:px-0 py-14 max-w-7xl mx-auto "
       aria-labelledby="dubai-tour-packages-heading"
       itemScope
       itemType="https://schema.org/WebPage"
@@ -15,7 +15,7 @@ export default function PopularPackagesInfo() {
  
       <h2
         id="dubai-tour-packages-heading"
-        className="text-3xl sm:text-4xl font-bold text-foreground mb-4 uppercase"
+        className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
         itemProp="headline"
       >
         Dubai Tour Packages
@@ -23,7 +23,7 @@ export default function PopularPackagesInfo() {
 
   
       <p
-        className="text-muted-foreground text-lg leading-relaxed"
+        className="text-muted-foreground text-lg leading-relaxed "
         itemProp="description"
       >
         Dubai offers a stunning blend of luxury, adventure, and modern attractions.
@@ -34,7 +34,7 @@ export default function PopularPackagesInfo() {
       
       <article
         className={`
-          text-muted-foreground mt-3 leading-relaxed transition-all duration-500 overflow-hidden
+          text-muted-foreground mt-3 leading-relaxed transition-all duration-500 overflow-hidden 
           ${expanded ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}
         `}
         itemProp="mainContentOfPage"
@@ -53,7 +53,7 @@ export default function PopularPackagesInfo() {
 
   
       <button
-        className="mt-3 font-semibold hover:underline transition"
+        className="mt-3 font-semibold hover:underline transition  uppercase"
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >

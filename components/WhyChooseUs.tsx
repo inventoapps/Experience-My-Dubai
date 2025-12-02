@@ -12,12 +12,13 @@ export default function WhyChooseUs() {
       aria-labelledby="why-us-heading"
     >
       
-      <h2
-        id="why-us-heading"
-        className="text-3xl sm:text-4xl font-bold text-foreground text-center mb-10"
-      >
-        Why Choose Us
-      </h2>
+      
+
+       <h2
+           id="heading"
+           className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900 text-center">
+         <span className="text-[#C6934B]">•</span> Why Choose Us
+       </h2>
 
      
       <div

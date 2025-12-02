@@ -23,7 +23,7 @@ export default function FAQSection({faqs} : IFaqProps) {
 
   return (
     <section
-      className="px-6 py-14 max-w-5xl mx-auto"
+      className=" py-14 px-6 sm:px-0 max-w-7xl mx-auto"
       aria-labelledby="faq-heading"
       itemScope
       itemType="https://schema.org/FAQPage"
@@ -31,13 +31,13 @@ export default function FAQSection({faqs} : IFaqProps) {
     
       <h2
         id="faq-heading"
-        className="text-3xl sm:text-4xl font-bold text-foreground text-center mb-10"
+        className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 text-center"
       >
-        Frequently Asked Questions
+        Frequently Asked Questions (FAQs)
       </h2>
 
      
-      <div className="space-y-4">
+      <div className="space-y-4  sm:px-16">
         {faqs.map((faq, i) => (
           <article
             key={i}

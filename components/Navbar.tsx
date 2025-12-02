@@ -1,129 +1,139 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Search, Menu ,X } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-
-
 
 export default function Navbar({ theme }: { theme: "light" | "dark" }) {
   const auth = useAuth();
   const user = auth?.user;
   const setUser = auth?.setUser!;
 
-  const [scrolled, setScrolled] = useState(false);
-  const [isOpen , setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false); // Tracks scroll position for sticky navbar styling
+  const [isOpen, setIsOpen] = useState(false); // Mobile menu open/close toggle
 
   const router = useRouter();
 
-  const handleLogOut = async()=>{
-     try {
+  const handleLogOut = async () => {
+    try {
+      // Logs out user from API route
+      const res = await fetch("api/auth/logout", {
+        method: "POST",
+      });
 
-      const res = await fetch('api/auth/logout',{
-          method : "POST"
-      })
-
-      if(res.ok){
-         setUser(null);
-         router.push('/')
+      if (res.ok) {
+        setUser(null); // Clears user from global auth context
+        router.push("/"); // Redirect to homepage
       }
-       
-        
-     } catch (error) {
-       console.log(error);
-     }
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  
-
+  // Detect scroll to apply shrink + sticky + shadow effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 300);
+      setScrolled(window.scrollY > 300); // Navbar becomes solid after 300px scroll
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const textColor = scrolled ? "text-black" : theme === "light" ? "text-black" : "text-white";
+  // Decides navbar text color depending on theme + scroll
+  const textColor =
+    scrolled ? "text-black" : theme === "light" ? "text-black" : "text-white";
 
   return (
     <nav
       className={`
         fixed top-0 left-0 w-full z-50 transition-all duration-300
-        ${scrolled ? "bg-white shadow-md py-3" : "bg-transparent py-5"}
+        ${scrolled ? "bg-white shadow-md py-5" : "bg-transparent py-5"}
         ${textColor}
       `}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <Link
-          href="/"
-          className={`font-bold text-xl ${textColor}`}
-        >
+        {/* Brand Logo */}
+        <Link href="/" className={`font-bold text-xl ${textColor}`}>
           ExperienceMyDubai
         </Link>
 
-        {!scrolled && (
-          <div className={`hidden md:flex items-center space-x-8 text-sm ${textColor}`}>
-            <Link href="/#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
-            <Link href="/#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
+        {/* Desktop Navigation */}
+        <div className={`hidden md:flex items-center space-x-8 text-sm ${textColor}`}>
+          {/* Hash links for homepage sections */}
+          <Link href="/#blogs" className="hover:opacity-70 transition">
+            Read Blogs
+          </Link>
 
-            {
-              user ? <button onClick={handleLogOut}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70 cursor-pointer">
-                         LogOut
-                      </button>
-                      :
+          <Link href="/#packages" className="hover:opacity-70 transition">
+            Holiday Tour Packages
+          </Link>
 
-                      <button onClick={()=>router.push('/register')}  className="px-5 py-1.5 border border-current rounded-md hover:opacity-70">
-                       Register
-                      </button>               
-            }
-          </div>
-        )}
-
-        <div className={`md:hidden ${textColor}`}>
-          {
-            isOpen ? <X onClick={()=>setIsOpen(false)} size={26} /> :  <Menu onClick={()=>setIsOpen(true)} size={26} />
-          }
-          
+          {/* Auth Buttons */}
+          {user ? (
+            <button
+              onClick={handleLogOut}
+              className="px-5 py-1.5 border border-current rounded-md hover:opacity-70 cursor-pointer"
+            >
+              LogOut
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/register")}
+              className="px-5 py-1.5 border border-current rounded-md hover:opacity-70"
+            >
+              Register
+            </button>
+          )}
         </div>
 
-        {scrolled && (
-          <div className="relative w-[250px] sm:w-[350px] hidden md:block ">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-              size={18}
-            />
-            <input
-              type="text"
-              placeholder="Search…"
-              className="pl-10 pr-4 py-2 w-full border rounded-lg bg-white text-black shadow border-gray"
-            />
-          </div>
-        )}
+        {/* Mobile Menu Icon */}
+        <div className={`md:hidden ${textColor}`}>
+          {isOpen ? (
+            <X onClick={() => setIsOpen(false)} size={26} />
+          ) : (
+            <Menu onClick={() => setIsOpen(true)} size={26} />
+          )}
+        </div>
+
+       
       </div>
 
-      {
-          isOpen && <div className="fixed top-12 left-[40%] w-full  bg-white  flex flex-col items-start  gap-6 pt-12 pl-6   transition-all overflow-hidden z-99 text-black py-12 ">
-                     {
-                    user ? <button onClick={handleLogOut}  className="underline hover:opacity-70 cursor-pointer">
-                              LogOut
-                            </button>
-                            :
+      {/* Mobile Dropdown Menu */}
+      {isOpen && (
+        <div
+          className="
+            fixed top-12 left-[40%] w-full bg-white 
+            flex flex-col items-start gap-6 
+            pt-12 pl-6 transition-all overflow-hidden 
+            z-99 text-black py-12
+          "
+        >
+          {/* User Auth */}
+          {user ? (
+            <button onClick={handleLogOut} className="underline hover:opacity-70 cursor-pointer">
+              LogOut
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/register")}
+              className="underline rounded-md hover:opacity-70"
+            >
+              Register
+            </button>
+          )}
 
-                            <button onClick={()=>router.push('/register')}  className="underline rounded-md hover:opacity-70">
-                            Register
-                            </button>               
-                     }
+          {/* Same homepage section links */}
+          <Link href="/#blogs" className="hover:opacity-70 transition">
+            Read Blogs
+          </Link>
 
-                      <Link href="/#blogs" className="hover:opacity-70 transition">Read Blogs</Link>
-                      <Link href="/#packages" className="hover:opacity-70 transition">Holiday Tour Packages</Link>
-    
-                      
-
-                   </div>
-        }
+          <Link href="/#packages" className="hover:opacity-70 transition">
+            Holiday Tour Packages
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }

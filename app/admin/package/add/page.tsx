@@ -406,6 +406,8 @@ export default function PackageForm() {
           </div>
         </section>
 
+        {/* ----Itinerary---- */}
+
      
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <div className="flex justify-between">

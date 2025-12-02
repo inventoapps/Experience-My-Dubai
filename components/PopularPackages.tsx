@@ -41,10 +41,10 @@ export default function PopularPackages(){
       
     
     return (
-        <section className="py-12 sm:py-16 px-4 sm:px-6 bg-accent/5">
+        <section className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5">
           <div className="max-w-7xl mx-auto">
 
-           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-1" >POPULAR DUBAI TOUR PACKAGES</h2>
+           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
             <div className="flex gap-2 mt-4">
             <button className="px-3 py-1 border border-gray-400 text-sm  rounded-lg bg-transparent cursor-pointer hover:bg-gray-300 hover:text-white ">
                 All

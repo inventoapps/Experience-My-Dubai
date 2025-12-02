@@ -51,19 +51,19 @@ export default function FormSection() {
   }
   return (
     <section
-      className="py-12 max-w-6xl mx-auto px-6"
+      className="py-12 px-6 sm:px-0 sm:py-16  max-w-7xl mx-auto "
       aria-labelledby="lead-form-heading"
     >
       {/* HEADING */}
       <h2
         id="lead-form-heading"
-        className="text-3xl font-bold text-foreground mb-6 uppercase"
+        className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
       >
         Plan Your Trip
       </h2>
 
       {/* GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-6">
 
         {/* ============== FORM LEFT SIDE ============== */}
         <form
@@ -184,12 +184,12 @@ export default function FormSection() {
           <button
             type="submit"
             className="
-              bg-red-500
+              bg-orange-500
                 text-background
                 px-6 py-3 rounded-lg 
                 w-full sm:w-auto 
                 font-medium 
-               hover:bg-red-600
+               hover:bg-orange-600
                 transition
             "
           >
@@ -205,7 +205,9 @@ export default function FormSection() {
             overflow-hidden 
             h-[300px] 
             md:h-full 
-            shadow-lg 
+            shadow-lg
+            hidden
+            sm:block
           "
           aria-label="Dubai travel inspiration"
         >

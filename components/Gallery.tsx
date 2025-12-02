@@ -1,13 +1,13 @@
 export default function Gallery(){
     return (
         <section
-            className="px-6 py-14 max-w-7xl mx-auto"
+            className="py-14 px-6 sm:px-0 max-w-7xl mx-auto"
             aria-labelledby="dubai-gallery-heading"
             >
             
             <h2
                 id="dubai-gallery-heading"
-                className="text-3xl sm:text-4xl font-bold text-foreground mb-8"
+                className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
             >
                 Dubai Travel Gallery
             </h2>
@@ -23,7 +23,7 @@ export default function Gallery(){
                 "
             >
                 
-                <figure className="overflow-hidden rounded-xl shadow-sm group cursor-pointer">
+                <figure className="overflow-hidden rounded-xl shadow-sm group cursor-pointer bg-white">
                 <img
                     src="https://images.musement.com/cover/0001/64/dubaiacquarium-jpg_header-63383.jpeg?&q=60&fit=crop"
                     width={500}

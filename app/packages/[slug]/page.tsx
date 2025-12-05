@@ -57,6 +57,7 @@ export default function PackageDetailsPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const router = useRouter();
   const [isDialogOpen , setIsDialogOpen] = useState(false);
+  const [expanded , setExpanded] = useState(false);
 
   const [form , setForm] = useState({
       name : "",

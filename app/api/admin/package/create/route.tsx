@@ -17,6 +17,9 @@ export async function POST(req: NextRequest) {
 
     let galleryUrls = [];
 
+    const published = body.submitType==='publish' ? true : false;
+    const publishedAt = body.submitType==='publish' ? new Date() : null;
+
    
     if (body.gallery?.length > 0) {
       for (const img of body.gallery) {
@@ -26,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
  
 
-    const pkg = await TourPackage.create({...body , gallery:galleryUrls});
+    const pkg = await TourPackage.create({...body , gallery:galleryUrls , published , publishedAt});
 
     return NextResponse.json(
       {

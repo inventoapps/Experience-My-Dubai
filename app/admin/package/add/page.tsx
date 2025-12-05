@@ -53,10 +53,6 @@ interface PackageType {
 
 
 export default function PackageForm() {
-  const [packages, setPackages] = useState<PackageType[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const [editPkg, setEditPkg] = useState<PackageType | null>(null);
 
   // Form States
   const [highlights, setHighlights] = useState([""]);
@@ -79,25 +75,9 @@ export default function PackageForm() {
   const [durationNights, setDurationNights] = useState<number>(0);
   const [durationBreakdown, setDurationBreakdown] = useState<
   { location: string; days: number }[]> ([{ location: "", days: 0 }]);
-  const [duration , setDuration] = useState<null | DurationType>(null);
 
 
-
-
-  async function fetchPackages() {
-    try {
-      const res = await fetch("/api/admin/package/get");
-      const data = await res.json();
-      setPackages(data.data || []);
-    } catch (err) {
-      console.error("ERR_FETCH_PACKAGES", err);
-    }
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    fetchPackages();
-  }, []);
+ 
 
   function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -183,7 +163,7 @@ export default function PackageForm() {
     setMessage(
       submitType === "publish" ? "Tour Published" : "Saved Draft"
     );
-    fetchPackages();
+
   }
 
 
@@ -191,30 +171,30 @@ export default function PackageForm() {
     <div className="flex gap-6">
       
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl font-semibold">
-            {editPkg ? "Edit Tour Package" : "Add Tour Package"}
-          </h1>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
+          <h1 className="text-xl font-semibold">Add Tour Package</h1>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
             <button
               type="submit"
               name="submitType"
               value="save"
-              className="border px-3 py-2 rounded"
+              className="border px-3 py-2 rounded w-full md:w-auto"
             >
               Save Draft
             </button>
+
             <button
               type="submit"
               name="submitType"
               value="publish"
-              className="border px-3 py-2 rounded bg-black text-white"
+              className="border px-3 py-2 rounded bg-black text-white w-full md:w-auto"
             >
               Publish
             </button>
           </div>
         </div>
+
 
         {message && (
           <p
@@ -234,18 +214,18 @@ export default function PackageForm() {
           <h2 className="text-sm font-semibold">Basic Information</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input name="title" label="Title" defaultValue={editPkg?.title} />
-            <Input name="slug" label="Slug" defaultValue={editPkg?.slug} />
+            <Input name="title" label="Title"  />
+            <Input name="slug" label="Slug"  />
             <Input
               name="location"
               label="Location"
-              defaultValue={editPkg?.location}
+              
             />
-            <Input name="city" label="City" defaultValue={editPkg?.city} />
+            <Input name="city" label="City"  />
             <Input
               name="country"
               label="Country"
-              defaultValue={editPkg?.country}
+              
             />
            
 <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
@@ -335,33 +315,33 @@ export default function PackageForm() {
               name="price"
               label="Price"
               type="number"
-              defaultValue={editPkg?.price}
+              
             />
             <Input
               name="discountPrice"
               label="Discount Price"
               type="number"
-              defaultValue={editPkg?.discountPrice}
+             
             />
             <Input
               name="rating"
               label="Rating"
               type="number"
-              defaultValue={editPkg?.rating}
+              
             />
 
             <Input
               name="totalRatings"
               label="totalRatings"
               type="number"
-              defaultValue={editPkg?.rating}
+           
             />
           </div>
 
           <Textarea
             name="description"
             label="Short Overview"
-            defaultValue={editPkg?.description}
+          
           />
         </section>
 
@@ -525,12 +505,12 @@ export default function PackageForm() {
           <Input
             name="metaTitle"
             label="Meta Title"
-            defaultValue={editPkg?.metaTitle}
+         
           />
           <Textarea
             name="metaDescription"
             label="Meta Description"
-            defaultValue={editPkg?.metaDescription}
+           
           />
         </section>
       </form>

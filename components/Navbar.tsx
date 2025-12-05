@@ -103,12 +103,12 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
       {/* Mobile Dropdown Menu */}
       {isOpen && (
         <div
-          className="
-            fixed top-12 left-[40%] w-full bg-white 
-            flex flex-col items-start gap-6 
-            pt-12 pl-6 transition-all overflow-hidden 
-            z-99 text-black py-12
-          "
+          className={
+            `fixed top-12 left-[40%] w-full bg-white 
+            flex flex-col items-start gap-6 rounded-lg
+            pt-12 pl-6 transition-translate ease-in-out animation-duration-initial overflow-hidden  
+            z-99 text-black py-12  ${isOpen ? "translate-x-1 opacity-100 z-999" : "-translate-x-full opacity-0"} `}
+          
         >
           {/* User Auth */}
           {user ? (

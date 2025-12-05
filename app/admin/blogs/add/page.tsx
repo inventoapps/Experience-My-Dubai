@@ -97,15 +97,17 @@ export default function BlogForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Add Blog Article</h1>
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
+        <h1 className="text-xl font-semibold">
+         Add Blog Article
+        </h1>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
           <button
             type="submit"
             name="submitType"
             value="save"
-            className="px-3 py-2 border rounded bg-white"
+            className="border px-3 py-2 rounded w-full md:w-auto"
           >
             Save Draft
           </button>
@@ -114,12 +116,13 @@ export default function BlogForm() {
             type="submit"
             name="submitType"
             value="publish"
-            className="px-3 py-2 border rounded bg-black text-white"
+            className="border px-3 py-2 rounded bg-black text-white w-full md:w-auto"
           >
             Publish
           </button>
         </div>
-      </div>
+</div>
+
 
       {/* STATUS */}
       {message && (

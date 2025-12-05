@@ -41,6 +41,8 @@ export interface TourPackage extends Document {
     question: string;
     answer: string;
   }[];
+  published : boolean;
+  publishedAt : Date;
 
   createdAt: Date;
   updatedAt: Date;
@@ -159,6 +161,17 @@ const TourPackageSchema = new Schema<TourPackage>(
         answer: { type: String },
       },
     ],
+
+    published : {
+        type : Boolean ,
+        default : false
+      }
+      ,
+
+      publishedAt : {
+          type : Date,
+          default : null
+      }
   },
 
   { timestamps: true }

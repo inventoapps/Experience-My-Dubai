@@ -4,7 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req:NextRequest){
     try {
-        const {id,...updatedData} = await req.json();
+        const {submitType , id,...updatedData} = await req.json();
+
+        const published = submitType === 'publish' ? true : false;
+        const publishedAt = submitType === 'publish' ? new Date() : null;
         
         if (!id) {
         return NextResponse.json(
@@ -12,8 +15,8 @@ export async function PUT(req:NextRequest){
             { status: 400 }
         );
     } 
-     const updated  = await Blog.findByIdAndUpdate(id , updatedData, {new: true, 
-     runValidators: true,
+     const updated  = await Blog.findByIdAndUpdate(id , {updatedData , published , publishedAt} ,
+       {new: true, runValidators: true,
     });
 
     if(!updated) {

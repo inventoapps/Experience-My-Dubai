@@ -4,12 +4,23 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { Star } from "lucide-react";
+import EnquiryForm from "@/components/EnquiryFormPopUp";
+
+
+
+interface ItineraryItem {
+  day: number;
+  title: string;
+  description: string;
+}
 
 export default function PackageDetailsPage() {
   const { slug } = useParams();
+  const [isDialogOpen , setIsDialogOpen] = useState(false);
   const [pkg, setPkg] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [openDay , setOpenDay] =  useState<number | null>(null);;
   const [form , setForm] = useState({
       name : "",
       email : "",
@@ -18,6 +29,11 @@ export default function PackageDetailsPage() {
       arrivalDate : "",
       comments : ""
     });
+
+     const toggleDay = (i: number) => {
+    setOpenDay(openDay === i ? null : i);
+  };
+
 
 
   useEffect(() => {
@@ -145,8 +161,9 @@ export default function PackageDetailsPage() {
             <ul className="space-y-3 text-gray-700">
               {pkg.highlights?.map((h: string, i: number) => (
                 <li key={i} className="flex gap-2">
-                  <span className="text-orange-600">✔</span> {h}
-                </li>
+                    <span className="text-orange-600">•</span>
+                    <span>{h}</span>
+                  </li>
               ))}
             </ul>
           </div>
@@ -180,31 +197,86 @@ export default function PackageDetailsPage() {
             </div>
           </div>
 
+
+          <section>
+              <h2 className="text-2xl font-bold mb-6">Itinerary</h2>
+
+              <div className="space-y-4">
+                {pkg.itinerary?.map((day: ItineraryItem, i: number) => (
+                  <div
+                    key={i}
+                    className="border rounded-xl p-4 cursor-pointer hover:shadow-sm transition"
+                    onClick={() => toggleDay(i)}
+                  >
+                    <div className="flex gap-4 ">
+                      
+                      <span className="font-medium">
+                         {i+1}.  {day.title}
+                      </span>
+                    </div>
+
+                    {openDay === i && (
+                      <p className="mt-3 text-gray-600 text-sm sm:text-base">
+                        {day.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+
         </div>
 
-        <aside className="bg-white border rounded-xl shadow p-6 h-fit lg:sticky lg:top-24 space-y-6">
 
-          <div>
-            <p className="text-gray-500 text-sm">Price Per Person</p>
+          
+       {/* Side Enquiry Section */}
 
-            <div className="flex items-end gap-3 mt-2">
-              <span className="text-3xl font-bold text-green-600">
-                ₹{pkg.discountPrice || pkg.price}
-              </span>
 
-              {discount && (
-                <>
-                  <span className="line-through text-gray-400">₹{pkg.price}</span>
-                  <span className="text-green-600 text-sm font-semibold">
-                    ({discount}% OFF)
-                  </span>
-                </>
-              )}
+          <aside className=" w-full max-w-md lg:ml-auto h-fit lg:sticky lg:top-24 space-y-6">
+           
+
+            <div className="border rounded-xl p-4 bg-white shadow-sm">
+              {/* Price + Rating Row */}
+              <div className="flex justify-between items-center mb-2">
+                <div>
+                  <p className="text-xl font-bold text-gray-900">
+                    INR {pkg?.discountPrice || pkg.price}
+                    <span className="text-sm font-normal text-gray-500 ml-1">Per Adult</span>
+                  </p>
+
+               
+                  <p className="text-gray-400 line-through text-sm">
+                    INR {pkg.price.toLocaleString()}
+                  </p>
+                  
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Star size={16} fill="#22C55E" className="text-green-600" />
+                  <span className="text-green-600 font-semibold">{pkg.rating}</span>
+                  <span className="text-gray-500 text-sm">({pkg.totalRatings})</span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <hr className="my-3" />
+
+              {/* Button */}
+              <button
+                onClick={()=>setIsDialogOpen(true)}
+              
+                className="
+                  w-full bg-orange-500 text-white 
+                  py-2.5 rounded-lg text-sm font-medium
+                  hover:bg-orange-600 transition
+                "
+              >
+                Send Enquiry
+              </button>
             </div>
-          </div>
 
-     
-          <form className="space-y-4" onSubmit={handleSubmit}>
+            <form className="space-y-4 bg-white border rounded-xl shadow p-6" onSubmit={handleSubmit}>
               <div>
                 <label className="text-sm font-semibold">Full Name</label>
                 <input
@@ -259,10 +331,19 @@ export default function PackageDetailsPage() {
                 type="submit"
                 className="bg-orange-600 hover:bg-orange-700 text-white w-full py-3 rounded-lg font-semibold transition"
               >
-                Book Now
+                Send Enquiry
               </button>
             </form>
-        </aside>
+          </aside>
+
+          <EnquiryForm
+                    isOpen={isDialogOpen}
+                    price={799}
+                    onCancel={() => setIsDialogOpen(false)}
+                    onConfirm={() => setIsDialogOpen(false)}
+                    pageUrl={window.location.href}
+                  
+                  />
 
       </section>
     </main>

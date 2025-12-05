@@ -51,7 +51,7 @@ export default function Hero() {
         ))}
 
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
       </div>
 
       {/* Hero Content */}

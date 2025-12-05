@@ -14,10 +14,12 @@ export async function PUT(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const { id, gallery, ...updateData } = body;
+    const { id, submitType , gallery, ...updateData } = body;
 
-    console.log(body.rating);
-    console.log(body.totalRatings)
+
+    const published = submitType==='public' ? true : false;
+    const publishedAt = submitType==='public' ?  new Date() : null;
+    
 
     if (!id) {
       return NextResponse.json(
@@ -47,7 +49,10 @@ export async function PUT(req: NextRequest) {
       id,
       { 
         ...updateData, 
-        gallery: finalGallery 
+        gallery: finalGallery,
+        published,
+        publishedAt
+        
       },
       {
         new: true,

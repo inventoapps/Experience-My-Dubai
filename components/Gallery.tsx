@@ -1,99 +1,70 @@
-export default function Gallery(){
-    return (
-        <section
-            className="py-14 px-6 sm:px-0 max-w-7xl mx-auto"
-            aria-labelledby="dubai-gallery-heading"
-            >
-            
-            <h2
-                id="dubai-gallery-heading"
-                className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
-            >
-                Dubai Travel Gallery
-            </h2>
+"use client";
 
-            
-            <div
-                className="
-                grid 
-                grid-cols-2 
-                sm:grid-cols-3 
-                md:grid-cols-4 
-                gap-4
-                "
-            >
-                
-                <figure className="overflow-hidden rounded-xl shadow-sm group cursor-pointer bg-white">
-                <img
-                    src="https://images.musement.com/cover/0001/64/dubaiacquarium-jpg_header-63383.jpeg?&q=60&fit=crop"
-                    width={500}
-                    height={500}
-                    alt="Dubai beach landscape"
-                    className="
-                    rounded-xl 
-                    object-cover 
-                    w-full h-full 
-                    transition-transform 
-                    duration-500 
-                    group-hover:scale-110
-                    "
-                />
-                </figure>
+const galleryImages = [
+  {
+    src: "/images/gallery1.webp",
+    alt: "Dubai beach landscape",
+  },
+  { src : "/images/gallery2.webp",
+    alt: "Desert safari jeep adventure",
+  },
+  { src : "/images/gallery3.webp",
+    alt: "Iconic Burj Al Arab hotel",
+  },
+  { src : "/images/gallery4.webp",
+    alt: "Palm Jumeirah aerial view",
+  },
+];
 
-               
-                <figure className="overflow-hidden rounded-xl shadow-sm group cursor-pointer">
-                <img
-                    src="https://images.musement.com/cover/0001/64/dubaiacquarium-jpg_header-63383.jpeg?&q=60&fit=crop"
-                    width={500}
-                    height={500}
-                    alt="Desert safari jeep adventure"
-                    className="
-                    rounded-xl 
-                    object-cover 
-                    w-full h-full 
-                    transition-transform 
-                    duration-500 
-                    group-hover:scale-110
-                    "
-                />
-                </figure>
+export default function Gallery() {
+  return (
+    <section
+      className="py-14 px-6 sm:px-0 max-w-7xl mx-auto"
+      aria-labelledby="dubai-gallery-heading"
+    >
+      {/* Heading */}
+      <h2
+        id="dubai-gallery-heading"
+        className="text-3xl sm:text-4xl font-bold text-gray-900 mb-10 "
+      >
+        Dubai Travel Gallery
+      </h2>
 
-                
-                <figure className="overflow-hidden rounded-xl shadow-sm group cursor-pointer">
-                <img
-                    src="https://images.musement.com/cover/0001/64/dubaiacquarium-jpg_header-63383.jpeg?&q=60&fit=crop"
-                    width={500}
-                    height={500}
-                    alt="Iconic Burj Al Arab hotel"
-                    className="
-                    rounded-xl 
-                    object-cover 
-                    w-full h-full 
-                    transition-transform 
-                    duration-500 
-                    group-hover:scale-110
-                    "
-                />
-                </figure>
-
-               
-                <figure className="overflow-hidden rounded-xl shadow-sm group cursor-pointer">
-                <img
-                    src="https://images.musement.com/cover/0001/64/dubaiacquarium-jpg_header-63383.jpeg?&q=60&fit=crop"
-                    width={500}
-                    height={500}
-                    alt="Palm Jumeirah aerial view"
-                    className="
-                    rounded-xl 
-                    object-cover 
-                    w-full h-full 
-                    transition-transform 
-                    duration-500 
-                    group-hover:scale-110
-                    "
-                />
-                </figure>
-            </div>
-        </section>
-    )
+      {/* Grid */}
+      <div
+        className="
+          grid 
+          grid-cols-1 
+          sm:grid-cols-3 
+          md:grid-cols-4 
+          gap-4
+          sm:px-6
+          px-4
+        "
+      >
+        {galleryImages.map((img, index) => (
+          <figure
+            key={index}
+            className="overflow-hidden rounded-2xl shadow group cursor-pointer bg-white"
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              width={500}
+              height={500}
+              className="
+                object-cover 
+                w-full 
+                h-full 
+                rounded-2xl
+                transition-transform 
+                duration-500 
+                group-hover:scale-110
+              "
+            />
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
 }

@@ -32,7 +32,7 @@ export interface IActivity extends Document {
   }[],
 
   totalRatings : number;
-   faq?: {
+   faqs?: {
     question: string;
     answer: string;
   }[];  
@@ -40,11 +40,16 @@ export interface IActivity extends Document {
 
   metaTitle?: string;
   metaDescription?: string;
+  published : boolean;
+  publishedAt : Date;
 
 
   createdAt: Date;
   updatedAt: Date;
 }
+
+
+
 
 const ActivitySchema = new Schema<IActivity>(
   {
@@ -98,7 +103,7 @@ const ActivitySchema = new Schema<IActivity>(
        required : true
     },
     
-    faq: [
+    faqs: [
       {
         question: { type: String },
         answer: { type: String },
@@ -117,7 +122,16 @@ const ActivitySchema = new Schema<IActivity>(
     metaTitle: { type: String },
     metaDescription: { type: String },
 
-   
+    published : {
+        type : Boolean ,
+        default : false
+      }
+      ,
+
+      publishedAt : {
+          type : Date,
+          default : null
+      }
   },
   {
     timestamps: true, 

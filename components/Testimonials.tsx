@@ -2,23 +2,23 @@ import Image from "next/image";
 
 const  testimonials = [ {
   experience : "I had the most incredible Dubai experience! Everything from the itinerary to the hotel and desert safari was perfectly organized.Truly unforgettable!",
-  image : "https://i.pravatar.cc/100?img=12",
+  image : "https://i.pravatar.cc/100?img=22",
   name :  "Rahul Sharma",
   country : "India"
 },
 {
-  experience : "I had the most incredible Dubai experience! Everything from the itinerary to the hotel and desert safari was perfectly organized.Truly unforgettable!",
-  image : "https://i.pravatar.cc/100?img=12",
-  name :  "Rahul Sharma",
-  country : "India"
-
+   experience:
+      "Our Dubai trip was absolutely amazing! The Burj Khalifa visit and Marina Cruise dinner were the highlights. Everything was well-planned and extremely smooth.",
+    image: "https://i.pravatar.cc/100?img=32",
+    name: "Sophia Martinez",
+    country: "Spain",
 },
 {
-  experience : "I had the most incredible Dubai experience! Everything from the itinerary to the hotel and desert safari was perfectly organized.Truly unforgettable!",
-  image : "https://i.pravatar.cc/100?img=12",
-  name :  "Rahul Sharma",
-  country : "India"
-
+  experience:
+      "The team arranged a flawless holiday for us. Desert Safari, Global Village, and the city tour were all perfectly timed. Great service and great hospitality!",
+    image: "https://i.pravatar.cc/100?img=45",
+    name: "James Anderson",
+    country: "United Kingdom",
 }
 
 ];

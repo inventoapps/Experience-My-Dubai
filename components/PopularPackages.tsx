@@ -16,27 +16,47 @@ interface PackageType {
   gallery: string[];
 }
 
+interface optionType {
+   id : number;
+   label : string;
+}
 export default function PopularPackages(){
     const [packages, setPackages] = useState<PackageType[]>([]);
     const [loading, setLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [pageUrl , setPageUrl] = useState<string | undefined>('/');
+    const [activeId , setActiveId] = useState<number>(1);
+    
+    const option = [
+       {id:1 , label:"All"},
+       {id:2 , label:"5–8 Days"},
+       {id:3 , label:"10+ Days"},
+       {id:4, label:"Less than 5 Days"}
+    ]
+  
+    
       
     
       async function fetchPackages() {
         try {
-          const res = await fetch("/api/admin/package/get");
+          const res = await fetch(`/api/package/${activeId}`);
           const data = await res.json();
           setPackages(data.data || []);
         } catch (err) {
           console.error("ERR_FETCH_PACKAGES", err);
         }
-        setLoading(false);
+        finally{
+          setLoading(false);
+        }
       }
     
       useEffect(() => {
         fetchPackages();
-      }, []);
+      }, [activeId]);
+
+      if(loading){
+          return <div className=" py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 animate-ping">Loading...</div>
+      }
 
       
     
@@ -45,31 +65,26 @@ export default function PopularPackages(){
           <div className="max-w-7xl mx-auto">
 
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
-            <div className="flex gap-2 mt-4">
-            <button className="px-3 py-1 border border-gray-400 text-sm  rounded-lg bg-transparent cursor-pointer hover:bg-gray-300 hover:text-white ">
-                All
-            </button>
+           <div className="flex gap-2 mt-4">
+            
+            {option.map((item: optionType, idx: number) => (
+              <button onClick={()=>setActiveId(item.id)}  key={idx} className={`px-3 py-1 border border-gray-400 ${activeId === item.id ? "bg-orange-500 text-white border-none " : "bg-transparent" } text-sm  rounded-lg `}>
+                 {item.label}
+               </button>
+            ))}
 
-            <button className="px-3 py-1 border border-gray-400 text-sm bg-transparent rounded-lg hover:bg-gray-300 hover:text-white">
-                5–8 Days
-            </button>
-
-            <button className="px-3 py-1 border border-gray-400 text-sm  rounded-lg bg-transparent hover:bg-gray-300 hover:text-white">
-                10+ Days
-            </button>
-
-            <button className="px-3 py-1 border border-gray-400 text-sm  rounded-lg bg-transparent hover:bg-gray-300 hover:text-white">
-                Less than 5 Days
-            </button>
            </div>
-
-           
+          
         </div>
 
         
-      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"} setPageUrl={setPageUrl} />
+     {packages.length > 0  ? 
+     <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"} setPageUrl={setPageUrl} /> :
+      <div className="py-16 text-center text-2xl font-bold text-gray-500" >Packages Not Found</div>
+     }
        
       <EnquiryForm
+              
               isOpen={isDialogOpen}
               price={799}
               onCancel={() => setIsDialogOpen(false)}

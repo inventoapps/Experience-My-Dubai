@@ -154,10 +154,7 @@ export default function PackageForm() {
     const fd = new FormData(e.currentTarget);
     const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
     const submitType = submitter.value;
-    if(submitType === 'publish'){
-        setIsPublished(true);
-    }
-
+   
     const payload = {
       title: fd.get("title"),
       slug: fd.get("slug"),
@@ -214,37 +211,17 @@ export default function PackageForm() {
       setIsPublished(false)
       return;
     }
-
-    
-    const res = await fetch("/api/admin/package/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      setStatus("error");
-      setMessage("Failed to save package.");
-      return;
-    }
-
-
-    setStatus("success");
-    setMessage(
-      submitType === "publish" ? "Tour Published" : "Saved Draft"
-    );
-    fetchPackages();
-
-
-    setIsPublished(false)
-    
+ 
   }
 
   
 
   return (
-    <div className="flex gap-6">
+    <div className="flex-col gap-6">
       {/* ========== SIDEBAR LIST ========== */}
+      <div>
+        
+      </div>
       <aside className="w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto">
         <h3 className="font-semibold mb-3">All Packages</h3>
 

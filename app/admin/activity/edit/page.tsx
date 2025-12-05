@@ -4,7 +4,6 @@ import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
 
 interface ItineraryItem {
-  day: number;
   title: string;
   description: string;
 }
@@ -60,7 +59,6 @@ export default function PackageForm() {
   const [inclusions, setInclusions] = useState([""]);
   const [exclusions, setExclusions] = useState([""]);
   const [gallery, setGallery] = useState(["", "", ""]);
-  const [faqSectionTitle, setFaqSectionTitle] = useState("");
   const [tourFaqs, setTourFaqs] = useState<FAQItem[]>([
     { question: "", answer: "" },
   ]);
@@ -69,6 +67,10 @@ export default function PackageForm() {
     useState<"idle" | "saving" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
  ;
+
+ const [itinerary, setItinerary] = useState<ItineraryItem[]>([
+       {title: "", description: "" },
+     ]);
 
 
 
@@ -96,7 +98,8 @@ export default function PackageForm() {
     setExclusions(editPkg.exclusions || [""]);
     setGallery(editPkg.gallery || ["", "", ""]);
     setTourFaqs(editPkg.faqs || [{ question: "", answer: "" }]);
-    setFaqSectionTitle(editPkg.faqs?.[0]?.title || "");
+    setItinerary(editPkg.itinerary || [{title: "", description: "" }]);
+
 
   }
 }, [editPkg]);
@@ -150,10 +153,10 @@ export default function PackageForm() {
       inclusions,
       exclusions,
       gallery,
+      itinerary,
       id : editPkg?._id,
 
       faqs: tourFaqs.map((f) => ({
-        title: faqSectionTitle,
         question: f.question,
         answer: f.answer,
       })),
@@ -182,24 +185,6 @@ export default function PackageForm() {
       return;
     }
 
-    
-    const res = await fetch("/api/admin/activity/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      setStatus("error");
-      setMessage("Failed to save package.");
-      return;
-    }
-
-    setStatus("success");
-    setMessage(
-      submitType === "publish" ? "Tour Published" : "Saved Draft"
-    );
-    fetchPackages();
   }
 
   
@@ -208,7 +193,7 @@ export default function PackageForm() {
     <div className="flex gap-6">
    
       <aside className="w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto">
-        <h3 className="font-semibold mb-3">All Packages</h3>
+        <h3 className="font-semibold mb-3">All Activity Packages</h3>
 
         {loading ? (
           <p>Loading...</p>
@@ -235,7 +220,7 @@ export default function PackageForm() {
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">
-            {editPkg ? "Edit Tour Package" : "Add Tour Package"}
+            Edit Activity Packages
           </h1>
 
           <div className="flex gap-2">
@@ -396,15 +381,72 @@ export default function PackageForm() {
           </div>
         </section>
 
+        <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+          <div className="flex justify-between">
+            <h2 className="text-sm font-semibold">Itinerary</h2>
+
+            <button
+              type="button"
+              className="text-xs border px-2 py-1 rounded"
+              onClick={() =>
+                setItinerary([
+                  ...itinerary,
+                  {
+                    title: "",
+                    description: "",
+                  },
+                ])
+              }
+            >
+              + Add Day
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {itinerary.map((item, i) => (
+              <div key={i} className="border p-3 rounded space-y-3">
+                <div className="flex justify-between">
+
+                  {i > 0 && (
+                    <button
+                      type="button"
+                      className="text-xs border px-2 py-1 rounded"
+                      onClick={() =>
+                        setItinerary(itinerary.filter((_, idx) => idx !== i))
+                      }
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+
+                <Input
+                  label="Title"
+                  value={item.title}
+                  onChange={(e) => {
+                    const copy = [...itinerary];
+                    copy[i].title = e.target.value;
+                    setItinerary(copy);
+                  }}
+                />
+                <Textarea
+                  label="Description"
+                  value={item.description}
+                  onChange={(e) => {
+                    const copy = [...itinerary];
+                    copy[i].description = e.target.value;
+                    setItinerary(copy);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ========== FAQ ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">FAQs</h2>
 
-          <Input
-            label="FAQ Section Title"
-            value={faqSectionTitle}
-            onChange={(e) => setFaqSectionTitle(e.target.value)}
-          />
 
           <div className="space-y-4">
             {tourFaqs.map((faq, i) => (

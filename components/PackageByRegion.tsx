@@ -41,7 +41,7 @@ export default function PackageByRegion(){
                     Packages by Region
                 </h2>
 
-                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 px-6">
+                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 sm:px-6 px-4 ">
                     {destinations.map((d) => (
                     <DestinationCard
                         key={d.title}

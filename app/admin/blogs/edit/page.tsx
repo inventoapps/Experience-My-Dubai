@@ -212,30 +212,30 @@ export default function BlogForm() {
 
       {/* ---------- MAIN FORM ---------- */}
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-3xl">
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl font-semibold">
-            {editBlog ? "Edit Blog" : "Add Blog Article"}
-          </h1>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
+            <h1 className="text-xl font-semibold">Edit Blog</h1>
 
-          <div className="flex gap-2">
-            <button
-              type="submit"
-              name="submitType"
-              value="save"
-              className="px-3 py-2 border rounded"
-            >
-              Save Draft
-            </button>
-            <button
-              type="submit"
-              name="submitType"
-              value="publish"
-              className="px-3 py-2 border rounded bg-black text-white"
-            >
-              Publish
-            </button>
-          </div>
-        </div>
+            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+              <button
+                type="submit"
+                name="submitType"
+                value="save"
+                className="px-3 py-2 border rounded w-full md:w-auto"
+              >
+                Save Draft
+              </button>
+
+              <button
+                type="submit"
+                name="submitType"
+                value="publish"
+                className="px-3 py-2 border rounded bg-black text-white w-full md:w-auto"
+              >
+                Publish
+              </button>
+            </div>
+            </div>
+
 
         {message && (
           <p

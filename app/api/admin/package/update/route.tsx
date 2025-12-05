@@ -14,7 +14,7 @@ export async function PUT(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const { id, gallery, ...updateData } = body;
+    const {submitType, id, gallery, ...updateData } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -22,6 +22,9 @@ export async function PUT(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    const published  = submitType === 'publish' ? true : false;
+    const publishedAt = submitType === 'publish' ? new Date() : null;
 
     if(!body.totalRatings){
        return NextResponse.json({message:"Total rating required" },{status:401})
@@ -48,7 +51,9 @@ export async function PUT(req: NextRequest) {
       id,
       { 
         ...updateData, 
-        gallery: finalGallery 
+        gallery: finalGallery,
+        published,
+        publishedAt
       },
       {
         new: true,

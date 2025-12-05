@@ -15,6 +15,9 @@ export  async function POST(req:NextRequest) {
         const body = await req.json();
         let galleryUrls = [];
 
+        const published = body.submitType === 'publish' ? true : false;
+        const publishedAt = body.submitType === 'publish' ? new Date() : null;
+
 
         if(body.gallery?.length > 0){
             for (const img of body.gallery) {
@@ -23,14 +26,14 @@ export  async function POST(req:NextRequest) {
               }
             }
 
-         const newActivity = await Activity.create({...body, gallery:galleryUrls});
-           return NextResponse.json(
-               {
-                 message: body.submitType === "publish" ? "Package Published" : "Draft Saved",
-                 data: newActivity
-               },
-               { status: 200 }
-             );
+         const newActivity = await Activity.create({...body, gallery:galleryUrls , published , publishedAt});
+          return NextResponse.json(
+              {
+                message: body.submitType === "publish" ? "Package Published" : "Draft Saved",
+                data: newActivity
+              },
+              { status: 200 }
+            );
         
     } catch (error) {
         console.log(error);

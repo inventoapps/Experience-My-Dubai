@@ -16,6 +16,8 @@ export async function POST(req:NextRequest) {
         await connectDB();
         
         const body = await req.json();
+        const published = body.submitType === 'publish' ? true : false;
+        const publishedAt = body.submitType === 'publish' ? new Date() : null;
 
         let thumbnailURL;
 
@@ -24,7 +26,7 @@ export async function POST(req:NextRequest) {
            thumbnailURL = uploaded.secure_url;
         }
              
-        const blog = await Blog.create({...body , thumbnail : thumbnailURL});
+        const blog = await Blog.create({...body , thumbnail : thumbnailURL , published , publishedAt});
 
         return NextResponse.json({message:"Blog is created",data:blog},{status:200});
         

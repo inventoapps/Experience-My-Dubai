@@ -154,8 +154,11 @@ export default function Page(){
 
          {/* All packages by region */}
          <section className="py-12 sm:py-16  max-w-7xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground uppercase">All Down Town Dubai Tour Packages</h2>
-            <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen}  route="packagebyregion" setPageUrl={setPageUrl}  />
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">All Down Town Dubai Tour Packages</h2>
+           {packages.length > 0 ?  <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen}  route="packagebyregion" setPageUrl={setPageUrl}  /> : 
+                  <div className="py-16 text-center text-2xl font-bold text-gray-500" >Packages Not Found</div>
+                }
+
          </section>
 
 

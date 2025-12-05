@@ -45,11 +45,9 @@ export default function AllActivityPage(){
     const deletePackage = async(id:string)=>{
        try {
         const payload = {id};
-        const res = await fetch('/api/admin/activity/delete', {
+        const res = await fetch(`/api/admin/activity/delete/${id}`, {
         method : "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        
+        headers: { "Content-Type": "application/json" }
       })
 
        if(res.ok){

@@ -2,13 +2,14 @@ import { connectDB } from "@/lib/mongodb";
 import Activity from "@/models/Activity";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest, {params} : {params : { id : string}}){
+export async function GET(req:NextRequest, {params} : {params : Promise<{ id : string}>}){
    try {
 
       await connectDB();
+      const {id} = await params;
     
       
-      const activity = await Activity.findById(params.id);
+      const activity = await Activity.findById(id);
 
       return NextResponse.json({message:"Get activity", data:activity},{status:200});
     

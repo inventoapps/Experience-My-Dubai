@@ -2,12 +2,12 @@ import { connectDB } from "@/lib/mongodb";
 import Activity from "@/models/Activity";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req:NextRequest) {
+export async function DELETE(req:NextRequest , {params} : {params : Promise<{id:string}>}) {
     try {
          
          await connectDB();
            
-        const {id} = await req.json();
+        const {id} = await params;
         
         if(!id){
             return NextResponse.json({message:"Activity Id is required"},{status:404});

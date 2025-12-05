@@ -2,7 +2,7 @@ import { TourPackage } from "@/models/package";
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 
-export async function DELETE(req:NextRequest) {
+export async function DELETE(req:NextRequest ) {
     try {
         await connectDB();
         const {id} = await req.json();

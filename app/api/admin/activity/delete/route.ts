@@ -1,8 +1,8 @@
 import { connectDB } from "@/lib/mongodb";
 import Activity from "@/models/Activity";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req:NextResponse) {
+export async function DELETE(req:NextRequest) {
     try {
          
          await connectDB();

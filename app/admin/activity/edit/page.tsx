@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
-
+import { SidebarIcon } from "lucide-react";
 interface ItineraryItem {
   title: string;
   description: string;
@@ -71,6 +71,7 @@ export default function PackageForm() {
  const [itinerary, setItinerary] = useState<ItineraryItem[]>([
        {title: "", description: "" },
      ]);
+ const [showSidebar , setShowSidebar] = useState(false);
 
 
 
@@ -190,9 +191,27 @@ export default function PackageForm() {
   
 
   return (
-    <div className="flex gap-6">
+    <div className="md:flex gap-6 grid">
+       <button
+        className="md:hidden p-3 border rounded-lg mb-4 bg-gray-700 text-white font-semibold flex justify-center "
+        onClick={() => setShowSidebar(true)}
+      >
+        <span className="flex gap-2"><SidebarIcon/> Select Activity Packages </span>
+      </button>
    
-      <aside className="w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto">
+      <aside className={`
+                      w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto z-40
+                      fixed top-0 left-0 transform transition-transform duration-300
+                      md:static md:translate-x-0
+                      ${showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+                    `}
+          >
+         <button
+            className="md:hidden text-xl mb-3"
+            onClick={() => setShowSidebar(false)}
+          >
+            ✕
+          </button>
         <h3 className="font-semibold mb-3">All Activity Packages</h3>
 
         {loading ? (
@@ -220,10 +239,10 @@ export default function PackageForm() {
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">
-            Edit Activity Packages
+            Edit Activity 
           </h1>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <button
               type="submit"
               name="submitType"

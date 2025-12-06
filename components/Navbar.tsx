@@ -48,25 +48,33 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
   return (
     <nav
       className={`
-        fixed top-0 left-0 w-full z-50 transition-all duration-300
+        fixed top-0 left-0 w-full z-50 transition-all duration-300 
         ${scrolled ? "bg-white shadow-md py-5" : "bg-transparent py-5"}
         ${textColor}
       `}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className={`font-bold text-xl ${textColor}`}>
+        <Link href="/" className={`font-bold text-xl ${textColor} text-xl font-bold tracking-wide`}>
           ExperienceMyDubai
         </Link>
 
         {/* Desktop Navigation */}
         <div className={`hidden md:flex items-center space-x-8 text-sm ${textColor}`}>
           {/* Hash links for homepage sections */}
-          <Link href="/#blogs" className="hover:opacity-70 transition">
+          <Link href="/#blogs" className="hover:opacity-70 transition relative
+                                          after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 
+                                          after:bg-white after:transition-all after:duration-300
+                                          hover:after:w-full
+                                        ">
             Read Blogs
           </Link>
 
-          <Link href="/#packages" className="hover:opacity-70 transition">
+          <Link href="/#packages" className="hover:opacity-70 transition relative
+                                            after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 
+                                            after:bg-white after:transition-all after:duration-300
+                                            hover:after:w-full
+                                            ">
             Holiday Tour Packages
           </Link>
 

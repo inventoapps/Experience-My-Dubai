@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef , ChangeEvent } from "react";
 import mongoose from "mongoose";
+import { SidebarIcon } from "lucide-react";
 
 type Blog = {
   _id: mongoose.Types.ObjectId;
@@ -35,7 +36,8 @@ export default function BlogForm() {
 
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
-  const [thumbnail , setThumbanail] = useState("");  
+  const [thumbnail , setThumbanail] = useState(""); 
+  const [showSidebar , setShowSidebar] = useState(false); 
 
 
 
@@ -183,10 +185,31 @@ export default function BlogForm() {
   // ============================================
 
   return (
-    <div className="flex gap-6">
+    <div className="md:flex gap-6 grid   ">
       {/* ---------- SIDEBAR ---------- */}
-      <aside className="w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto">
-        <h3 className="font-semibold mb-3">All Blogs</h3>
+      <button className="md:hidden p-3 border rounded-lg mb-4 bg-gray-700 text-white font-semibold flex justify-center " onClick={()=>setShowSidebar(true)}>
+        <span className="flex gap-2"><SidebarIcon/> Select Blogs </span>
+
+      </button>
+      {
+        showSidebar && <div className="inset-0 bg-black/40 fixed z-30 md:hidden" onClick={()=>setShowSidebar(false)}>
+
+                      </div>
+          }
+      <aside className={`
+            w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto z-40
+            fixed top-0 left-0 transform transition-transform duration-300
+            md:static md:translate-x-0
+            ${showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          `}>
+           <button
+            className="md:hidden text-xl mb-3"
+            onClick={() => setShowSidebar(false)}
+          >
+            ✕
+          </button>
+          <h3 className="font-semibold mb-3">All Blogs</h3>
+         
 
         {loading ? (
           <p>Loading...</p>
@@ -212,15 +235,15 @@ export default function BlogForm() {
 
       {/* ---------- MAIN FORM ---------- */}
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-3xl">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
+        <div className="flex  flex-row justify-between items-center gap-0">
             <h1 className="text-xl font-semibold">Edit Blog</h1>
 
-            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+            <div className="flex flex-row gap-2 w-auto">
               <button
                 type="submit"
                 name="submitType"
                 value="save"
-                className="px-3 py-2 border rounded w-full md:w-auto"
+                className="px-3 py-2 border rounded w-auto"
               >
                 Save Draft
               </button>
@@ -229,7 +252,7 @@ export default function BlogForm() {
                 type="submit"
                 name="submitType"
                 value="publish"
-                className="px-3 py-2 border rounded bg-black text-white w-full md:w-auto"
+                className="px-3 py-2 border rounded bg-black text-white w-auto"
               >
                 Publish
               </button>

@@ -65,15 +65,22 @@ export default function PopularPackages(){
           <div className="max-w-7xl mx-auto">
 
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
-           <div className="flex gap-2 mt-4">
-            
+          <div className="flex flex-wrap gap-2 mt-4">
             {option.map((item: optionType, idx: number) => (
-              <button onClick={()=>setActiveId(item.id)}  key={idx} className={`px-3 py-1 border border-gray-400 ${activeId === item.id ? "bg-orange-500 text-white border-none " : "bg-transparent" } text-sm  rounded-lg `}>
-                 {item.label}
-               </button>
-            ))}
+              <button
+                onClick={() => setActiveId(item.id)}
+                key={idx}
+                className={`px-3 py-1 border border-gray-400 ${
+                  activeId === item.id
+                    ? "bg-orange-500 text-white border-none"
+                    : "bg-transparent"
+                } text-sm rounded-lg`}
+              >
+                {item.label}
+              </button>
+              ))}
+            </div>
 
-           </div>
           
         </div>
 

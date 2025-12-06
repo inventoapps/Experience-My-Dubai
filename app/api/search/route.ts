@@ -15,12 +15,12 @@ export async function GET(req: Request) {
 
   const result1 = await TourPackage.find(
   { title: { $regex: q, $options: "i" } },
-  { title: 1, slug: 1, gallery: 1 }
+  { title: 1, slug: 1, gallery: 1 , duration:1}
 ).limit(4);
 
 const result2 = await Activity.find(
   { title: { $regex: q, $options: "i" } },
-  { title: 1, slug: 1, gallery: 1 }
+  { title: 1, slug: 1, gallery: 1 , duration:1 }
 ).limit(4);
 
 // Combine as a single array

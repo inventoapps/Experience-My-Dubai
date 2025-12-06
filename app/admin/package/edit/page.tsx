@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, ChangeEvent } from "react";
 import mongoose from "mongoose";
-
+import { SidebarIcon } from "lucide-react";
 interface ItineraryItem {
   day: number;
   title: string;
@@ -81,6 +81,7 @@ export default function PackageForm() {
   const [durationNights, setDurationNights] = useState<number>(0);
   const [durationBreakdown, setDurationBreakdown] = useState<
   { location: string; days: number }[]> ([{ location: "", days: 0 }]);
+  const [showSidebar , setShowSidebar] = useState(false);
 
 
 
@@ -217,40 +218,71 @@ export default function PackageForm() {
   
 
   return (
-    <div className="flex-col gap-6">
+    <div className="md:flex gap-6 grid ">
       {/* ========== SIDEBAR LIST ========== */}
-      <div>
-        
-      </div>
-      <aside className="w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto">
-        <h3 className="font-semibold mb-3">All Packages</h3>
+      <button
+        className="md:hidden p-3 border rounded-lg mb-4 bg-gray-700 text-white font-semibold flex justify-center "
+        onClick={() => setShowSidebar(true)}
+      >
+        <span className="flex gap-2"><SidebarIcon/> Select Packages </span>
+      </button>
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : packages.length === 0 ? (
-          <p className="text-sm text-gray-500">No packages found</p>
-        ) : (
-          packages.map((pkg) => (
-            <div
-              key={String(pkg._id)}
-              className={`p-3 border rounded mb-2 cursor-pointer ${
-                editPkg?._id === pkg._id ? "bg-gray-100" : ""
-              }`}
-              onClick={() => setEditPkg(pkg)}
-            >
-              <p className="font-medium text-sm">{pkg.title}</p>
-              <p className="text-[11px] text-gray-500">{pkg.slug}</p>
-
-            </div>
-          ))
+     {/* Sidebar Overlay for Mobile */}
+        {showSidebar && (
+          <div
+            className="fixed inset-0 bg-black/40 z-30 md:hidden"
+            onClick={() => setShowSidebar(false)}
+          />
         )}
-      </aside>
+
+        {/* Sidebar */}
+        <aside
+          className={`
+            w-64 bg-white p-4 border rounded-xl h-[85vh] overflow-y-auto z-40
+            fixed top-0 left-0 transform transition-transform duration-300
+            md:static md:translate-x-0
+            ${showSidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          `}
+        >
+          {/* Close button only for mobile */}
+          <button
+            className="md:hidden text-xl mb-3"
+            onClick={() => setShowSidebar(false)}
+          >
+            ✕
+          </button>
+
+          <h3 className="font-semibold mb-3">All Packages</h3>
+
+          {loading ? (
+            <p>Loading...</p>
+          ) : packages.length === 0 ? (
+            <p className="text-sm text-gray-500">No packages found</p>
+          ) : (
+            packages.map((pkg) => (
+              <div
+                key={String(pkg._id)}
+                className={`p-3 border rounded mb-2 cursor-pointer ${
+                  editPkg?._id === pkg._id ? "bg-gray-100" : ""
+                }`}
+                onClick={() => {
+                  setEditPkg(pkg);
+                  setShowSidebar(false); // auto close on mobile
+                }}
+              >
+                <p className="font-medium text-sm">{pkg.title}</p>
+                <p className="text-[11px] text-gray-500">{pkg.slug}</p>
+              </div>
+            ))
+          )}
+        </aside>
+
 
      
       <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">
-            {editPkg ? "Edit Tour Package" : "Add Tour Package"}
+              Edit Tour Package 
           </h1>
 
           <div className="flex gap-2">

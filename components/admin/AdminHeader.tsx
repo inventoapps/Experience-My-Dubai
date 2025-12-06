@@ -1,8 +1,15 @@
 "use client"
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 export default function AdminHeader() {
+  const router = useRouter();
+
+  
   
   const handleLogOut =  ()=>{
      localStorage.removeItem('isAdmin');
+     router.push("/authorization/login")
+     
   }
   return (
     <header className="bg-white border-b px-6 py-4 flex items-center justify-between ">

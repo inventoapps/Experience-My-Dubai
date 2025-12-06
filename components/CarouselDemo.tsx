@@ -82,7 +82,13 @@ const shouldShowButtons = packages.length > visibleCards;
                       </div>
 
                       {/* Title */}
-                      <h2 className="font-semibold text-base sm:text-lg text-gray-900 leading-tight line-clamp-2">
+                      <h2 className="
+                        font-semibold 
+                        text-base sm:text-lg 
+                      text-gray-900 
+                        leading-tight 
+                        line-clamp-2 
+                        min-h-[3.2rem] ">
                         {val.title}
                       </h2>
 
@@ -156,6 +162,7 @@ const shouldShowButtons = packages.length > visibleCards;
                             rounded-lg 
                             hover:bg-orange-600 
                             transition
+                             cursor-pointer
                           "
                         >
                           Send Enquiry

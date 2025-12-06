@@ -10,6 +10,7 @@ type PackageResult = {
   slug: string;
   thumbnail?: string;
   gallery:string[];
+  duration:any;
 };
 
 export default function SearchBar() {
@@ -64,7 +65,13 @@ export default function SearchBar() {
     }
 
     if (e.key === "Enter" && activeIndex >= 0) {
-      router.push(`/packages/${results[activeIndex].slug}`);
+      if(typeof results[activeIndex]?.duration === 'number'){
+          router.push(`/activity/${results[activeIndex].slug}`)
+      }
+      else{
+           router.push(`/packages/${results[activeIndex].slug}`);
+      }
+
       setOpen(false);
     }
   }
@@ -73,12 +80,13 @@ export default function SearchBar() {
 
   return (
     <div ref={wrapperRef} className="relative w-full max-w-[300px] sm:max-w-[450px] ">
-      <div className="bg-white rounded-xl border-2 border-green-300 relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
+      <div className="bg-white rounded-xl border-2 border-green-300 relative shadow-lg hover:shadow-xl transition-all duration-200
+">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 " size={20} />
 
         <input
           type="text"
-          placeholder="Search packages"
+          placeholder="Search packages and activity"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -90,9 +98,13 @@ export default function SearchBar() {
       {open && results.length > 0 && (
         <div className="absolute top-full  bg-white shadow-xl mt-1 rounded-xl w-full py-2 overflow-auto ">
           {results.map((item, i) => (
+             //On onClick if duration in number then it will be activity
             <div
               key={item._id}
-              onClick={() => router.push(`/packages/${item.slug}`)}
+              onClick={() =>{ typeof item?.duration === 'number' ? 
+                 router.push(`/activity/${item.slug}`)  :
+                 router.push(`/packages/${item.slug}`)}}
+
               className={`flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-100 ${
                 i === activeIndex ? "bg-gray-200" : ""
               }`}

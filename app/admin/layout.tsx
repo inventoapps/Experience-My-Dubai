@@ -8,19 +8,25 @@ import { useRouter } from 'next/navigation';
 export default function AdminDashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [loading ,setLoading] = useState(true);
+
+
   useEffect(()=>{
     const isAdmin = localStorage.getItem('isAdmin');
+    console.log(isAdmin)
 
     if(!isAdmin){
-       router.push('/admin/login')
+       router.push('/authorization/login')
     }
     setLoading(false)
   },[])
+
+
   if(loading){
     return <div className='animate-caret-blink h-screen flex justify-center items-center'>
               Loading....
            </div>
   }
+
   return (
     <div className="min-h-screen sm:flex">
   

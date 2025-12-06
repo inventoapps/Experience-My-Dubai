@@ -12,7 +12,7 @@ export default function AdminLogin() {
 
     if (form.email === "rohitjuyalp205@gmail.com" && form.password === "rohit123") {
       localStorage.setItem('isAdmin',"rohit");
-      router.push("/admin/dashboard");
+      router.push(`/admin/dashboard/?key=${process.env.MY_SECRET_ADMIN_KEY}`);
     } else {
       alert("Invalid credentials");
     }

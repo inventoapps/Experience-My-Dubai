@@ -50,7 +50,7 @@ export default function TopExperience(){
     
     return (
         <section 
-            className="py-12 sm:py-14 max-w-7xl mx-auto"
+            className="py-12 sm:py-14 px-4 sm:px-0 max-w-7xl mx-auto"
             aria-labelledby="top-experiences-heading"
             >
       

@@ -25,7 +25,7 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, []);
@@ -43,7 +43,8 @@ export default function Hero() {
             key={i}
             className={`
               absolute inset-0 bg-cover bg-center bg-no-repeat
-              transition-opacity duration-1000 ease-in-out
+              transition-opacity duration-1500 ease-in-out animate-fadeIn
+
               ${i === index ? "opacity-100" : "opacity-0"}
             `}
             style={{ backgroundImage: `url(${img.src})` }}
@@ -51,7 +52,7 @@ export default function Hero() {
         ))}
 
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
       {/* Hero Content */}

@@ -25,9 +25,9 @@ export default function FinalCTA() {
 
                   {/* Social Icons */}
                   <div className="flex gap-4 mt-4">
-                    <a href="#" className="hover:text-orange-500 transition">Facebook</a>
-                    <a href="#" className="hover:text-orange-500 transition">Instagram</a>
-                    <a href="#" className="hover:text-orange-500 transition">YouTube</a>
+                    <a href="#" className="hover:text-orange-500 transition cursor-pointer">Facebook</a>
+                    <a href="#" className="hover:text-orange-500 transition cursor-pointer">Instagram</a>
+                    <a href="#" className="hover:text-orange-500 transition cursor-pointer">YouTube</a>
                   </div>
                 </div>
 
@@ -35,11 +35,11 @@ export default function FinalCTA() {
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
                   <ul className="space-y-2 text-sm">
-                    <li><a href="/#packages" className="hover:text-orange-500">Dubai Tour Packages</a></li>
-                    <li><a href="/#experiences" className="hover:text-orange-500">Dubai Experiences</a></li>
-                    <li><a href="/#blogs" className="hover:text-orange-500">Travel Blogs</a></li>
-                    <li><a href="/#faq" className="hover:text-orange-500">FAQs</a></li>
-                    <li><a href="/contact" className="hover:text-orange-500">Contact Us</a></li>
+                    <li><a href="/#packages" className="hover:text-orange-500 cursor-pointer">Dubai Tour Packages</a></li>
+                    <li><a href="/#experiences" className="hover:text-orange-500 cursor-pointer">Dubai Experiences</a></li>
+                    <li><a href="/#blogs" className="hover:text-orange-500 cursor-pointer">Travel Blogs</a></li>
+                    <li><a href="/#faq" className="hover:text-orange-500 cursor-pointer">FAQs</a></li>
+                    <li><a href="/contact" className="hover:text-orange-500 cursor-pointer">Contact Us</a></li>
                   </ul>
                 </div>
 
@@ -47,11 +47,11 @@ export default function FinalCTA() {
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-4">Popular Packages</h4>
                   <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="hover:text-orange-500">Dubai 5-Day Tour</a></li>
-                    <li><a href="#" className="hover:text-orange-500">Dubai & Abu Dhabi Combo</a></li>
-                    <li><a href="#" className="hover:text-orange-500">Luxury Desert Safari</a></li>
-                    <li><a href="#" className="hover:text-orange-500">Atlantis Aquaventure</a></li>
-                    <li><a href="#" className="hover:text-orange-500">Burj Khalifa Tour</a></li>
+                    <li><a href="#" className="hover:text-orange-500 cursor-pointer">Dubai 5-Day Tour</a></li>
+                    <li><a href="#" className="hover:text-orange-500 cursor-pointer">Dubai & Abu Dhabi Combo</a></li>
+                    <li><a href="#" className="hover:text-orange-500 cursor-pointer">Luxury Desert Safari</a></li>
+                    <li><a href="#" className="hover:text-orange-500 cursor-pointer">Atlantis Aquaventure</a></li>
+                    <li><a href="#" className="hover:text-orange-500 cursor-pointer">Burj Khalifa Tour</a></li>
                   </ul>
                 </div>
 
@@ -73,6 +73,7 @@ export default function FinalCTA() {
                     rounded-lg 
                     hover:bg-orange-700 
                     transition
+                    cursor-pointer
                   "
                   onClick={()=>setIsDialogOpen(true)}
                   >

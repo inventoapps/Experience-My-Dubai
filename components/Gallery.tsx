@@ -44,26 +44,27 @@ export default function Gallery() {
       >
         {galleryImages.map((img, index) => (
           <figure
-            key={index}
-            className="overflow-hidden rounded-2xl shadow group cursor-pointer bg-white"
-          >
-            <img
-              src={img.src}
-              alt={img.alt}
-              width={500}
-              height={500}
-              className="
-                object-cover 
-                w-full 
-                h-full 
-                rounded-2xl
-                transition-transform 
-                duration-500 
-                group-hover:scale-110
-              "
-            />
-          </figure>
-        ))}
+          key={index}
+          className="overflow-hidden rounded-2xl shadow group cursor-pointer bg-white"
+        >
+          <div className="aspect-square w-full"> 
+            {/* 1:1 square – adjust to 4/3 or 16/9 if you want */}
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="
+                  object-cover 
+                  w-full 
+                  h-full 
+                  rounded-2xl
+                  transition-transform 
+                  duration-500 
+                  group-hover:scale-110
+                "
+              />
+          </div>
+         </figure>
+      ))}
       </div>
     </section>
   );

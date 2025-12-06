@@ -51,7 +51,7 @@ export default function FormSection() {
   }
   return (
     <section
-      className="py-12 px-6 sm:px-0 sm:py-16  max-w-7xl mx-auto "
+      className="py-12 px-4 sm:px-0 sm:py-16  max-w-7xl mx-auto "
       aria-labelledby="lead-form-heading"
     >
       {/* HEADING */}
@@ -63,7 +63,7 @@ export default function FormSection() {
       </h2>
 
       {/* GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:px-6 px-2">
 
         {/* ============== FORM LEFT SIDE ============== */}
         <form
@@ -191,6 +191,7 @@ export default function FormSection() {
                 font-medium 
                hover:bg-orange-600
                 transition
+                 cursor-pointer
             "
           >
             Submit

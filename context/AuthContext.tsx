@@ -9,14 +9,21 @@ type AuthUser = {
   isAdmin: boolean;
 } | null;
 
+type AdminAuth = {
+   admin : string;
+} | null;
+
 interface AuthContextType {
   user: AuthUser | null;
+  admin : AdminAuth;
+  setAdmin : React.Dispatch<React.SetStateAction<AdminAuth>>;
   setUser: React.Dispatch<React.SetStateAction<AuthUser>> | null;
 }
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({children} : {children : React.ReactNode}){
     const [user, setUser] = useState<AuthUser>(null);
+    const [admin , setAdmin] = useState<AdminAuth>(null);
 
     useEffect(() => {
     async function loadUser() {
@@ -29,7 +36,7 @@ export function AuthProvider({children} : {children : React.ReactNode}){
 
 
     return (
-        <AuthContext.Provider value={{user,setUser}}>
+        <AuthContext.Provider value={{user,setUser, admin , setAdmin}}>
            {children}
         </AuthContext.Provider>
 

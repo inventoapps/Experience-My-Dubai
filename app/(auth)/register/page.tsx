@@ -32,6 +32,9 @@ export default function RegisterForm() {
       if (res.ok) {
         router.push("/");
       }
+      else{
+        alert("User already exist")
+      }
     } catch (error) {
       console.log(error);
     }

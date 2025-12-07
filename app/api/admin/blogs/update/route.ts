@@ -8,6 +8,8 @@ export async function PUT(req:NextRequest){
 
         const published = submitType === 'publish' ? true : false;
         const publishedAt = submitType === 'publish' ? new Date() : null;
+
+        console.log(published)
         
         if (!id) {
         return NextResponse.json(

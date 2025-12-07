@@ -129,7 +129,7 @@ export default function BlogForm() {
       faq,
       metaTitle: fd.get("metaTitle"),
       metaDescription: fd.get("metaDescription"),
-      published: submitType === "publish",
+      submitType,
       id : editBlog?._id
     };
 
@@ -155,34 +155,12 @@ export default function BlogForm() {
       return;
     }
 
-    // ---- ELSE CREATE NEW ----
-    const res = await fetch("/api/admin/blogs/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      setStatus("error");
-      setMessage("Failed to save");
-      return;
-    }
-
-    setStatus("success");
-    setMessage(
-      submitType === "publish"
-        ? "Blog published successfully"
-        : "Blog saved as draft"
-    );
-
-    fetchBlogs();
   }
 
 
   
-  // ============================================
+  
   // UI START
-  // ============================================
 
   return (
     <div className="md:flex gap-6 grid   ">

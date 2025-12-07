@@ -1,21 +1,42 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 
 export default function AdminLogin() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
+  const auth = useAuth();
+  const setAdmin = auth?.setAdmin;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+     try {
+      const res  =  await fetch('/api/adminAuth/login', {
+         method : "POST",
+         headers : {'Content-Type' : "application/json"},
+         body : JSON.stringify(form)
+      });
 
-    if (form.email === "rohitjuyalp205@gmail.com" && form.password === "rohit123") {
-      localStorage.setItem('isAdmin',"rohit");
-      router.push(`/admin/dashboard/?key=${process.env.MY_SECRET_ADMIN_KEY}`);
-    } else {
-      alert("Invalid credentials");
-    }
+      const data = await res.json();
+      if(res.ok){
+        router.push('/admin/dashboard');
+      }
+      else{
+        alert("Invalid Credential")
+      }
+      
+     } catch (error) {
+       console.log(error);
+     }
+
+    // if (form.email === "rohitjuyalp205@gmail.com" && form.password === "rohit123") {
+    //   localStorage.setItem('isAdmin',"rohit");
+    //   router.push(`/admin/dashboard/?key=${process.env.MY_SECRET_ADMIN_KEY}`);
+    // } else {
+    //   alert("Invalid credentials");
+    // }
   };
 
   return (
@@ -60,7 +81,7 @@ export default function AdminLogin() {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-3 rounded-lg font-semibold"
+            className="w-full bg-black text-white py-3 rounded-lg font-semibold cursor-pointer"
           >
             Login
           </button>

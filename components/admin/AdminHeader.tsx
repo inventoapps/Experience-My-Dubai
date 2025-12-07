@@ -6,9 +6,20 @@ export default function AdminHeader() {
 
   
   
-  const handleLogOut =  ()=>{
-     localStorage.removeItem('isAdmin');
-     router.push("/authorization/login")
+  const handleLogOut =  async()=>{
+     try {
+       const res = await fetch('/api/adminAuth/logout',{
+         method : "POST"
+       });
+
+       if(res.ok){
+        router.push("/authorization/login")
+       }
+      
+     } catch (error) {
+       console.log(error)
+     }
+     
      
   }
   return (

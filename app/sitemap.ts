@@ -11,21 +11,21 @@ export default async function sitemap() {
 
     const tourPackagesUrl = tourPackages.map((p,idx)=>(
      {
-        url : `http://localhost:3000/packages/${p.slug}`,
+        url : `https://experience-my-dubai-m58m.onrender.com/packages/${p.slug}`,
         lastModified : p.updatedAt
      }
     ));
 
     const activityPackagesUrl = activityPackages.map((p,idx)=>(
         {
-            url : `http://localhost:3000/activity/${p.slug}`,
+            url : `https://experience-my-dubai-m58m.onrender.com/activity/${p.slug}`,
             lastModified : p.updatedAt
         }
     ))
 
     const blogsUrl = blogs.map((p,idx)=>(
         {
-            url: `http://localhost:3000/blogs/${p.slug}`,
+            url: `https://experience-my-dubai-m58m.onrender.com/blogs/${p.slug}`,
             lastModified : p.updatedAt
         }
     ));

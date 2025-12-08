@@ -46,11 +46,15 @@ export default function TopExperience(){
     
            fetchActiviy();
         },[]);
+
+    if(loading){
+        return <div className="max-w-7xl py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 animate-ping">Loading...</div>
+    }
     
     
     return (
         <section 
-            className="py-12 sm:py-14 px-4 sm:px-0 max-w-7xl mx-auto"
+            className="py-12 sm:py-14 px-4 sm:px-0 max-w-7xl mx-auto overflow-hidden"
             aria-labelledby="top-experiences-heading"
             >
       
@@ -66,7 +70,9 @@ export default function TopExperience(){
                 className=""
             >
 
-                <CarouselDemo packages={activities} setIsDialogOpen={setIsDialogOpen} route={"activity"} setPageUrl={setPageUrl} />
+            {activities ?   <CarouselDemo packages={activities} setIsDialogOpen={setIsDialogOpen} route={"activity"} setPageUrl={setPageUrl}  />
+            :       <div className="py-16 text-center text-2xl font-bold text-gray-500 max-w-7xl" >Packages Not Found</div>}
+
                 <EnquiryForm
                             isOpen={isDialogOpen}
                             price={799}

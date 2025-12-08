@@ -55,13 +55,13 @@ export default function PopularPackages(){
       }, [activeId]);
 
       if(loading){
-          return <div className=" py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 animate-ping">Loading...</div>
+          return <div className=" max-w-7xl py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 animate-ping">Loading...</div>
       }
 
       
     
     return (
-        <section className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5">
+        <section className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 ">
           <div className="max-w-7xl mx-auto">
 
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
@@ -87,7 +87,7 @@ export default function PopularPackages(){
         
      {packages.length > 0  ? 
      <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"} setPageUrl={setPageUrl} /> :
-      <div className="py-16 text-center text-2xl font-bold text-gray-500" >Packages Not Found</div>
+      <div className="py-16 text-center text-2xl font-bold text-gray-500 max-w-7xl" >Packages Not Found</div>
      }
        
       <EnquiryForm

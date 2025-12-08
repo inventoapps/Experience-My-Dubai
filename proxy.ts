@@ -24,7 +24,7 @@ export function proxy(req: NextRequest) {
 
   if(url.pathname.startsWith('/admin')){
     if(!adminToken){
-      return NextResponse.redirect(new URL('/authorization/login'));
+      return NextResponse.redirect(new URL('/authorization/login' , req.url));
     }
 
 

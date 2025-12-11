@@ -8,12 +8,11 @@ type Props = {
 export async function generateMetadata({ params }: Props ): Promise<Metadata> {
   const slug = (await params).slug
 
-   const res = await fetch(`http://localhost:3000/api/package/get/${slug}`);
+   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/package/get/${slug}`);
 
 
   const post = await res.json();
-  console.log(post.title);
-  console.log(post.description);
+  
 
   return {
     title: post?.title || "Package Details",

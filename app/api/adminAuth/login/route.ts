@@ -17,7 +17,12 @@ export async function POST(req: NextRequest) {
       );
 
       const res = NextResponse.json({ message: "Logged In" }, { status: 201 });
-      res.cookies.set("adminToken", token, { httpOnly: true });
+      res.cookies.set("adminToken", token, 
+        { httpOnly: true , 
+          secure:process.env.NODE_ENV === "production" ,
+          sameSite:"none"
+        
+        });
 
       return res;
     }

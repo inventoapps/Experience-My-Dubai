@@ -51,15 +51,15 @@ const shouldShowButtons = packages.length > visibleCards;
             "
           >
             <div className="p-2">
-              <div className="overflow-hidden rounded-2xl shadow-lg border border-gray-200 bg-white">
+              <div className="overflow-hidden rounded-2xl  border border-gray-200 bg-tranparent">
                   <CardContent className="p-0 flex flex-col">
 
                     {/* IMAGE */}
-                    <div className="w-full h-56 overflow-hidden">
+                    <div className="w-full h-78 overflow-hidden">
                       <img
-                        src={val.gallery[0]}
-                        alt={val.title}
-                        className="w-full h-full object-cover transition-all duration-300 hover:scale-105"
+                        src={val.gallery[0].image}
+                        alt={val.gallery[0].alt}
+                        className="w-full h-full object-cover transition-all duration-300 hover:scale-105 rounded-b-2xl"
                       />
                     </div>
 
@@ -83,18 +83,18 @@ const shouldShowButtons = packages.length > visibleCards;
 
                       {/* Title */}
                       <h2 className="
-                        font-semibold 
                         text-base sm:text-lg 
-                      text-gray-900 
+                      text-gray-900
                         leading-tight 
                         line-clamp-2 
-                        min-h-[3.2rem] ">
+                        min-h-[2.7rem] ">
                         {val.title}
                       </h2>
 
                       {/* Breakdown Row */}
                       {typeof val.duration !== "number" && (
-                        <div className="flex flex-wrap gap-3 mt-2">
+                        <div className="flex flex-wrap gap-3 mt-2 py-1 bg-linear-to-bl from-orange-100 to-orange-50
+">
                           {val.duration?.breakdown.map((item: any, index: number) => (
                             <div
                               key={item.location}
@@ -103,7 +103,7 @@ const shouldShowButtons = packages.length > visibleCards;
                               }`}
                             >
                               <div className="flex items-center gap-2 text-xs font-medium text-gray-700">
-                                <span className="text-orange-500 font-bold">{item.days}D</span>
+                                <span className="text-[#025378] font-bold">{item.days}D</span>
                                 <span>{item.location}</span>
                               </div>
                             </div>
@@ -154,13 +154,13 @@ const shouldShowButtons = packages.length > visibleCards;
                           }}
                           className="
                             w-1/2 
-                            bg-orange-500 
+                            bg-[#025378]
                             text-white 
                             font-medium 
                             text-sm 
                             py-2 
                             rounded-lg 
-                            hover:bg-orange-600 
+                            hover:bg-[#002c41] 
                             transition
                              cursor-pointer
                           "

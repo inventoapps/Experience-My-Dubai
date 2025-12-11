@@ -14,33 +14,50 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-
-    let galleryUrls = [];
-
-    const published = body.submitType==='publish' ? true : false;
-    const publishedAt = body.submitType==='publish' ? new Date() : null;
-
    
-    if (body.gallery?.length > 0) {
-      for (const img of body.gallery) {
-        const upload = await cloudinary.uploader.upload(img);
-        galleryUrls.push(upload.secure_url);
-      }
-    }
- 
 
-    const pkg = await TourPackage.create({...body , gallery:galleryUrls , published , publishedAt});
+    const finalGallery: { image: string; alt: string }[] = [];
+
+    const published = body.submitType === "publish";
+    const publishedAt = published ? new Date() : null;
+
+    // Handle Gallery Uploads
+    if (Array.isArray(body.gallery) && body.gallery.length > 0) {
+        for (const item of body.gallery) {
+          const { image, alt } = item;
+
+          // Skip empty 
+          if (!image || image.trim() === "") {
+            continue;
+          }
+
+          const upload = await cloudinary.uploader.upload(image);
+
+          finalGallery.push({
+            image: upload.secure_url,
+            alt: alt || "",
+          });
+        }
+}
+
+
+    
+    // Create Package in DB
+    const pkg = await TourPackage.create({
+      ...body,
+      gallery: finalGallery,
+      published,
+      publishedAt,
+    });
 
     return NextResponse.json(
       {
-        message: body.submitType === "publish" ? "Package Published" : "Draft Saved",
+        message: published ? "Package Published" : "Draft Saved",
         data: pkg,
       },
       { status: 200 }
     );
-
-  
- } catch (err) {
+  } catch (err) {
     console.error("PACKAGE_CREATE_ERROR", err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

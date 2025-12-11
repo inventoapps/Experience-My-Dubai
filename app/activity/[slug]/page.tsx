@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { Star } from "lucide-react";
+import { Star , Check } from "lucide-react";
 import EnquiryForm from "@/components/EnquiryFormPopUp";
 
 
@@ -93,7 +93,7 @@ export default function PackageDetailsPage() {
     <main className="pb-20">
       <Navbar theme="light" />
 
-      <section className="max-w-7xl mx-auto px-6 mt-20 space-y-2">
+      <section className="max-w-7xl mx-auto px-6  mt-22 space-y-2">
         <h1 className="text-3xl sm:text-4xl font-bold">{pkg.title}</h1>
 
         <div className="flex flex-wrap gap-3 text-gray-600 text-sm">
@@ -102,7 +102,7 @@ export default function PackageDetailsPage() {
         </div>
 
         <div className="flex items-center gap-3 mt-2">
-          <span className="bg-green-600 text-white px-3 py-1 text-sm rounded-md font-semibold">
+          <span className="bg-[#8f226c] text-white px-3 py-1 text-sm rounded-md font-semibold">
             {pkg?.rating} / 5
           </span>
 
@@ -143,7 +143,7 @@ export default function PackageDetailsPage() {
         
           <div className="flex items-center gap-4">
             <h2 className="text-2xl font-semibold">Activity Duration:</h2>
-            <span className="bg-orange-600 text-white px-3 py-1.5 rounded-md font-semibold">
+            <span className="bg-[#025378] text-white px-3 py-1.5 rounded-md font-semibold">
               {pkg.duration} hours
             </span>
           </div>
@@ -161,7 +161,7 @@ export default function PackageDetailsPage() {
             <ul className="space-y-3 text-gray-700">
               {pkg.highlights?.map((h: string, i: number) => (
                 <li key={i} className="flex gap-2">
-                    <span className="text-orange-600">•</span>
+                    <span className="text-[#025378]">•</span>
                     <span>{h}</span>
                   </li>
               ))}
@@ -178,7 +178,11 @@ export default function PackageDetailsPage() {
                 <h3 className="font-semibold text-lg mb-2">Included</h3>
                 <ul className="space-y-2 text-gray-700">
                   {pkg.inclusions?.map((item: string, i: number) => (
-                    <li key={i}>✔ {item}</li>
+
+                    <li key={i} className="flex items-center gap-2 text-gray-800 text-sm mb-3">
+                      <Check className="h-4 w-4 text-green-600 shrink-0" />
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -188,7 +192,7 @@ export default function PackageDetailsPage() {
                 <h3 className="font-semibold text-lg mb-2">Not Included</h3>
                 <ul className="space-y-2 text-gray-700">
                   {pkg.exclusions?.map((item: string, i: number) => (
-                    <li key={i} className="text-red-600">
+                    <li key={i} className="text-red-500">
                       ✘ {item}
                     </li>
                   ))}
@@ -267,9 +271,9 @@ export default function PackageDetailsPage() {
                 onClick={()=>setIsDialogOpen(true)}
               
                 className="
-                  w-full bg-orange-500 text-white 
+                  w-full bg-[#025378] text-white 
                   py-2.5 rounded-lg text-sm font-medium
-                  hover:bg-orange-600 transition
+                  hover:bg-[#013e5b] transition
                 "
               >
                 Send Enquiry
@@ -329,7 +333,7 @@ export default function PackageDetailsPage() {
 
               <button
                 type="submit"
-                className="bg-orange-600 hover:bg-orange-700 text-white w-full py-3 rounded-lg font-semibold transition"
+                className="bg-[#025378] hover:bg-[#003a55] text-white w-full py-3 rounded-lg font-semibold transition"
               >
                 Send Enquiry
               </button>

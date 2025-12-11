@@ -12,6 +12,7 @@ type Blog = {
   category: string;
   tags: string[];
   thumbnail: string;
+  thumbanilAlt : string;
   content: string;
   faq: { question: string; answer: string }[];
   views: number;
@@ -70,18 +71,25 @@ export default function BlogForm() {
   }, [editBlog]);
 
   function applyFormat(cmd: string, value?: string) {
-    if (cmd === "createLink") {
-      const url = prompt("Enter URL", "https://");
-      if (!url) return;
-      document.execCommand("createLink", false, url);
-    } else if (cmd === "formatBlock") {
-      document.execCommand("formatBlock", false, value);
-    } else {
-      document.execCommand(cmd, false, value);
-    }
+  const selection = window.getSelection();
 
-    setContent(editorRef.current?.innerHTML || "");
+  if (cmd === "createLink") {
+    if (!selection || selection.toString().length === 0) {
+      alert("Please select text to turn into a link.");
+      return;
+    }
+    const url = prompt("Enter URL", "https://");
+    if (url) document.execCommand("createLink", false, url);
+  } 
+  else if (cmd === "formatBlock") {
+    document.execCommand("formatBlock", false, value?.toLowerCase());
+  } 
+  else {
+    document.execCommand(cmd, false, value);
   }
+
+  setContent(editorRef.current?.innerHTML ?? "");
+}
 
   function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -292,6 +300,10 @@ export default function BlogForm() {
 
             }
              />
+             <Input label="Thumbnail Alternative"
+              name="thumbnailAlt"
+              defaultValue={editBlog?.thumbanilAlt}
+                />
           </div>
         </section>
 

@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import AllPackagesPage from "@/app/admin/package/view/page";
 import EnquiryForm from "./EnquiryFormPopUp";
 
+interface GalleryType {
+  image : string;
+  alt : string;
+}
 interface PackageType {
   _id: string;
   title: string;
@@ -13,8 +17,9 @@ interface PackageType {
   discountPrice?: number;
   city: string;
   country: string;
-  gallery: string[];
+  gallery: GalleryType[];
 }
+
 
 interface optionType {
    id : number;
@@ -55,7 +60,7 @@ export default function PopularPackages(){
       }, [activeId]);
 
       if(loading){
-          return <div className=" max-w-7xl py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 animate-ping">Loading...</div>
+          return <div className=" max-w-7xl py-12 mx-auto sm:py-16 px-4 sm:px-0 bg-black">Loading...</div>
       }
 
       
@@ -65,14 +70,14 @@ export default function PopularPackages(){
           <div className="max-w-7xl mx-auto">
 
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="flex flex-wrap gap-2 mt-4 sm:px-12  px-6">
             {option.map((item: optionType, idx: number) => (
               <button
                 onClick={() => setActiveId(item.id)}
                 key={idx}
                 className={`px-3 py-1 border border-gray-400 ${
                   activeId === item.id
-                    ? "bg-orange-500 text-white border-none"
+                    ? "bg-[#025378] text-white border-none"
                     : "bg-transparent"
                 } text-sm rounded-lg`}
               >
@@ -85,10 +90,13 @@ export default function PopularPackages(){
         </div>
 
         
+
+        
      {packages.length > 0  ? 
-     <CarouselDemo packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"} setPageUrl={setPageUrl} /> :
+          <Slider packages={packages} setIsDialogOpen={setIsDialogOpen} route={"packages"} setPageUrl={setPageUrl}/>
+ :
       <div className="py-16 text-center text-2xl font-bold text-gray-500 max-w-7xl" >Packages Not Found</div>
-     }
+     } 
        
       <EnquiryForm
               

@@ -31,7 +31,10 @@ export interface TourPackage extends Document {
   inclusions: string[];
   exclusions: string[];
 
-  gallery: string[];
+  gallery: {
+    image : string;
+    alt : string;
+  }[];
 
   rating: number;
   totalRatings :  number;
@@ -43,6 +46,8 @@ export interface TourPackage extends Document {
   }[];
   published : boolean;
   publishedAt : Date;
+  metaTitle : string;
+  metaDescription:string;
 
   createdAt: Date;
   updatedAt: Date;
@@ -134,12 +139,10 @@ const TourPackageSchema = new Schema<TourPackage>(
       },
     ],
 
-    gallery: [
-      {
-        type: String,
-        required : true
-        
-      },
+   gallery: [{
+        image : { type : String},
+        alt : {type : String}
+    }
     ],
 
     rating: {
@@ -161,6 +164,9 @@ const TourPackageSchema = new Schema<TourPackage>(
         answer: { type: String },
       },
     ],
+    metaTitle: { type: String },
+    metaDescription: { type: String },
+
 
     published : {
         type : Boolean ,

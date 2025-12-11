@@ -3,7 +3,6 @@ import FinalCTA from "@/components/FinalCTA";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { SessionProvider } from "next-auth/react";
 import { AuthProvider } from "@/context/AuthContext";
 
 

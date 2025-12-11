@@ -30,7 +30,7 @@ export default function Testimonials() {
         id="testimonials-heading"
         className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8 text-center"
       >
-       <span className="text-[#C6934B]">• </span> What Our Travelers Say
+       <span className="text-[#025378]">• </span> What Our Travelers Say
       </h2>
 
       <div

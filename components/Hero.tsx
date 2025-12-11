@@ -56,7 +56,7 @@ export default function Hero() {
       </div>
 
       {/* Hero Content */}
-      <div className="relative  flex flex-col justify-center items-center text-center h-full px-4 z-10">
+      <div className="relative  flex flex-col top-40 items-center text-center h-full px-4 z-10">
 
         <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-xl leading-tight max-w-[90%]">
           Create a Super Hit Holiday

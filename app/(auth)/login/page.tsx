@@ -52,7 +52,7 @@ export default function LoginForm() {
       >
         <h2 className="text-2xl font-bold text-gray-800 text-center">
           Log In to{" "}
-          <span className="bg-linear-to-r from-green-300 via-green-500 to-green-800 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[#1793cc] via-[#0f638a] to-[#025378] bg-clip-text text-transparent">
             ExperienceMyDubai
           </span>
         </h2>
@@ -65,7 +65,7 @@ export default function LoginForm() {
           placeholder="Email Address"
           value={form.email}
           onChange={handleChange}
-          className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-300 outline-none"
+          className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-[#025378] outline-none"
           required
         />
 
@@ -75,13 +75,13 @@ export default function LoginForm() {
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
-          className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-300 outline-none"
+          className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-[#025378] outline-none"
           required
         />
 
         <button
           type="submit"
-          className="bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-all cursor-pointer"
+          className="bg-[#025378] text-white py-2 rounded-md hover:bg-[#025378] transition-all cursor-pointer"
         >
           Log In
         </button>
@@ -90,7 +90,7 @@ export default function LoginForm() {
           Don’t have an account?{" "}
           <Link
             href="/register"
-            className="text-green-600 font-semibold hover:underline"
+            className="text-[#025378] font-semibold hover:underline"
           >
             Register
           </Link>

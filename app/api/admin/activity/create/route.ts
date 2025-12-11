@@ -13,20 +13,32 @@ export  async function POST(req:NextRequest) {
     try {
         await connectDB();
         const body = await req.json();
-        let galleryUrls = [];
+        const finalGallery : {image : string , alt : string}[] = [];
 
         const published = body.submitType === 'publish' ? true : false;
         const publishedAt = body.submitType === 'publish' ? new Date() : null;
 
 
-        if(body.gallery?.length > 0){
-            for (const img of body.gallery) {
-                const upload = await cloudinary.uploader.upload(img);
-                galleryUrls.push(upload.secure_url);
-              }
-            }
+        if(Array.isArray(body.gallery) && body.gallery.length >0 ){
+            for(const item of body.gallery){
+               const {image , alt} = item;
 
-         const newActivity = await Activity.create({...body, gallery:galleryUrls , published , publishedAt});
+               //if image empty -> skip
+
+               if (!image || image.trim() === "") {
+                  continue;
+               }
+
+               const upload = await cloudinary.uploader.upload(image, {folder:"activity_package"});
+
+               finalGallery.push({
+               image: upload.secure_url,
+               alt: alt || "",
+              });
+              }
+        }
+   
+         const newActivity = await Activity.create({...body, gallery:finalGallery , published , publishedAt});
           return NextResponse.json(
               {
                 message: body.submitType === "publish" ? "Package Published" : "Draft Saved",

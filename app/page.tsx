@@ -18,11 +18,15 @@ import FinalCTA from "@/components/FinalCTA";
 import PopularPackagesInfo from "@/components/PopularPackageInfo";
 import { faqs } from "@/config/constant";
 import Test from "@/components/Test"
+import Slider from '@/components/Slider'
+import HeaderTop from "@/components/HeaderTop";
+import TourPackage from "@/components/TourPackages";
+import PackageInfoSecond from '@/components/PackageInfoSecond'
 export default  function Home() {
 
   return (
     <div className="min-h-screen  bg-zinc-50 font-sans dark:bg-black overflow-hidden">
-        
+        <HeaderTop/>
         <Hero/>
        <HeroBottom/>
        <PopularPackagesInfo/>
@@ -34,6 +38,7 @@ export default  function Home() {
         <PackageByRegion/>
        
        <TopExperience/>
+       <TourPackage/>
        <FormSection/> 
        <section id="whyChooseUs">
 
@@ -46,12 +51,12 @@ export default  function Home() {
        <section id="blogs">
           <Blogs/>
        </section>
+
+       <PackageInfoSecond/>
        <FAQSection faqs={faqs} />
        <AboutDubaiTourism/>
 
        <FinalCTA/> 
-      
-      
 
     </div>
   );

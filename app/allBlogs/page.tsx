@@ -56,7 +56,7 @@ export default function Blogs() {
 
             {/* CONTENT */}
             <div className="p-6 space-y-3">
-              <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-orange-500 transition">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-[#025378] transition">
                 {val.title}
               </h3>
 
@@ -65,7 +65,7 @@ export default function Blogs() {
               </p>
 
               <p className="text-xs text-gray-500">
-                <span className="text-orange-600 font-semibold">• Published on</span>{" "}
+                <span className="text-[#065173] font-semibold">• Published on</span>{" "}
                 {new Date(val.createdAt).toLocaleDateString("en-IN")}
               </p>
             </div>
@@ -79,8 +79,8 @@ export default function Blogs() {
           <button
             onClick={loadMore}
             className="
-              px-6 py-3 bg-orange-500 text-white 
-              rounded-lg font-semibold hover:bg-orange-600 transition
+              px-6 py-3 bg-[#025378] text-white 
+              rounded-lg font-semibold hover:bg-[#01334a] transition
             "
           >
             View More Blogs

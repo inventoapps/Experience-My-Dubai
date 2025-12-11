@@ -15,6 +15,11 @@ interface ItineraryItem {
    description : string;
 }
 
+interface GalleryType {
+   image : string;
+   alt : string;
+}
+
 
 interface PackageType {
   _id: mongoose.Types.ObjectId;
@@ -35,10 +40,11 @@ interface PackageType {
   highlights: string[];
   inclusions: string[];
   exclusions: string[];
-  gallery: string[];
+  gallery: GalleryType[];
   itinearary : ItineraryItem;
 
   faqs: FAQItem[];
+
 
   metaTitle?: string;
   metaDescription?: string;
@@ -55,7 +61,11 @@ export default function PackageForm() {
   const [highlights, setHighlights] = useState([""]);
   const [inclusions, setInclusions] = useState([""]);
   const [exclusions, setExclusions] = useState([""]);
-  const [gallery, setGallery] = useState(["", "", ""]);
+  //In gallery first image we use as a thumbnail and others we use in package info gallery
+  const [gallery, setGallery] = useState<GalleryType[]>([{image : "" , alt : ""},
+    {image : "" , alt : ""},{image : "" , alt : ""},
+    {image : "" , alt : ""}]);
+
   const [tourFaqs, setTourFaqs] = useState<FAQItem[]>([
     { question: "", answer: "" },
   ]);
@@ -90,9 +100,18 @@ export default function PackageForm() {
     const base64 = await fileToBase64(file);
 
     const copy = [...gallery];
-    copy[i] = base64;     
+    copy[i].image = base64;     
     setGallery(copy);
   }
+
+  const handleAltChange = async (e:ChangeEvent<HTMLInputElement>, i:number)=>{
+      const val = e.target.value;
+      const copy = [...gallery];
+      copy[i].alt = val;
+      setGallery(copy)
+
+  }
+
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -156,15 +175,18 @@ export default function PackageForm() {
   }
 
 
+
+
   return (
     <div className="flex gap-6">
       
-      <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">
+      <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-4xl">     
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-0">
           <h1 className="text-xl font-semibold">
              Add Activity Package
           </h1>
 
+           {/* Save and Publish Buttons */}
           <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
             <button
               type="submit"
@@ -201,6 +223,8 @@ export default function PackageForm() {
           </p>
         )}
 
+        {/* Basic Information */}
+
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">Basic Information</h2>
 
@@ -227,23 +251,23 @@ export default function PackageForm() {
   
            
            
-<section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
+        <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
 
- 
-    <Input
-      name="duration"
-      label="Duration (In hours)"
-      type="number"
+        
+            <Input
+              name="duration"
+              label="Duration (In hours)"
+              type="number"
 
-    />
+            />
 
 
-     <Input label="Category" name="category" />
-    <Input label="Tags (comma separated)" name="tags" />
+            <Input label="Category" name="category" />
+            <Input label="Tags (comma separated)" name="tags" />
 
   
 
-</section>
+        </section>
 
             <Input
               name="price"
@@ -272,7 +296,11 @@ export default function PackageForm() {
             name="description"
             label="Short Overview"
           />
+
+          
         </section>
+
+        {/* Inclusion & Exclusion */}
 
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <h2 className="text-sm font-semibold">
@@ -300,20 +328,35 @@ export default function PackageForm() {
 
          {/* Gallery */}
         <section className="bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="text-sm font-semibold mb-3">Gallery (3 Images)</h2>
+          <h2 className="text-sm font-semibold mb-3">Gallery (4 Images)</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {gallery.map((img, i) => (
+            {gallery.map((item, i) => (
+              <div key={i} className="mb-4">
+    
+              {/* Upload Image */}
               <Input
                 type="file"
                 accept="image/*"
-                key={i}
                 label={`Image ${i + 1}`}
                 onChange={(e) => handleImageUpload(e, i)}
               />
+
+              {/* Alt Text */}
+              <Input
+                type="text"
+                label={`Image ${i + 1} Alt text`}
+                value={item.alt}
+                onChange={(e) => handleAltChange(e, i)}
+                className="mt-2"
+              />
+
+              </div>
+
             ))}
           </div>
         </section>
+        {/* Itinerary */}
 
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">
           <div className="flex justify-between">
@@ -376,6 +419,8 @@ export default function PackageForm() {
             ))}
           </div>
         </section>
+
+        {/* FAQs Section */}
 
       
         <section className="bg-white p-4 rounded-xl shadow-sm space-y-4">

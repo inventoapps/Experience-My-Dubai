@@ -48,8 +48,8 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
   return (
     <nav
       className={`
-        fixed top-0 left-0 w-full z-50 transition-all duration-300 
-        ${scrolled ? "bg-white shadow-md py-5" : "bg-transparent py-5"}
+        fixed  left-0 w-full z-50 transition-all duration-300 
+        ${scrolled ? "bg-white shadow-md py-5 top-0" : "bg-transparent py-5 top-4"}
         ${textColor}
       `}
     >

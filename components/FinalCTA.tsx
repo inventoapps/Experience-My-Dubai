@@ -67,11 +67,11 @@ export default function FinalCTA() {
                   {/* CTA */}
                   <button className="
                     mt-4 px-6 py-2 
-                    bg-orange-600 
+                    bg-[#8f226c] 
                     text-white 
                     font-semibold 
                     rounded-lg 
-                    hover:bg-orange-700 
+                    hover:bg-[#8f226c]
                     transition
                     cursor-pointer
                   "

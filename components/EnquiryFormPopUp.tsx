@@ -222,7 +222,7 @@ export default function EnquiryForm({
           <button
             type="submit"
             className="
-             bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 
+             bg-[#025378] hover:bg-[#025378] text-white px-6 py-3 
               rounded-lg w-full font-semibold 
               transition cursor-pointer
             "

@@ -1,11 +1,12 @@
 "use client";
-
+import type { Metadata } from "next";
 import { HtmlHTMLAttributes, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import FAQSection from "@/components/FAQSection";
 import { Star , Check  } from "lucide-react";
 import EnquiryForm from "@/components/EnquiryFormPopUp";
+import Image from "next/image";
 
 interface DurationBreakdownItem {
   location: string;
@@ -28,6 +29,10 @@ interface FAQItem {
   question: string;
   answer: string;
 }
+interface GalleryType{
+   image : string;
+   alt : string;
+}
 
 interface PackageType {
   title: string;
@@ -40,14 +45,19 @@ interface PackageType {
   discountPrice?: number;
   rating?: number;
   totalRatings?: number;
-  gallery: string[];
+  gallery: GalleryType[];
   description: string;
   highlights: string[];
   inclusions: string[];
   exclusions: string[];
   itinerary: ItineraryItem[];
   faqs?: FAQItem[];
+
 }
+
+
+
+
 
 export default function PackageDetailsPage() {
   const { slug } = useParams();
@@ -132,7 +142,7 @@ export default function PackageDetailsPage() {
     <>
       <Navbar theme="light" />
 
-      <main className="max-w-7xl mx-auto px-6 pb-20 pt-20 space-y-5">
+      <main className="max-w-7xl mx-auto px-6 pb-20  space-y-5 mt-22">
 
         {/* Header Section of package */}
         <section className="space-y-2">
@@ -145,7 +155,7 @@ export default function PackageDetailsPage() {
           </div>
 
           <div className="flex items-center gap-3 text-sm text-gray-600 mt-2">
-            <span className="bg-green-600 text-white px-3 py-1 rounded-md font-semibold">
+            <span className="bg-[#8f226c] text-white px-3 py-1 rounded-md font-semibold">
               {pkg.rating || 0} / 5
             </span>
             <span>({pkg.totalRatings || "100"}+ Reviews)</span>
@@ -163,15 +173,15 @@ export default function PackageDetailsPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2 h-80 sm:h-[450px] rounded-xl overflow-hidden">
-              <img src={pkg.gallery[0]} className="w-full h-full object-cover" />
+              <img className="w-full h-full object-cover" src={ "/images/DubaiEdit2.webp"} alt={pkg.title} />
             </div>
 
             <div className="flex flex-col gap-4">
               <div className="h-40 sm:h-54 rounded-xl overflow-hidden">
-                <img src={pkg.gallery[1]} className="w-full h-full object-cover" />
+                <img src={ "/images/DubaiEdit2.webp"} className="w-full h-full object-cover" />
               </div>
               <div className="h-40 sm:h-54 rounded-xl overflow-hidden">
-                <img src={pkg.gallery[2]} className="w-full h-full object-cover" />
+                <img src={ "/images/DubaiEdit2.webp"} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -183,7 +193,7 @@ export default function PackageDetailsPage() {
           <h2 className="text-2xl font-bold">Duration</h2>
 
           <div className="flex flex-wrap gap-4 items-center">
-            <span className="inline-flex items-center rounded-full bg-yellow-700 px-4 py-1.5 text-sm sm:text-base font-medium text-white">
+            <span className="inline-flex items-center rounded-full bg-[#8f226c] px-4 py-1.5 text-sm sm:text-base font-medium text-white">
               {pkg.duration?.days} D / {pkg.duration?.nights} N
             </span>
 
@@ -232,7 +242,7 @@ export default function PackageDetailsPage() {
               <ul className="space-y-2 text-gray-700">
                 {pkg.highlights?.map((h: string, i: number) => (
                   <li key={i} className="flex gap-2">
-                    <span className="text-orange-600">•</span>
+                    <span className="text-[#025378]">•</span>
                     <span>{h}</span>
                   </li>
                 ))}
@@ -354,9 +364,9 @@ export default function PackageDetailsPage() {
                 onClick={()=>setIsDialogOpen(true)}
               
                 className="
-                  w-full bg-orange-500 text-white 
+                  w-full bg-[#025378] text-white 
                   py-2.5 rounded-lg text-sm font-medium
-                  hover:bg-orange-600 transition
+                  hover:bg-[#014565] transition
                 "
               >
                 Send Enquiry
@@ -416,7 +426,7 @@ export default function PackageDetailsPage() {
 
               <button
                 type="submit"
-                className="bg-orange-600 hover:bg-orange-700 text-white w-full py-3 rounded-lg font-semibold transition"
+                className="bg-[#025378] hover:bg-[#025378] text-white w-full py-3 rounded-lg font-semibold transition"
               >
                 Send Enquiry
               </button>

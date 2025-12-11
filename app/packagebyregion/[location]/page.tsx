@@ -143,7 +143,7 @@ export default function Page(){
              
                <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-4 gap-3">
                  <h2 className="text-4xl sm:text-5xl font-bold drop-shadow-xl">
-                      <span className="text-yellow-500 font-bold">Down Town</span> Dubai Tour Packages
+                      <span className="text-[#025378] font-bold">Down Town</span> Dubai Tour Packages
                  </h2>
          
                  

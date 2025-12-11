@@ -57,7 +57,7 @@ export default function DestinationCard({
         <div className="mt-3 h-px bg-white/25" />
 
       
-        <p className="mt-2 text-sm font-semibold text-amber-400">
+        <p className="mt-2 text-sm font-semibold text-[#639bb5]">
           {priceLabel}
         </p>
       </div>

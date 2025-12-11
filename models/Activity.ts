@@ -21,9 +21,12 @@ export interface IActivity extends Document {
   inclusions: string[];
   exclusions: string[];
   
+   gallery: {
+    image : string;
+    alt : string;
+  }[]; 
 
-  gallery: string[];  
-
+ 
   rating : number;
 
   itinerary: {
@@ -117,7 +120,12 @@ const ActivitySchema = new Schema<IActivity>(
     inclusions: [{ type: String }],
     exclusions: [{ type: String }],
 
-    gallery: [{ type: String }],
+    gallery: [{
+        image : { type : String},
+        alt : {type : String}
+    }
+    ],
+    
 
     metaTitle: { type: String },
     metaDescription: { type: String },

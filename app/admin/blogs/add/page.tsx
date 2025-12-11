@@ -29,18 +29,27 @@ export default function BlogForm() {
       setThumbanail(base64);
     }
 
-  function applyFormat(cmd: string, value?: string) {
-    if (cmd === "createLink") {
-      const url = prompt("Enter URL", "https://");
-      if (url) document.execCommand("createLink", false, url);
-    } else if (cmd === "formatBlock") {
-      document.execCommand("formatBlock", false, value);
-    } else {
-      document.execCommand(cmd, false, value);
-    }
+ function applyFormat(cmd: string, value?: string) {
+  const selection = window.getSelection();
 
-    setContent(editorRef.current?.innerHTML ?? "");
+  if (cmd === "createLink") {
+    if (!selection || selection.toString().length === 0) {
+      alert("Please select text to turn into a link.");
+      return;
+    }
+    const url = prompt("Enter URL", "https://");
+    if (url) document.execCommand("createLink", false, url);
+  } 
+  else if (cmd === "formatBlock") {
+    document.execCommand("formatBlock", false, value?.toLowerCase());
+  } 
+  else {
+    document.execCommand(cmd, false, value);
   }
+
+  setContent(editorRef.current?.innerHTML ?? "");
+}
+
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -52,7 +61,6 @@ export default function BlogForm() {
     const submitType = submitter.value;
 
 
-    console.log("Here are" + submitType)
 
     const tagsValue = fd.get("tags");
     const tags =
@@ -155,6 +163,8 @@ export default function BlogForm() {
             accept="image/*"
             onChange={(e) => handleImageUpload(e)}
              />
+          <Input label="Thumbnail Alternative" name="thumbnailAlt" required />
+
         </div>
       </section>
 

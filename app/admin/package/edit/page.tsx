@@ -18,6 +18,11 @@ interface DurationType {
   }[];
 }
 
+interface GalleryType{
+   image : string;
+   alt : string;
+}
+
 
 interface FAQItem {
   title?: string;
@@ -42,7 +47,7 @@ interface PackageType {
   highlights: string[];
   inclusions: string[];
   exclusions: string[];
-  gallery: string[];
+  gallery: GalleryType[];
 
   faqs: FAQItem[];
   itinerary: ItineraryItem[];
@@ -65,7 +70,7 @@ export default function PackageForm() {
   const [highlights, setHighlights] = useState([""]);
   const [inclusions, setInclusions] = useState([""]);
   const [exclusions, setExclusions] = useState([""]);
-  const [gallery, setGallery] = useState(["", "", ""]);
+  const [gallery, setGallery] = useState<GalleryType[]>([{image : "" , alt : ""},{image:"" , alt:""}, {image:"" , alt:""} , {image:"" , alt:""}]);
   const [faqSectionTitle, setFaqSectionTitle] = useState("");
   const [tourFaqs, setTourFaqs] = useState<FAQItem[]>([
     { question: "", answer: "" },
@@ -108,7 +113,7 @@ export default function PackageForm() {
     setHighlights(editPkg.highlights || [""]);
     setInclusions(editPkg.inclusions || [""]);
     setExclusions(editPkg.exclusions || [""]);
-    setGallery(editPkg.gallery || ["", "", ""]);
+    setGallery(editPkg.gallery.length < 4 ?  gallery : editPkg.gallery);
     setTourFaqs(editPkg.faqs || [{ question: "", answer: "" }]);
     setFaqSectionTitle(editPkg.faqs?.[0]?.title || "");
     setItinerary(editPkg.itinerary || [{ day: 1, title: "", description: "" }]);
@@ -133,15 +138,23 @@ export default function PackageForm() {
 
 
  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) => {
-     const file = e.target.files?.[0];
-     if (!file) return;
- 
-     const base64 = await fileToBase64(file);
- 
-     const copy = [...gallery];
-     copy[i] = base64;     
-     setGallery(copy);
-   }
+       const file = e.target.files?.[0];
+       if (!file) return;
+   
+       const base64 = await fileToBase64(file);
+   
+       const copy = [...gallery];
+       copy[i].image = base64;     
+       setGallery(copy);
+     }
+   
+     const handleAltChange = async (e:ChangeEvent<HTMLInputElement>, i:number)=>{
+         const val = e.target.value;
+         const copy = [...gallery];
+         copy[i].alt = val;
+         setGallery(copy)
+   
+     }
 
 
  
@@ -359,33 +372,33 @@ export default function PackageForm() {
             </div>
 
             <div className="space-y-3">
-    <div className="flex justify-between">
-      <h3 className="text-xs font-medium">Duration Breakdown</h3>
-      <button
-        type="button"
-        className="text-[11px] border px-2 py-1 rounded"
-        onClick={() =>
-          setDurationBreakdown([
-            ...durationBreakdown,
-            { location: "", days: 0 },
-          ])
-        }
-      >
-        + Add Location
-      </button>
-    </div>
+              <div className="flex justify-between">
+                <h3 className="text-xs font-medium">Duration Breakdown</h3>
+                <button
+                  type="button"
+                  className="text-[11px] border px-2 py-1 rounded"
+                  onClick={() =>
+                    setDurationBreakdown([
+                      ...durationBreakdown,
+                      { location: "", days: 0 },
+                    ])
+                  }
+                >
+                  + Add Location
+                </button>
+              </div>
 
-    {durationBreakdown.map((item, i) => (
-      <div key={i} className="border p-3 rounded flex flex-col gap-2">
-        <div className="flex gap-3">
-          <Input
-            label="Location"
-            value={item.location}
-            onChange={(e) => {
-              const copy = [...durationBreakdown];
-              copy[i].location = e.target.value;
-              setDurationBreakdown(copy);
-            }}
+        {durationBreakdown.map((item, i) => (
+          <div key={i} className="border p-3 rounded flex flex-col gap-2">
+            <div className="flex gap-3">
+              <Input
+                label="Location"
+                value={item.location}
+                onChange={(e) => {
+                  const copy = [...durationBreakdown];
+                  copy[i].location = e.target.value;
+                  setDurationBreakdown(copy);
+                }}
           />
 
           <Input
@@ -481,17 +494,31 @@ export default function PackageForm() {
 
         {/* ========== GALLERY ========== */}
         <section className="bg-white p-4 rounded-xl shadow-sm">
-          <h2 className="text-sm font-semibold mb-3">Gallery (3 Images)</h2>
+          <h2 className="text-sm font-semibold mb-3">Gallery (4 Images)</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {gallery.map((img, i) => (
+            {gallery.map((item, i) => (
+              <div key={i} className="space-y-4">
+    
+              {/* Upload Image */}
               <Input
-                 type="file"
+                type="file"
                 accept="image/*"
-                key={i}
                 label={`Image ${i + 1}`}
                 onChange={(e) => handleImageUpload(e, i)}
               />
+
+              {/* Alt Text */}
+              <Input
+                type="text"
+                label={`Image ${i + 1} Alt text`}
+                value={item.alt}
+                onChange={(e) => handleAltChange(e, i)}
+                className="mt-2"
+              />
+
+              </div>
+
             ))}
           </div>
         </section>

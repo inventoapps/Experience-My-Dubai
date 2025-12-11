@@ -14,46 +14,58 @@ export async function PUT(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const {submitType, id, gallery, ...updateData } = body;
+    const { submitType, id, gallery = [], ...updateData } = body;
+   
+
 
     if (!id) {
+      return NextResponse.json({ error: "Package ID is required" }, { status: 400 });
+    }
+
+    if (body.totalRatings === undefined) {
       return NextResponse.json(
-        { error: "Package ID is required" },
+        { message: "Total ratings is required" },
         { status: 400 }
       );
     }
 
-    const published  = submitType === 'publish' ? true : false;
-    const publishedAt = submitType === 'publish' ? new Date() : null;
+    const published = submitType === "publish";
+    const publishedAt = published ? new Date() : null;
 
-    if(!body.totalRatings){
-       return NextResponse.json({message:"Total rating required" },{status:401})
-    }
+    // HANDLE GALLERY IMAGES
+   
+    const finalGallery: { image: string; alt: string }[] = [];
 
-  
-    let finalGallery = [];
+    for (const item of gallery) {
+      const { image, alt } = item;
 
-    if (gallery?.length > 0) {
-      for (const img of gallery) {
-        // If it's base64 → upload to Cloudinary
-        if (img.startsWith("data:image")) {
-          const upload = await cloudinary.uploader.upload(img);
-          finalGallery.push(upload.secure_url);
-        } else {
-          // If it's already a Cloudinary URL → keep it
-          finalGallery.push(img);
-        }
+      if (!image) continue;
+
+      // If it is base64 -> upload to Cloudinary
+      if (image.startsWith("data:image")) {
+        const uploaded = await cloudinary.uploader.upload(image, {
+          folder: "tour_packages",
+        });
+
+        finalGallery.push({ image: uploaded.secure_url, alt });
+      } else {
+        // Already uploaded
+        finalGallery.push({ image, alt });
       }
     }
 
+    // UPDATE PACKAGE
+
+
+    console.log(finalGallery);
 
     const updated = await TourPackage.findByIdAndUpdate(
       id,
-      { 
-        ...updateData, 
+      {
+        ...updateData,
         gallery: finalGallery,
         published,
-        publishedAt
+        publishedAt,
       },
       {
         new: true,
@@ -62,10 +74,7 @@ export async function PUT(req: NextRequest) {
     );
 
     if (!updated) {
-      return NextResponse.json(
-        { error: "Package not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Package not found" }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -74,7 +83,7 @@ export async function PUT(req: NextRequest) {
     });
 
   } catch (err: any) {
-    console.log("UPDATE_PACKAGE_ERROR", err);
+    console.error("UPDATE_PACKAGE_ERROR:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

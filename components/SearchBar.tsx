@@ -80,7 +80,7 @@ export default function SearchBar() {
 
   return (
     <div ref={wrapperRef} className="relative w-full max-w-[300px] sm:max-w-[450px] ">
-      <div className="bg-white rounded-xl border-2 border-green-300 relative shadow-lg hover:shadow-xl transition-all duration-200
+      <div className="bg-white rounded-xl border-2 border-[#025378] relative shadow-lg hover:shadow-xl transition-all duration-200
 ">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 " size={20} />
 

@@ -17,7 +17,7 @@ export default function WhyChooseUs() {
        <h2
            id="heading"
            className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900 text-center">
-         <span className="text-[#C6934B]">•</span> Why Choose Us
+         <span className="text-[#025378]">•</span> Why Choose Us
        </h2>
 
      

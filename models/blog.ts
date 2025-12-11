@@ -7,6 +7,7 @@ export interface BlogArticle extends Document {
   category: string;
   tags: string[];
   thumbnail: string; 
+  thumbnailAlt : string;
   content: string;
   faq?: {
     question: string;
@@ -57,6 +58,10 @@ const BlogArticleSchema = new Schema<BlogArticle>(
     thumbnail: {
       type: String,
       required: true,
+    },
+    thumbnailAlt : {
+       type : String,
+       required : true
     },
 
     content: {

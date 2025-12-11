@@ -1,11 +1,15 @@
 // app/blog/[slug]/page.tsx
 "use client";
+import type { Metadata } from "next";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import FAQSection from "@/components/FAQSection";
+
+
+
 
 // ========== COMPONENT START ==========
 export default function BlogPage() {
@@ -41,17 +45,6 @@ export default function BlogPage() {
 
   return (
     <>
-      {/*  SEO TAGS    */}
-      <title>{metaTitle}</title>
-      <meta name="description" content={metaDescription} />
-      <meta property="og:title" content={metaTitle} />
-      <meta property="og:description" content={metaDescription} />
-      <meta
-        property="og:image"
-        content={blog.thumbnail || "/default-blog.jpg"}
-      />
-      <meta property="og:type" content="article" />
-      <meta name="keywords" content={blog.tags?.join(", ")} />
 
       {/* PAGE */}
       <Navbar theme="light" />
@@ -89,19 +82,55 @@ export default function BlogPage() {
           </div>
         </header>
 
-        {/* -------- THUMBNAIL -------- */}
-        {blog.thumbnail && (
-          <div className="relative w-full h-[260px] sm:h-[360px] md:h-[450px] rounded-xl overflow-hidden">
-            <Image
-              src={blog.thumbnail}
-              alt={blog.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-        )}
+        {/*   THUMBNAIL   */}
+       {blog.thumbnail && (
+  <div className="flex flex-col md:flex-row gap-6">
 
-        {/* -------- BLOG CONTENT -------- */}
+    {/* LEFT SIDE — Thumbnail */}
+    <div className="relative w-full md:w-3/4 h-[260px] sm:h-[360px] md:h-[450px] rounded-xl overflow-hidden">
+      <Image
+        src={blog.thumbnail}
+        alt={blog.title}
+        fill
+        className="object-cover"
+      />
+    </div>
+
+    {/* RIGHT SIDE — Package Ads */}
+    <div className="w-full md:w-1/4 flex flex-col gap-4">
+
+      {/* Ad 1 */}
+      <div className="relative h-[140px] rounded-xl overflow-hidden shadow-md cursor-pointer">
+        <Image
+          src="/images/DubaiEdit2.webp"
+          alt="Special Package"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute bottom-0 bg-black/40 text-white p-2 text-sm font-semibold">
+          Best Dubai Deals
+        </div>
+      </div>
+
+      {/* Ad 2 */}
+      <div className="relative h-[140px] rounded-xl overflow-hidden shadow-md cursor-pointer">
+        <Image
+          src="/images/DubaiEdit3.webp"
+          alt="Offer Package"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute bottom-0 bg-black/40 text-white p-2 text-sm font-semibold">
+          Limited-Time Offers
+        </div>
+      </div>
+
+    </div>
+  </div>
+)}
+
+
+        {/*    BLOG CONTENT  */}
         <article className="prose prose-lg max-w-none leading-relaxed prose-img:rounded-xl">
           <div
             dangerouslySetInnerHTML={{
@@ -110,14 +139,14 @@ export default function BlogPage() {
           />
         </article>
 
-        {/* -------- FAQ SECTION -------- */}
+        {/*  FAQ SECTION   */}
         {blog.faq && blog.faq.length > 0 && (
           <div className="pt-10 border-t">
             <FAQSection faqs={blog.faq} />
           </div>
         )}
 
-        {/* -------- SHARE BUTTONS -------- */}
+        {/*  SHARE BUTTONS  */}
         <section className="mt-12">
           <h3 className="text-lg font-semibold mb-3">Share this blog</h3>
 
@@ -152,7 +181,7 @@ export default function BlogPage() {
           </div>
         </section>
 
-        {/* -------- CTA -------- */}
+        {/*  CTA  */}
         <section className="mt-16 p-6 bg-gray-100 rounded-xl text-center shadow-sm">
           <h2 className="text-2xl font-bold mb-2">Enjoyed This Blog?</h2>
           <p className="text-gray-600 mb-5">
@@ -161,7 +190,7 @@ export default function BlogPage() {
 
           <a
             href="/allBlogs"
-            className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition"
+            className="inline-block bg-[#025378] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#013750] transition"
           >
             View All Blogs
           </a>

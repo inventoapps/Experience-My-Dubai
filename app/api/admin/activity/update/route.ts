@@ -14,7 +14,7 @@ export async function PUT(req: NextRequest) {
     await connectDB();
 
     const body = await req.json();
-    const { id, submitType , gallery, ...updateData } = body;
+    const { id, submitType , gallery = [], ...updateData } = body;
 
 
     const published = submitType==='public' ? true : false;
@@ -29,17 +29,19 @@ export async function PUT(req: NextRequest) {
     }
 
   
-    let finalGallery = [];
+    const finalGallery: { image: string; alt: string }[] = [];
 
     if (gallery?.length > 0) {
-      for (const img of gallery) {
+      for (const item of gallery) {
+
+        const {image , alt} = item;
       
-        if (img.startsWith("data:image")) {
-          const upload = await cloudinary.uploader.upload(img);
-          finalGallery.push(upload.secure_url);
+        if (image.startsWith("data:image")) {
+          const upload = await cloudinary.uploader.upload(image , {folder:"activiy_packages"});
+          finalGallery.push({image , alt});
         } else {
          
-          finalGallery.push(img);
+          finalGallery.push({image,alt});
         }
       }
     }

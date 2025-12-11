@@ -10,17 +10,7 @@ export function proxy(req: NextRequest) {
   // const key = url.searchParams.get("key");
 
 
-  // // ADMIN PROTECTED ROUTE
-  // if (url.pathname.startsWith("/admin")) {
-  //   // Block admin if key is missing or wrong
-  //   if (key !== process.env.MY_SECRET_ADMIN_KEY) {
-  //     return NextResponse.redirect(new URL("/", req.url));
-  //   }
-
-  //  // Key is valid → allow admin pages to load
-  //   return NextResponse.next();
-  // }
-
+ 
 
   if(url.pathname.startsWith('/admin')){
     if(!adminToken){

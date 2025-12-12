@@ -55,7 +55,7 @@ export default function Blogs() {
 
               {/* FIXED EXCERPT */}
               <p className="text-sm text-gray-600 leading-relaxed">
-                {stripHTML(val.content).slice(0, 120)}...
+                {stripHTML(val.content).replace(/&nbsp;/g ,'').slice(0, 120)}...
               </p>
 
               <p className="text-xs text-gray-500 mt-2">

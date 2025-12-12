@@ -11,12 +11,10 @@ export async function GET(
 
     const {query} = await params;
 
-    console.log("This is", query , typeof query)
     let PopularPackages;
 
     if (query === '4') {
-      // Less than 5 days
-      console.log("4")
+    
       PopularPackages = await TourPackage.find({
         "duration.days": { $lt: 5 }
       });
@@ -37,7 +35,7 @@ export async function GET(
     } 
      else {
       // All
-      console.log("ok")
+ 
       PopularPackages = await TourPackage.find({});
     }
 

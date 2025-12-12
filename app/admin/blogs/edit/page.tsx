@@ -229,7 +229,7 @@ export default function BlogForm() {
                 type="submit"
                 name="submitType"
                 value="save"
-                className="px-3 py-2 border rounded w-auto"
+                className="px-3 py-2 border rounded w-auto cursor-pointer"
               >
                 Save Draft
               </button>
@@ -238,7 +238,7 @@ export default function BlogForm() {
                 type="submit"
                 name="submitType"
                 value="publish"
-                className="px-3 py-2 border rounded bg-black text-white w-auto"
+                className="px-3 py-2 border rounded bg-black text-white w-auto cursor-pointer"
               >
                 Publish
               </button>

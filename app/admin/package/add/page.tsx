@@ -189,7 +189,7 @@ export default function PackageForm() {
               type="submit"
               name="submitType"
               value="save"
-              className="border px-3 py-2 rounded w-full md:w-auto"
+              className="border px-3 py-2 rounded w-full md:w-auto cursor-pointer"
             >
               Save Draft
             </button>
@@ -198,7 +198,7 @@ export default function PackageForm() {
               type="submit"
               name="submitType"
               value="publish"
-              className="border px-3 py-2 rounded bg-black text-white w-full md:w-auto"
+              className="border px-3 py-2 rounded bg-black text-white w-full md:w-auto cursor-pointer"
             >
               Publish
             </button>
@@ -338,9 +338,7 @@ export default function PackageForm() {
             />
             <Input
               name="rating"
-              label="Rating"
-              type="number"
-              
+              label="Rating"   
             />
 
             <Input

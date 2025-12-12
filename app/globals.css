@@ -130,9 +130,22 @@ html {
   100% { transform: translateX(-100%); }
 }
 
-.marquee {
 
-  white-space: nowrap;
-  overflow: hidden;
-  animation: marquee 12s linear infinite;
+
+/* Marquee animation only for mobile */
+@media (max-width: 640px) {
+  .marquee-animation {
+    display: inline-block;
+    animation: marquee 10s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
 }
+

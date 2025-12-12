@@ -2,6 +2,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import FormSection from "@/components/FormSection";
+import Banner from "@/components/Banner";
+import HeroBottom from "@/components/HeroBottom";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState<any>(null);
@@ -27,6 +31,8 @@ export default function Blogs() {
   return (
     <>
      <Navbar theme={"light"}/>
+     <Banner title={"Dubai Travel Blogs"}/>
+     <HeroBottom/>
 
      <section className="px-6 py-16 max-w-7xl mx-auto mt-10">
       <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-10">
@@ -87,8 +93,11 @@ export default function Blogs() {
           </button>
         </div>
       )}
+
+      <FormSection/>
+      <WhyChooseUs/>
     </section>
 
     </>
-      );
+    );
 }

@@ -303,7 +303,7 @@ export default function PackageForm() {
               type="submit"
               name="submitType"
               value="save"
-              className="border px-3 py-2 rounded"
+              className="border px-3 py-2 rounded cursor-pointer"
             >
               Save Draft
             </button>
@@ -311,7 +311,7 @@ export default function PackageForm() {
               type="submit"
               name="submitType"
               value="publish"
-              className="border px-3 py-2 rounded bg-black text-white"
+              className="border px-3 py-2 rounded bg-black text-white cursor-pointer"
             >
              {isPublished ? <span className="animate-ping">Publishing...</span> : " Publish" }
             </button>
@@ -506,6 +506,7 @@ export default function PackageForm() {
                 accept="image/*"
                 label={`Image ${i + 1}`}
                 onChange={(e) => handleImageUpload(e, i)}
+                
               />
 
               {/* Alt Text */}

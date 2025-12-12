@@ -22,12 +22,13 @@ import Slider from '@/components/Slider'
 import HeaderTop from "@/components/HeaderTop";
 import TourPackage from "@/components/TourPackages";
 import PackageInfoSecond from '@/components/PackageInfoSecond'
+import Services from "@/components/ServiceSection";
 export default  function Home() {
 
   return (
     <div className="min-h-screen  bg-zinc-50 font-sans dark:bg-black overflow-hidden">
-        <HeaderTop/>
-        <Hero/>
+        
+       <Hero/>
        <HeroBottom/>
        <PopularPackagesInfo/>
       
@@ -40,7 +41,9 @@ export default  function Home() {
        <TopExperience/>
        <TourPackage/>
        <FormSection/> 
+       <Services/>
        <section id="whyChooseUs">
+        
 
        <WhyChooseUs/>
        <Testimonials/>
@@ -56,7 +59,7 @@ export default  function Home() {
        <FAQSection faqs={faqs} />
        <AboutDubaiTourism/>
 
-       <FinalCTA/> 
+       
 
     </div>
   );

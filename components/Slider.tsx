@@ -112,6 +112,8 @@ export default function TravelSlider({packages , setIsDialogOpen , route , setPa
                   {item.title}
                 </h2>
 
+                {/* Duration */}
+
                 <div className="bg-linear-to-b from-white/20 via-white/10 to-transparent text-sm px-3 py-1 rounded-md inline-block mt-3 w-full">
                   { item.duration !== "number" && (
                         <div className="flex flex-wrap gap-3 py-1 bg-linear-to-bl
@@ -156,9 +158,9 @@ export default function TravelSlider({packages , setIsDialogOpen , route , setPa
                   onClick={(e) => {
                      e.stopPropagation(); 
                      e.nativeEvent?.stopImmediatePropagation();   
-                    setIsDialogOpen(true); // ✅ button click works
+                    setIsDialogOpen(true); 
                   }}
-                  className="flex-1 bg-white text-black py-3 rounded-lg font-semibold"
+                  className="flex-1 bg-white text-black py-3 rounded-lg font-semibold cursor-pointer"
                 >
                   Request Callback
                 </button>
@@ -178,7 +180,7 @@ export default function TravelSlider({packages , setIsDialogOpen , route , setPa
                  hidden sm:flex
                  absolute left-0 top-1/2 -translate-y-1/2 
                  -translate-x-3 
-                 bg-[#025378] shadow-md border rounded-full w-8 h-8
+                 bg-[#025378] shadow-md border rounded-full w-8 h-8 text-white
                "
              />
           } 
@@ -190,7 +192,7 @@ export default function TravelSlider({packages , setIsDialogOpen , route , setPa
              hidden sm:flex
              absolute right-0 top-1/2 -translate-y-1/2 
              translate-x-3
-             bg-[#025378] shadow-md border rounded-full w-8 h-8
+             bg-[#025378] shadow-md border rounded-full w-8 h-8 text-white
            "
          />
           }

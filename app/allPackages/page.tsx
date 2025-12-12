@@ -1,99 +1,66 @@
 "use client";
-
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Star, Phone } from "lucide-react";
-import EnquiryForm from "./EnquiryFormPopUp";
+import Navbar from "@/components/Navbar";
+import { Star , Phone } from "lucide-react";
+import Image from "next/image";
+import EnquiryForm from "@/components/EnquiryFormPopUp";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import FormSection from "@/components/FormSection";
+import Banner from "@/components/Banner";
+import HeroBottom from "@/components/HeroBottom";
 
-interface GalleryType {
-  image: string;
-  alt: string;
-}
-
-interface DurationType {
-  days: number;
-  nights: number;
-  breakdown: {
-    location: string;
-    days: number;
-  }[];
-}
-
-interface PackageType {
-  _id: string;
-  title: string;
-  slug: string;
-  price: number;
-  discountPrice?: number;
-  city: string;
-  country: string;
-  gallery: GalleryType[];
-  duration: DurationType;
-  rating: number;
-  totalRatings: number;
-}
-
-
-export default function TourPackage() {
-  const [packages, setPackages] = useState<PackageType[]>([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [loading , setLoading] = useState(true);
+export default function Blogs() {
+  const [packages, setPackages] = useState<any>(null);
   const router = useRouter();
+  const [visible, setVisible] = useState(6); 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const route = "packages"; // define your route folder name
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      const res = await fetch("/api/package/get");
+      const data = await res.json();
 
-
-  useEffect(()=>{
-  const getPackages = async()=>{
-     try {
-        const res  = await fetch(`/api/package/getlimited/${6}`);
-        const data = await res.json();
-
+      if (res.ok) {
         setPackages(data.data);
+      }
+    };
+    fetchAllBlogs();
+  }, []);
 
-        
-     } catch (error) {
-        console.log(error);
-     }
-     finally{
-        setLoading(false);
-     }
-  }
-  getPackages();
-},[]);
+  const loadMore = () => {
+    setVisible((prev) => prev + 6); 
+  };
 
-  if(loading){
-     return <div className="max-w-7xl  py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 text-center">
-                   loading...
-           </div>
-    }
-
-  
-
+  const route = "packages"
 
   return (
-    <section className="max-w-7xl mx-auto py-12 sm:py-16 px-4 sm:px-0 bg-accent/5">
-      <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
-        Tour Packages
+    <>
+     <Navbar theme={"dark"}/>
+     <Banner title={"All Dubai Tour Packages"}/>
+     <HeroBottom/>
+
+     <section className="px-6 py-16 max-w-7xl mx-auto mt-10">
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-10">
+        Explore Dubai Packages 
       </h2>
 
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 space-y-2 sm:px-6 px-3 ">
-        {packages.length > 0 &&
-          packages.map((item, idx) => (
-            <div
-               key={item._id}
+      {/* BLOG GRID */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {packages?.slice(0, visible).map((item: any, idx: number) => (
+          <div
+              key={idx}
               className="relative  w-[300px] h-[450px] md:w-[360px] md:h-[520px] rounded-2xl overflow-hidden shadow-lg cursor-pointer"
             
             >
               {/* Background Image */}
               <div className="absolute inset-0">
-                <Image
+                 <Image
                   src={item.gallery?.[0]?.image || "/images/DubaiEdit2.webp"}
                   alt={item.gallery?.[0]?.alt || item.title}
                   fill
                   className="object-cover"
-                />
+                /> 
               </div>
 
               {/* Gradient Overlay */}
@@ -117,15 +84,15 @@ export default function TourPackage() {
                 </div>
 
                 {/* Title */}
-                <h2 className="text-[1rem] md:w-[330px] h-10 overflow-hidden leading-snug font-semibold">
+                <h2 className="text-[1rem] h-10 md:w-[330px] overflow-hidden leading-snug font-semibold">
                   {item.title}
                 </h2>
 
                 {/* Breakdown */}
-                <div className="bg-linear-to-b from-white/20 via-white/10 to-transparent text-sm px-3 py-1 rounded-md w-full mt-3 ">
+                <div className="bg-linear-to-b from-white/20 via-white/10 to-transparent text-sm px-3 py-1 rounded-md inline-block mt-3 w-full">
                   {item.duration?.breakdown?.length > 0 && (
                     <div className="flex flex-wrap gap-3 py-1">
-                      {item.duration.breakdown.map((b, index) => (
+                      {item.duration.breakdown.map((b:{location:string , days:number}, index:number) => (
                         <div
                           key={b.location}
                           className={`flex items-center gap-3 pl-3 ${
@@ -182,16 +149,37 @@ export default function TourPackage() {
                 </div>
               </div>
             </div>
-          ))}
+        ))}
       </div>
 
-           <EnquiryForm        
-            isOpen={isDialogOpen}
-            price={799}
-            onCancel={() => setIsDialogOpen(false)}
-            onConfirm={() => setIsDialogOpen(false)}
-            pageUrl={"/"}
-        />
+      {/* Load More Button */}
+      {visible < (packages?.length || 0) && (
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={loadMore}
+            className="
+              px-6 py-3 bg-[#025378] text-white 
+              rounded-lg font-semibold hover:bg-[#01334a] transition
+            "
+          >
+            View More Blogs
+          </button>
+        </div>
+      )}
+
+      <FormSection/>
+      <WhyChooseUs/>
+
+      <EnquiryForm
+                    
+                    isOpen={isDialogOpen}
+                    price={799}
+                    onCancel={() => setIsDialogOpen(false)}
+                    onConfirm={() => setIsDialogOpen(false)}
+                    pageUrl={"/allPackges"}
+              />
     </section>
-  );
+
+    </>
+      );
 }

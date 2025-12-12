@@ -49,7 +49,7 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
     <nav
       className={`
         fixed  left-0 w-full z-50 transition-all duration-300 
-        ${scrolled ? "bg-white shadow-md py-5 top-0" : "bg-transparent py-5 top-4"}
+        ${scrolled ? "bg-white shadow-md py-5 top-0 " : "bg-transparent py-5 top-4"}
         ${textColor}
       `}
     >
@@ -62,7 +62,7 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
         {/* Desktop Navigation */}
         <div className={`hidden md:flex items-center space-x-8 text-sm ${textColor}`}>
           {/* Hash links for homepage sections */}
-          <Link href="/#blogs" className="hover:opacity-70 transition relative
+          <Link href="/allBlogs" className="hover:opacity-70 transition relative
                                           after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 
                                           after:bg-white after:transition-all after:duration-300
                                           hover:after:w-full
@@ -70,7 +70,7 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
             Read Blogs
           </Link>
 
-          <Link href="/#packages" className="hover:opacity-70 transition relative
+          <Link href="/allPackages" className="hover:opacity-70 transition relative
                                             after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 
                                             after:bg-white after:transition-all after:duration-300
                                             hover:after:w-full
@@ -82,14 +82,18 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
           {user ? (
             <button
               onClick={handleLogOut}
-              className="px-5 py-1.5 border border-current rounded-md hover:opacity-70 cursor-pointer"
+              className="px-5 py-1.5 border border-current rounded-md hover:opacity-70 cursor-pointer "
             >
               LogOut
             </button>
           ) : (
             <button
               onClick={() => router.push("/register")}
-              className="px-5 py-1.5 border border-current rounded-md hover:opacity-70"
+              className={`px-5 py-1.5 border border-current rounded-md hover:opacity-70 relative overflow-hidden 
+                        font-semibold 
+                        bg-linear-to-r from-[#025378] to-[#013750]
+                        bg-size-[0%_100%] hover:bg-size-[100%_100%]
+                        transition-all duration-500 ease-out cursor-pointer ${scrolled && "text-black"}`}
             >
               Register
             </button>
@@ -97,9 +101,9 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className={`md:hidden ${textColor}`}>
+        <div className={`md:hidden ${textColor}  `}>
           {isOpen ? (
-            <X onClick={() => setIsOpen(false)} size={26} />
+            <X className="-mt-6  -mr-4" onClick={() => setIsOpen(false)} size={26} />
           ) : (
             <Menu onClick={() => setIsOpen(true)} size={26} />
           )}

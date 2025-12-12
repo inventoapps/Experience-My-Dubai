@@ -48,7 +48,7 @@ export default function TopExperience(){
         },[]);
 
     if(loading){
-        return <div className="max-w-7xl py-12 sm:py-16 px-4 sm:px-0 bg-black ing">Loading...</div>
+        return <div className="max-w-7xl py-12 sm:py-16 px-4 sm:px-0 text-center">Loading...</div>
     }
     
     

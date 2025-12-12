@@ -166,7 +166,6 @@ export default function Page(){
          <FormSection/>
          <WhyChooseUs/>
          <FAQSection faqs={FAQs}/>
-         <FinalCTA/>
 
 
          {/* Enquiry Form when you will click the enquiry button in cards */}

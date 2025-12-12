@@ -353,8 +353,7 @@ const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) =>
             />
             <Input
               name="rating"
-              label="Rating"
-              type="number"
+              label="Rating"      
               defaultValue={editPkg?.rating}
             />
 
@@ -412,6 +411,7 @@ const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) =>
                 accept="image/*"
                 label={`Image ${i + 1}`}
                 onChange={(e) => handleImageUpload(e, i)}
+                
               />
 
               {/* Alt Text */}
@@ -552,9 +552,8 @@ const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, i: number) =>
   );
 }
 
-// ======================================
 // SMALL COMPONENTS
-// ======================================
+
 
 function Input({
   label,

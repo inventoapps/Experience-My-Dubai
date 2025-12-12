@@ -10,7 +10,7 @@ export async function  GET(req:NextRequest) {
         const token = req.cookies.get('token')?.value;
 
         if(!token){
-            return NextResponse.json({user:null},{status:401});
+            return NextResponse.json({user:null},{status:200});
         }
 
         const decoded = jwt.verify(token,process.env.JWT_SECRET!) as {id : string};

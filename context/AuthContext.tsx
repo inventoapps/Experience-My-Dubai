@@ -27,9 +27,20 @@ export function AuthProvider({children} : {children : React.ReactNode}){
 
     useEffect(() => {
     async function loadUser() {
+      try {
       const res = await fetch("/api/auth/me");
+
+      if (!res.ok) {
+        setUser(null);
+        return;
+      }
+
       const data = await res.json();
       setUser(data.user);
+
+    } catch (error) {
+      setUser(null);
+    }
     }
     loadUser();
   }, []);

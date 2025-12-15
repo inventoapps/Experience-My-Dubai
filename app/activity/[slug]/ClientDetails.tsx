@@ -160,18 +160,45 @@ export default function ClientDetails({ pkg }: { pkg: any }) {
 
         {/* ===== SIDEBAR + FORM ===== */}
         <aside className="sticky top-24 space-y-6">
-          <div className="border rounded-xl p-4">
-            <p className="text-xl font-bold">
-              INR {pkg.discountPrice || pkg.price}
-            </p>
+          <div className="border rounded-xl p-4 bg-white shadow-sm">
+              {/* Price + Rating Row */}
+              <div className="flex justify-between items-center mb-2">
+                <div>
+                  <p className="text-xl font-bold text-gray-900">
+                    INR {pkg?.discountPrice || pkg.price}
+                    <span className="text-sm font-normal text-gray-500 ml-1">Per Adult</span>
+                  </p>
 
-            <button
-              onClick={() => setIsDialogOpen(true)}
-              className="w-full mt-3 bg-[#025378] text-white py-2 rounded-lg"
-            >
-              Send Enquiry
-            </button>
-          </div>
+               
+                  <p className="text-gray-400 line-through text-sm">
+                    INR {pkg.price.toLocaleString()}
+                  </p>
+                  
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Star size={16} fill="#22C55E" className="text-green-600" />
+                  <span className="text-green-600 font-semibold">{pkg.rating}</span>
+                  <span className="text-gray-500 text-sm">({pkg.totalRatings})</span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <hr className="my-3" />
+
+              {/* Button */}
+              <button
+                onClick={()=>setIsDialogOpen(true)}
+              
+                className="
+                  w-full bg-[#025378] text-white 
+                  py-2.5 rounded-lg text-sm font-medium
+                  hover:bg-[#014565] transition
+                "
+              >
+                Send Enquiry
+              </button>
+            </div>
 
           <form
             className="space-y-4 bg-white border rounded-xl shadow p-6"

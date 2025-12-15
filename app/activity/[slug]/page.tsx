@@ -18,7 +18,7 @@ async function getActivity(slug : string) {
 }
 
 export async function generateStaticParams() {
-    const res = await fetch(`http://localhost:3000/api/activity/get`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get`);
 
     const data = await res.json();
 

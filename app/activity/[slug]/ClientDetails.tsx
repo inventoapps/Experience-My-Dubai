@@ -36,7 +36,7 @@ export default function ClientDetails({ pkg }: { pkg: any }) {
 
     const enquiryData = {
       ...form,
-      pageUrl: window.location.href,
+      pageUrl:`/activity/${pkg.slug}`,
     };
 
     try {

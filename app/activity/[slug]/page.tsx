@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import { notFound } from "next/navigation";
 import ClientDetails from "./ClientDetails";
+import { connectDB } from "@/lib/mongodb";
+import Activity from "@/models/Activity";
 
 const revalidate = 60 * 60 * 12;
 
@@ -18,13 +20,12 @@ async function getActivity(slug : string) {
 }
 
 export async function generateStaticParams() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get`);
+  
+  await connectDB();
 
-    const data = await res.json();
+  const activities = await Activity.find({}, { slug: 1 });
 
-
-
-    return data.data.map((item: any) => ({
+  return activities.map((item) => ({
     slug: item.slug,
   }));
 }

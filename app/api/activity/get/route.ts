@@ -6,7 +6,6 @@ export async function GET(req:NextRequest){
     try {
             await connectDB();
             const data = await Activity.find({});
-            console.log("Get Data")
             return NextResponse.json({message:"Get all activity" , data:data},{status:200})    
     }
     catch (error : any) {

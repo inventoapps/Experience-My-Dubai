@@ -1,45 +1,46 @@
 import Navbar from "@/components/Navbar";
 import { notFound } from "next/navigation";
-import { connectDB } from "@/lib/mongodb";
-import Activity from "@/models/Activity";
 import ClientDetails from "./ClientDetails";
 
-// ISR
-export const revalidate = 60 * 60 * 12;
+// app/activity/[slug]/page.tsx
 
-async function getActivity(slug: string) {
-  await connectDB();
+export const revalidate = 60 * 60 * 12; 
 
-  const activity = await Activity.findOne({ slug }).lean();
 
-  if (!activity) return null;
+async function getActivity(slug : string) {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get/${slug}`);
+   
+   if(!res.ok){
+      throw new Error("Failed to get activity");
+   }
 
-  return JSON.parse(JSON.stringify(activity));
+   const data = await res.json();
+   return data.data;
 }
 
 export async function generateStaticParams() {
-  await connectDB();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get`);
 
-  const activities = await Activity.find({}, { slug: 1 });
+    const data = await res.json();
 
-  return activities.map((item) => ({
+
+
+    return data.data.map((item: any) => ({
     slug: item.slug,
   }));
 }
 
-export default async function ActivityPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const activity = await getActivity(params.slug);
+export default async function ActivityPage({params} : {params:Promise<{slug:string}>}){
+     const slug = (await params).slug;
+     const pkg = await getActivity(slug);
 
-  if (!activity) notFound();
+    if (!pkg) notFound();
 
-  return (
-    <>
-      <Navbar theme="light" />
-      <ClientDetails pkg={activity} />
-    </>
-  );
+    return (
+      <>
+        <Navbar theme="light" />
+        <ClientDetails pkg={pkg} />
+      </>
+    );
+
 }

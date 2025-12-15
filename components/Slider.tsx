@@ -108,7 +108,7 @@ export default function TravelSlider({packages , setIsDialogOpen , route , setPa
                   </div>
                 </div>
 
-                <h2 className="text-[1rem] h-[1.2rem] md:w-[330px] leading-snug overflow-hidden">
+                <h2 className="text-[1rem] h-[1.2rem] w-[270px]  md:w-[330px] leading-snug overflow-hidden">
                   {item.title}
                 </h2>
 

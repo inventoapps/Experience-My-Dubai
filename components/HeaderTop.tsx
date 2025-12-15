@@ -1,6 +1,6 @@
 export default function HeaderTop() {
   return (
-    <div className="h-9 bg-[#942370] flex justify-center items-center overflow-hidden">
+    <div className="h-8.5 bg-linear-to-br from-[#af5c95] via-[#9c367c] to-[#951c6f] flex justify-center items-center overflow-hidden">
       <p className="
          
         text-white

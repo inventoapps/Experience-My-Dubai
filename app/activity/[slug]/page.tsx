@@ -1,46 +1,44 @@
 import Navbar from "@/components/Navbar";
 import { notFound } from "next/navigation";
-import ClientDetails from "./ClientDetails";
+import dynamic from "next/dynamic";
 import { connectDB } from "@/lib/mongodb";
 import Activity from "@/models/Activity";
 
-const revalidate = 60 * 60 * 12;
+export const revalidate = 60 * 60 * 12;
 
+// 👇 CLIENT ONLY COMPONENT
+const ClientDetails = dynamic(() => import("./ClientDetails"), {
+  ssr: false,
+});
 
-
-async function getActivity(slug : string) {
-   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get/${slug}`);
-   
-   if(!res.ok){
-      throw new Error("Failed to get activity");
-   }
-
-   const data = await res.json();
-   return data.data;
+async function getActivity(slug: string) {
+  await connectDB();
+  const activity = await Activity.findOne({ slug }).lean();
+  return activity;
 }
 
 export async function generateStaticParams() {
-  
   await connectDB();
-
-  const activities = await Activity.find({}, { slug: 1 });
+  const activities = await Activity.find({}, { slug: 1 }).lean();
 
   return activities.map((item) => ({
     slug: item.slug,
   }));
 }
 
-export default async function ActivityPage({params} : {params:Promise<{slug:string}>}){
-     const slug = (await params).slug;
-     const pkg = await getActivity(slug);
+export default async function ActivityPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const pkg = await getActivity(params.slug);
 
-    if (!pkg) notFound();
+  if (!pkg) notFound();
 
-    return (
-      <>
-        <Navbar theme="light" />
-        <ClientDetails pkg={pkg} />
-      </>
-    );
-
+  return (
+    <>
+      <Navbar theme="light" />
+      <ClientDetails pkg={pkg} />
+    </>
+  );
 }

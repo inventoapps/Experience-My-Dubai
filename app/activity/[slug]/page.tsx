@@ -1,31 +1,38 @@
-import Navbar from "@/components/Navbar";
 import { notFound } from "next/navigation";
 import ClientDetails from "./ClientDetails";
 
-// app/activity/[slug]/page.tsx
+export const revalidate = 60 * 60 * 12; // 12 hours ISR
 
-export const revalidate = 60 * 60 * 12; 
+/* Fetch Single Activity */
 
+async function getActivity(slug: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get/${slug}`,
+    {
+      next: { revalidate },
+    }
+  );
 
-async function getActivity(slug : string) {
-   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get/${slug}`);
-   
-   if(!res.ok){
-      throw new Error("Failed to get activity");
-   }
+  if (!res.ok) return null;
 
-   const data = await res.json();
-   return data.data;
+  const json = await res.json();
+  return json?.data ?? null;
 }
 
+/* Generate Static Params */
 export async function generateStaticParams() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/activity/get`,
+    {
+      cache: "force-cache",
+    }
+  );
 
-    const data = await res.json();
+  if (!res.ok) return [];
 
+  const json = await res.json();
 
-
-    return data.data.map((item: any) => ({
+  return json.data.map((item: { slug: string }) => ({
     slug: item.slug,
   }));
 }
@@ -38,7 +45,6 @@ export default async function ActivityPage({params} : {params:Promise<{slug:stri
 
     return (
       <>
-        <Navbar theme="light" />
         <ClientDetails pkg={pkg} />
       </>
     );

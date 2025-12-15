@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
 import { Star, Check } from "lucide-react";
 import EnquiryForm from "@/components/EnquiryFormPopUp";
 import FAQSection from "@/components/FAQSection";
+import Navbar from "@/components/Navbar";
 
 interface ItineraryItem {
   day: number;
@@ -63,6 +63,8 @@ export default function ClientDetails({ pkg }: { pkg: any }) {
   if (!pkg) return <p className="p-10 text-center">Package not found</p>;
 
   return (
+    <>
+    <Navbar theme="light"/>
     <main className="pb-20">
 
       {/* ===== HEADER ===== */}
@@ -243,5 +245,7 @@ export default function ClientDetails({ pkg }: { pkg: any }) {
         />
       </section>
     </main>
+    </>
+    
   );
 }

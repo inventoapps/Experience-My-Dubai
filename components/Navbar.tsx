@@ -137,11 +137,11 @@ export default function Navbar({ theme }: { theme: "light" | "dark" }) {
           )}
 
           {/* Same homepage section links */}
-          <Link href="/#blogs" className="hover:opacity-70 transition">
+          <Link href="/allBlogs" className="hover:opacity-70 transition">
             Read Blogs
           </Link>
 
-          <Link href="/#packages" className="hover:opacity-70 transition">
+          <Link href="/allPackages" className="hover:opacity-70 transition">
             Holiday Tour Packages
           </Link>
         </div>

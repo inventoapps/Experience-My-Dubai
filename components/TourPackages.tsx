@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Star, Phone } from "lucide-react";
 import EnquiryForm from "./EnquiryFormPopUp";
+import {PackageCardSkeleton} from './sekeleton/PackageCardSkeleton '
 
 interface GalleryType {
   image: string;
@@ -41,7 +42,7 @@ export default function TourPackage() {
   const [loading , setLoading] = useState(true);
   const router = useRouter();
 
-  const route = "packages"; // define your route folder name
+  const route = "packages"; 
 
 
   useEffect(()=>{
@@ -64,8 +65,21 @@ export default function TourPackage() {
 },[]);
 
   if(loading){
-     return <div className="max-w-7xl  py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 text-center">
-                   loading...
+     return <div className="max-w-5xl mx-auto  py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 ">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+                Tour Packages
+              </h2> 
+
+              <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-y-6 gap-x-12 sm:px-6 px-3 ">
+                {
+                  Array.from({length:6}).map((_ , idx)=>( 
+                      <PackageCardSkeleton key={idx}/>
+                  ))
+                }
+
+              </div>
+
+
            </div>
     }
 

@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import {BlogCard} from './sekeleton/BlogCard'
+import { Blog } from "@/models/blog";
 export default function Blogs() {
   const [blogs, setBlogs] = useState<any>(null);
   const router = useRouter();
+  const [loading , setLoading] = useState(true);
 
  
   function stripHTML(html: string) {
@@ -19,10 +21,32 @@ export default function Blogs() {
 
       if (res.ok) {
         setBlogs(data.data);
+        setLoading(false)
       }
     };
     fetchAllBlogs();
   }, []);
+
+  if(loading){
+    return (
+      <section className="py-16 px-6 sm:px-0 max-w-7xl mx-auto">
+      <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+        Latest Dubai Travel Blogs
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4">
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <BlogCard key={i} />
+          ))}
+        </div>
+
+      </div>
+    </section>
+    )
+  }
+
+  
 
   return (
     <section className="py-16 px-6 sm:px-0 max-w-7xl mx-auto">

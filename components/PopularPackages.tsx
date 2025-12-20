@@ -4,6 +4,7 @@ import CarouselDemo from "./CarouselDemo";
 import { useEffect, useState } from "react";
 import AllPackagesPage from "@/app/admin/package/view/page";
 import EnquiryForm from "./EnquiryFormPopUp";
+import {PackageCardSkeleton} from './sekeleton/PackageCardSkeleton '
 
 interface GalleryType {
   image : string;
@@ -59,9 +60,36 @@ export default function PopularPackages(){
         fetchPackages();
       }, [activeId]);
 
+
       if(loading){
-          return <div className=" max-w-7xl py-12 mx-auto sm:py-16 px-4 sm:px-0 text-center">Loading...</div>
-      }
+        return(
+          <div className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 max-w-7xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
+            <div className="flex flex-wrap gap-2 mt-4 sm:px-12  px-6 mb-10">
+
+            {option.map((item: optionType, idx: number) => (
+              <button
+                onClick={() => setActiveId(item.id)}
+                key={idx}
+                className={`px-3 py-1 border border-gray-400 ${
+                  activeId === item.id
+                    ? "bg-[#025378] text-white border-none"
+                    : "bg-transparent"
+                } text-sm rounded-lg`}
+              >
+                {item.label}
+              </button>
+              ))}
+            </div>
+            <div className="flex max-w-5xl mx-auto gap-10">
+                 {Array.from({ length: 3 }).map((_, i) => (
+                 <PackageCardSkeleton key={i} />
+            ))}
+            </div>
+           
+            </div>
+        )
+        }
 
       
     

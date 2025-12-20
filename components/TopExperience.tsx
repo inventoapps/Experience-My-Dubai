@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 import CarouselDemo from "./CarouselDemo";
 import EnquiryForm from "./EnquiryFormPopUp";
+import {ActivityPackage} from './sekeleton/ActivityPackage'
 
 interface ActivityType {
   _id: string;
@@ -48,8 +49,23 @@ export default function TopExperience(){
         },[]);
 
     if(loading){
-        return <div className="max-w-7xl py-12 sm:py-16 px-4 sm:px-0 text-center">Loading...</div>
-    }
+           return(
+             <div className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 max-w-7xl mx-auto">
+               <h2
+                id="top-experiences-heading"
+                className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8"
+            >
+                Top Dubai Experiences
+            </h2>
+               <div className="flex max-w-7xl mx-auto gap-10">
+                                {Array.from({ length: 3 }).map((_, i) => (
+                                <ActivityPackage key={i} />
+                           ))}
+                </div>
+              
+               </div>
+           )
+           }
     
     
     return (

@@ -1,6 +1,6 @@
 export const BlogCard = () => {
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white w-[400px] mx-auto rounded-2xl shadow-lg overflow-hidden">
       
       {/* Image */}
       <div className="h-56 w-full bg-gray-200 animate-pulse" />

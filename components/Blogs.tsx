@@ -34,14 +34,12 @@ export default function Blogs() {
         Latest Dubai Travel Blogs
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4">
-       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {Array.from({ length: 3 }).map((_, i) => (
             <BlogCard key={i} />
           ))}
         </div>
 
-      </div>
     </section>
     )
   }

@@ -5,6 +5,7 @@ import Banner from "@/components/Banner";
 import HeroBottom from "@/components/HeroBottom";
 import BlogGrid from "./BlogsGrid";
 
+
  async function getBlogs(){
   const res  = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/getAll` ,
      {next:{revalidate:60}});

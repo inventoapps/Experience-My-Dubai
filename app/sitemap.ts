@@ -32,7 +32,7 @@ export default async function sitemap() {
 
     return [
         {
-            url : "http://localhost:3000",
+            url : "https://experience-my-dubai-m58m.onrender.com/",
             lastModified : new Date()
         }
         ,

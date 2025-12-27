@@ -94,7 +94,8 @@ export default function PopularPackages(){
       
     
     return (
-        <section className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 ">
+      <>
+       <section className="py-12 sm:py-16 px-4 sm:px-0 bg-accent/5 ">
           <div className="max-w-7xl mx-auto">
 
            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8" >Popular Dubai Tour Packages</h2>
@@ -126,6 +127,9 @@ export default function PopularPackages(){
       <div className="py-16 text-center text-2xl font-bold text-gray-500 max-w-7xl" >Packages Not Found</div>
      } 
        
+      
+    </section>
+    
       <EnquiryForm
               
               isOpen={isDialogOpen}
@@ -135,6 +139,7 @@ export default function PopularPackages(){
               pageUrl={pageUrl}
         />
 
-    </section>
+      </>
     )
+       
 }

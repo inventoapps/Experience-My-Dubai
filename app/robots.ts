@@ -2,6 +2,6 @@
 export default function robots(){
     return {
         rules : {userAgent:"*", allow:"/"},
-        sitemap : 'http://localhost:3000/sitemap.xml'
+        sitemap : 'https://experience-my-dubai-m58m.onrender.com/sitemap.xml'
     }
 }
